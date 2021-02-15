@@ -1,6 +1,6 @@
 Package: mshiny
 Title: Mastering Shiny Book Club
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Authors@R: c(
   person("R4DS Online Learning Community", role = c("aut", "cre", "cph"))
   )
