@@ -1,0 +1,17 @@
+Package: mshiny
+Title: Mastering Shiny Book Club
+Version: 0.0.0.9000
+Authors@R: c(
+  person("R4DS Online Learning Community", role = c("aut", "cre", "cph"))
+  )
+URL: https://r4ds.github.io/bookclub-mshiny, https://github.com/r4ds/bookclub-mshiny
+Depends: 
+    R (>= 3.1.0)
+Imports: 
+    bookdown,
+    details,
+    emo,
+    shiny,
+    tidyverse
+Remotes: 
+    hadley/emo

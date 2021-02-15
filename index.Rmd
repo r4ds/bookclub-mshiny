@@ -1,0 +1,29 @@
+--- 
+title: "Data Science in Education Using R Book Club"
+author: "The R4DS Online Learning Community"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: book.bib
+biblio-style: apalike
+link-citations: yes
+github-repo: r4ds/bookclub-mshiny
+description: "This is the product of the R4DS Online Learning Community's Book Club."
+---
+
+# Welcome {-}
+
+This is a companion for the book [Mastering Shiny](https://mastering-shiny.org/) by Hadley Wickham.
+This companion is available at [r4ds.io/mshiny](r4ds.io/mshiny).
+
+This website is being developed by the [R4DS Online Learning Community](https://rfordatasci.com). Follow along, and [join the community](https://r4ds.io/join) to participate.
+
+This companion follows the [R4DS Online Learning Community Code of Conduct](https://r4ds.io/conduct).
+
+## Book club meetings {-}
+
+- Each week, a volunteer will present a chapter from the book.
+  - **This is the best way to learn the material.**
+- Presentations will usually consist of a review of the material, a discussion, and/or a demonstration of the principles presented in that chapter.
+- More information about how to present is available in the [github repo](https://github.com/r4ds/bookclub-mshiny).
+- Presentations will be recorded, and will be available on the [R4DS Online Learning Community YouTube Channel](https://r4ds.io/youtube).
