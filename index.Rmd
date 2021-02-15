@@ -1,5 +1,5 @@
 --- 
-title: "Data Science in Education Using R Book Club"
+title: "Mastering Shiny Book Club"
 author: "The R4DS Online Learning Community"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
