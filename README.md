@@ -12,7 +12,10 @@ If you would like to present, please add your name next to a chapter using the [
 
 *Cohort 1: (starts 2021-02-16) - Tuesdays, 12pm EST/EDT*
 
-- 2021-02-16: Chapter X: TITLE: Presenter
+- 2021-02-16: Chapter 2: _Your First Shiny App_: Jerome Ahye
+- 2021-02-23: Chapter 3: _Basic UI_: Matt Curcio
+- 2021-03-02: Chapter 4: _Basic Reactivity_: Priyanka
+- 2021-03-09: Chapter 5: _Case Study: ER injuries_: Presenter TBC
 
 ## How to Present
 
