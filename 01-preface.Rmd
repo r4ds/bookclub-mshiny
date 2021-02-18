@@ -1,0 +1,20 @@
+# Preface
+
+The preface chapter will not be studied as part of the book-club.
+It provides an overview of the purpose of `shiny`, a brief description of
+the main components of a `shiny` app and an introduction to reactive
+programming.
+All these ideas are studied in more detail in the later chapters (hence, why
+we've skipped it).
+
+There are some notes on setting up R/RStudio for developing shiny apps, on the
+packages that should be installed, and some pointers about deploying shiny
+apps.
+When shiny-apps are developed as part of the book-club, we will typically
+deploy them to the R4DS shinyapps.io account.
+[shinyapps.io](https://docs.rstudio.com/shinyapps.io/getting-started.html#deploying-applications)
+has a lot of detail on releasing shiny-apps to the world.
+
+If you have any questions / problems setting up shiny for local use, or with
+deployment of a shiny app to shinyapps.io, feel free to ask in either the
+"book_club-mastering_shiny" or the "help-4-shiny" channel on the R4DS slack.
