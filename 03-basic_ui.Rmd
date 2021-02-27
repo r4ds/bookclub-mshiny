@@ -1,0 +1,285 @@
+# Shiny - Basic User Interface
+
+## Learning objectives
+
+#### The Shiny *User Interface* consists of 3 components  {-} 
+
+1. **Inputs**   
+    + Text, Numeric variables, Dates, Radio buttons/Check boxes, File uploads, Buttons  
+
+2. **Outputs**   
+    + Text, Tables, Plots, Downloads  
+
+3. **Layout functions**   
+    + Pages with sidebar(s) & mainPanel(s), Bootstrap, Tabsets, Themes, CSS grid
+
+## FYI 
+
+1. Mastering Shiny online book:
+    - [https://mastering-shiny.org](https://mastering-shiny.org)  
+
+2. Mastering Shiny Github-repo:
+    - [https://github.com/hadley/mastering-shiny](https://github.com/hadley/mastering-shiny)  
+    - By using Github, *YOU* can contribute too.    
+
+3. R4DS book club Github-repo:
+    - [https://github.com/r4ds/bookclub-mshiny](https://github.com/r4ds/bookclub-mshiny)
+
+4. Shiny Cheat Sheet    
+    - [https://shiny.rstudio.com/articles/cheatsheet.html](https://shiny.rstudio.com/articles/cheatsheet.html)
+
+## The Shiny Basic User Interface(ui)
+
+- Recall, the simplest *Shiny* application has 2 components, **ui & server**
+
+- `user interface` contains nested R functions that assist in assembling the HTML.
+```
+library(shiny)
+
+user_interface <- fluidPage( **inputId** ) ## WE'LL FOCUS HERE FIRST
+
+server <- function(input, output, session) { } ## FOCUS HERE SECONDARILY
+
+shinyApp(ui = user_interface, server = server)
+```
+
+##### Naming; `inputId` has 2 constraints {-} 
+
+1. `inputId` contain **Only Letters, Numbers, and Underscores** 
+    + NO `/    -.!@#$%^&*;:`
+    + *NO slashes, dashes, Nor special characters*,  
+  
+2. `inputID` **must be unique**. 
+
+## What Can One INPUT?
+
+1. Text strings
+1. Numeric variables
+1. Dates
+1. Limited choices; Radio buttons/Check boxes/Select-dropdown menus
+1. File uploads
+1. Action buttons
+                
+```
+## General Command Form
+#----------------------
+Input-Command(inputId = "string1",  ## Don't forget tab completion & F1.
+              label = "string2", 
+              
+              ### Situation Dependent Variables ###
+              value = # Initial value 
+              min = 0, max = 100,
+              width = '400px', height = '100%',
+              cols = 2, rows = 5, # Number of cols or rows to display
+              placeholder = "A word giving the user a hint",
+              resize # Resize to fill/contract span
+              )
+```
+
+## Input 1 - Text & Numeric 
+
+#### Every **output** (in the UI) is coupled with a **render** (in the server). {-}
+
+```
+ui <- fluidPage(
+        ## Text Input ##
+        textInput(inputId = "f_name", label = "First name?"),
+        textInput(inputId = "name", placeholder = "What's your name?"),
+        passwordInput(inputId = "password", label = "What's your password?"),
+        textAreaInput(inputId = "story", 
+                      label = "Tell me about yourself", 
+                      rows = 3)
+
+        ## Numeric inputs ##
+        numericInput(inputId = "x",
+                     label = "Dependent Variable", 
+                     value = 10),
+                    
+        sliderInput(inputID = "y_range", 
+                    label =  "Range of Y:", 
+                    value = c(10, 20), 
+                    min = 0, 
+                    max = 100)
+)
+```
+
+#### But wait there's more! {-}
+
+## Inputs 2 - Dates, Limited choices, File uploads, Action buttons
+
+```
+ui <- fluidPage(
+  # DATES
+  dateInput("dob", "When were you born?"),
+  dateRangeInput("holiday", "Give start and end of Holiday season?"),
+
+  # LIMITED CHOICES
+  animals <- c("cat", "dog", "porpoise") ## Placed above UI
+  radioButtons("animal", "What's your favourite animal?", animals)
+  
+  state_name <- c("AL", "AK", ..., "WY") ## Placed above UI
+  selectInput("state", "What's your favourite state?", state_name),
+ 
+  # FILE UPLOADS
+  fileInput("upload", NULL)
+
+  # ACTION BUTTONS
+  actionButton("click", "Click me!"),
+  actionButton("calc_boolean", "Calculate!", icon = icon("computer"))
+)
+```
+
+## What can one OUTPUT?
+
+1. Text
+1. Tables
+1. Plots
+1. Downloads
+
+### Text {-}
+
+#### Every **output** (in the UI) is coupled with a **render** (in the server). {-}
+
+Note that there are two render functions which behave slightly differently:
+
+1. **renderText()** <-> **textOutput()**
+2. **renderPrint()**  <-> **verbatimTextOutput()**
+
+```
+## User Interface
+#----------------
+ui <- fluidPage(
+    # Static TEXT
+    textOutput("Hello Friend"),
+    verbatimTextOutput("SSN")
+    )
+
+## Server Section
+#----------------
+server <- function(input, output, session) {
+    # Varible TEXT
+    output$text <- renderText( animals ),
+    output$code <- renderPrint({     ## Curly brackets needed IF 
+        state_name                   ## commands require multiple lines,
+        print("OK")
+        }),
+}
+```
+
+## Outputs 2 - Tables
+    
+#### NOTE: There are two options for displaying data frames in tables: {-}
+
+1. **tableOutput()** <-> **renderTable()** for static tables, 
+2. **dataTableOutput()** <-> **renderDataTable()** for dynamic tables
+
+```
+# In UI section
+tableOutput(df_static),
+dataTableOutput(df_dynamic),
+    
+# In SERVER section
+renderTable(df_static)
+renderDataTable(df_dynamic)
+```
+
+## Outputs 3 - Plots, Downloads
+
+1. **plotOutput()** <-> **renderPlot()**
+
+```
+# PLOTS
+# In UI section
+plotOutput("plot", width = "400px")
+
+# In SERVER section
+output$plot <- renderPlot(plot(1:5), res = 96),
+
+# DOWNLOADS
+# downloadButton("downloadData", "Download")
+# Download button;
+# requires new techniques in the server function, 
+# so we’ll come back to that in Chapter 9.
+```
+
+## Layouts 
+
+Consider Using:  
+1. [Bootstrap](https://getbootstrap.com),  
+2. Page(s) with **sidebar**(s) & **mainPanel**(s)  
+3. CSS Grid (12 columns)   
+4. Tabsets   
+5. Themes   
+
+#### Example of Sidepanel and Mainpanel {-}
+```
+fluidPage(
+  titlePanel("Hello Shiny!"),
+  sidebarLayout(
+    sidebarPanel(    ## sidebar
+      sliderInput("obs", 
+                  "Observations:", 
+                  min = 0, 
+                  max = 1000, 
+                  value = 500)
+    ),
+    mainPanel(      ## mainPanel
+      plotOutput("distPlot")
+    )
+  )
+)
+```
+
+## Under the hood
+
+Use **HTML** or **CSS** to get the job done!
+```
+<div class="container-fluid">
+  <div class="form-group shiny-input-container">
+    <label for="name">What's your name?</label>
+    <input id="name" type="text" class="form-control" value=""/>
+  </div>
+</div>
+```
+
+## Other tools & material
+
+1. [awesome-shiny-extensions](https://github.com/nanxstats/awesome-shiny-extensions.) 
+    - listing by *Nan Xiao*
+1. [shinyWidgets](https://appsilon.github.io/shiny.semantic/)
+1. [shiny.semantic](https://github.com/RinteRface/shinyMobile)
+1. [shinyMobile](https://github.com/RinteRface/shinyMobile) 
+1. [shinymaterial](https://ericrayanderson.github.io/shinymaterial/)
+1. [shinydashboard](https://rstudio.github.io/shinydashboard/)
+
+*NOTE: Some tools may need devtools to install from GitHub repos.*
+
+Books:
+
+1. [Engineering Production-Grade Shiny Apps](https://engineering-shiny.org/)
+1. [Outstanding User Interfaces with Shiny](https://unleash-shiny.rinterface.com/)
+
+## Summary
+
+Chapter 3: *Basic UI* introduces the 3 components of user interface for Shiny
+
+1. **Inputs**; 
+    + Text, Numeric variables, Dates, Limited choices, Radio buttons/Check boxes, File uploads, Buttons
+    + **renderText()** <-> **textOutput()**
+    + **renderPrint()**  <-> **verbatimTextOutput()**
+
+2. **Outputs**; 
+    + Text, Tables, Plots, Downloads
+    + **tableOutput()** <-> **renderTable()** for static tables
+    + **dataTableOutput()** <-> **renderDataTable()** for dynamic tables
+    + **plotOutput()** <-> **renderPlot()**
+
+3. **Layout functions**; 
+    + Pages with sidebar(s) & mainPanel(s), Bootstrap, Tabsets, Themes, CSS
+
+
+## Thank you
+
+Questions, Utterances, Repartee & Small Talk
+
+Contact: matt . curcio . ri @ gmail . com

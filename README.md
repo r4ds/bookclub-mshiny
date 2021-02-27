@@ -40,3 +40,17 @@ To present, follow these instructions:
 9. Open a Pull Request (PR) to let us know that your slides are ready.
 
 When your PR is checked into the main branch, the bookdown site will rebuild, adding your slides to [this site](https://r4ds.github.io/bookclub-mshiny/).
+
+## Example Shiny Apps
+
+If you create any shiny apps to illustrate the concepts in a chapter, you are
+welcome to include them with your chapter notes. The apps should be placed in
+the `./examples/` directory of the repository.
+
+Create a subdirectory named
+`./examples/<chapter-number>_<chapter-name>_<app-description>` for each of the
+apps you create and place your `app.R` file in there.
+
+For example, if while working on chapter 4 ("Basic Reactivity"), you create an
+app to illustrate controlling the timing of evaluation, you might add your app
+as `./examples/04-basic_reactivity-timing_evaluation/app.R`.
