@@ -12,17 +12,17 @@ If you would like to present, please add your name next to a chapter using the [
 
 *Cohort 1: (starts 2021-02-16) - Tuesdays, 12pm EST/EDT*
 
-- 2021-02-16: Chapter 2: _Your First Shiny App_: Jerome Ahye
-- 2021-02-23: Chapter 3: _Basic UI_: Matt Curcio
-- 2021-03-02: Chapter 4: _Basic Reactivity_: Priyanka
-- 2021-03-09: Chapter 5: _Case Study: ER injuries_: Shamsudeen
-- 2021-03-16: Chapter 6: _Workflow_: Presenter TBC
-- 2021-03-23: Chapter 7: _Graphics_: Presenter TBC
-- 2021-03-30: Chapter 8: _User Feedback_: Presenter TBC
-- 2021-04-06: Chapter 9: _Uploads and Downloads_: Presenter TBC
-- 2021-04-13: Chapter 10: _Dynamic UI_: Presenter TBC
-- 2021-04-20: Chapter 11: _Bookmarking_: Presenter TBC
-- 2021-04-27: Chapter 12: _Tidy evaluation_: Presenter TBC
+- 2021-02-16: Chapter 1: _Your First Shiny App_: Jerome Ahye
+- 2021-02-23: Chapter 2: _Basic UI_: Matt Curcio
+- 2021-03-02: Chapter 3: _Basic Reactivity_: Priyanka
+- 2021-03-09: Chapter 4: _Case Study: ER injuries_: Shamsudeen
+- 2021-03-16: Chapter 5: _Workflow_: Presenter TBC
+- 2021-03-23: Chapter 6: _Graphics_: Presenter TBC
+- 2021-03-30: Chapter 7: _User Feedback_: Presenter TBC
+- 2021-04-06: Chapter 8: _Uploads and Downloads_: Presenter TBC
+- 2021-04-13: Chapter 9: _Dynamic UI_: Presenter TBC
+- 2021-04-20: Chapter 10: _Bookmarking_: Presenter TBC
+- 2021-04-27: Chapter 11: _Tidy evaluation_: Presenter TBC
 
 ## How to Present
 
@@ -51,6 +51,6 @@ Create a subdirectory named
 `./examples/<chapter-number>_<chapter-name>_<app-description>` for each of the
 apps you create and place your `app.R` file in there.
 
-For example, if while working on chapter 4 ("Basic Reactivity"), you create an
+For example, if while working on chapter 3 ("Basic Reactivity"), you create an
 app to illustrate controlling the timing of evaluation, you might add your app
-as `./examples/04-basic_reactivity-timing_evaluation/app.R`.
+as `./examples/03-basic_reactivity-timing_evaluation/app.R`.
