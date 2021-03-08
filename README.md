@@ -17,8 +17,8 @@ If you would like to present, please add your name next to a chapter using the [
 - 2021-03-02: Chapter 3: _Basic Reactivity_: Priyanka
 - 2021-03-09: Chapter 4: _Case Study: ER injuries_: David Heß
 - 2021-03-16: Chapter 5: _Workflow_: Shamsudeen
-- 2021-03-23: Chapter 6: _Graphics_: Presenter TBC
-- 2021-03-30: Chapter 7: _User Feedback_: Presenter TBC
+- 2021-03-23: Chapter 6: _Graphics_: Jessica Mukiri
+- 2021-03-30: Chapter 7: _User Feedback_: Anne Hoffrichter
 - 2021-04-06: Chapter 8: _Uploads and Downloads_: Presenter TBC
 - 2021-04-13: Chapter 9: _Dynamic UI_: Presenter TBC
 - 2021-04-20: Chapter 10: _Bookmarking_: Presenter TBC
