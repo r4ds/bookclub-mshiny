@@ -9,7 +9,7 @@ library(DiagrammeR)
 ### Chapter Notes
 
 
-```{r intro graph, echo=FALSE}
+```{r intro-graph, echo=FALSE}
 
 mermaid("
 graph LR
@@ -95,7 +95,7 @@ _reactive graph_
 - describe this relationship (`output` has a reactive dependency on `input`)
 
 
-```{r reactive graph}
+```{r reactive-graph}
 mermaid("
 graph LR
 A[name] --- B>greeting]
@@ -123,7 +123,7 @@ server <- function(input, output, session) {
 
 ```
 
-```{r reactive graph with reactive() , echo=FALSE}
+```{r reactive-graph-with-reactive() , echo=FALSE}
 
 mermaid("
 graph LR
@@ -183,7 +183,7 @@ C-->E[Rectangle Two]
 ")
 ```
 
-```{r reactive graph}
+```{r reactive-graph-exercise}
 
 mermaid("
 graph LR
