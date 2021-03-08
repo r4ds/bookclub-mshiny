@@ -1,0 +1,181 @@
+# Basic Reactivity
+
+```{r setup , message=FALSE, echo=FALSE}
+library(DiagrammeR)
+```
+
+## Recap
+
+```{r intro-graph, echo=FALSE}
+mermaid("
+graph LR
+A[R scripting]-->B[sequential logic]
+")
+
+mermaid("
+graph LR
+A[Reactive Programming]-->B[graph of dependencies]
+")
+```
+
+Important Learnings so far, main app components:
+
+1. Front end - the ui object
+
+-   contains the HTML presented to every user of your app.
+-   is simple because **every user** gets the **same** HTML.
+
+2.  Back end - the server object
+
+-   is more complicated because **every user** needs to get an **independent version** of the app (when user A modifies an input field, user B shouldn't see their outputs change).
+-   creates a new environment for each run, giving each session to have a unique state.      
+
+
+> server <- function(input, output, session)
+
+1 _input_       
+- list-like object       
+- used for receiving input( sent from the browser)       
+- read-only       
+- must be read in a reactive context (e.g. renderText() or reactive())      
+
+
+2 _output_     
+- list-like object      
+- used for sending output       
+- ALWAYS use with a render fn() - sets up the reactive context & renders the HTML.      
+
+
+```{r}
+ui <- fluidPage(
+  textInput("name", "What's your name?"),
+  textOutput("greeting")
+)
+
+server <- function(input, output, session) {
+  output$greeting <- renderText({
+    paste0("Hello ", input$name, "!")
+  })
+}
+```
+
+## Reactive Programming
+
+Mental Model       
+- tell vs inform (providing Shiny with recipes, not giving it commands).        
+
+### Imperative vs declarative programming
+
+This difference between commands and recipes is one of the key differences between two important styles of programming:         
+- _Imperative_ programming - issue a specific command and it’s carried out immediately.       
+- _Declarative_ programming - express higher-level goals or describe important constraints, and rely on someone else to decide how and/or when to translate that into action.       
+
+- Imperative code is assertive; vs declarative code is passive-aggressive       
+- “Make me a sandwich” vs “Ensure there is a sandwich in the refrigerator whenever I look inside of it”       
+
+In essesnce, you describe your overall goals, and the software figures out how to achieve them without further intervention. 
+
+### Laziness
+
+It allows apps to be extremely lazy. A Shiny app will only ever do the minimal amount of work needed to update the output controls that you can currently see.
+
+_CAUTION_: If you’re working on a Shiny app and you just can’t figure out why your code never gets run, double check that your UI and server functions are using the same identifiers. 
+
+
+### The reactive graph
+
+- understanding order of execution
+- code is only run when needed
+
+_reactive graph_ 
+- describes how inputs and outputs are connected
+- describe this relationship (`output` has a reactive dependency on `input`)
+
+
+```{r reactive-graph}
+mermaid("
+graph LR
+A[name] --- B>greeting]
+")
+```
+
+reactive graph is a powerful tool for understanding how your app works.       
+- Make by hand     
+- Use DiagrammeR pkg to make it manually yourself     
+- Use `reactlog` pkg to do it automatically (more in later chapters)       
+
+## Reactive expressions
+
+**What** - A tool that **reduces duplication** in your reactive code by introducing additional nodes into the reactive graph       
+**How** - using `reactive()`      
+
+
+```{r}
+# Just for example
+
+server <- function(input, output, session) {
+  string <- reactive(paste0("Hello ", input$name, "!"))
+  output$greeting <- renderText(string())
+}
+```
+
+```{r reactive-graph-with-reactive() , echo=FALSE}
+mermaid("
+graph LR
+A[name] --- B>string]
+B>string] --- C>greeting]
+")
+```
+
+In other words , makes app cleaner & more efficient (by removing redundant codes & recomputation).
+It also simplifies the reactive graph.
+
+Reactive expressions have a flavour of both inputs and outputs:
+
+- Like inputs, you can use the results of a reactive expression in an output.
+- Like outputs, reactive expressions depend on inputs and automatically know when they need updating.
+
+New vocab:
+
+- producers to refer to reactive inputs and expressions, and 
+- consumers to refer to reactive expressions and outputs
+
+
+**Execution order**         
+- determined solely by the reactive graph (and not the order of lines of code/layout in the _server_ fn unlike normal R scripts)
+
+
+## Controlling timing of evaluation
+
+**_Timed invalidation_**        
+**How** - using `reactiveTimer()`
+
+
+**_On click_**       
+**How** - using `actionButton()`, `eventReactive()`      
+
+## Observers
+
+There are two important differences between `observeEvent()` and `eventReactive()`:
+
+1.  You don't/can't assign the result of observeEvent() to a variable, so\
+2.  You can't refer to it from other reactive consumers.
+
+## Execises
+
+```{r example}
+mermaid("
+graph LR
+A(Rounded)-->B[Rectangular]
+B-->C{A Rhombus}
+C-->D[Rectangle One]
+C-->E[Rectangle Two]
+")
+```
+
+```{r reactive-graph-exercise}
+mermaid("
+graph LR
+A[A arr_text] --- B>A arrowtext]
+")
+```
