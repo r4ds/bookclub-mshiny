@@ -1,14 +1,4 @@
----
-title: "Mastering Shiny: Ch-4"
-output: 
-  html_document:
-    code_folding: hide
-runtime: shiny
----
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
+# Basic Reactivity
 
 ##  {.tabset}
 
