@@ -13,6 +13,7 @@ Imports:
     details,
     emo,
     shiny,
-    tidyverse
+    tidyverse,
+    vroom
 Remotes: 
     hadley/emo
