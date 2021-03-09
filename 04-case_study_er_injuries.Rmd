@@ -1,0 +1,323 @@
+# Case study: ER injuries
+
+**Learning objectives:**
+
+- Learn how to **create a more complex Shiny app**
+- Get an idea **how to build your app based on your data exploration**
+- Learn how to **create your app step-by-step**
+- Get more comfortable **using the techniques you learned so far**
+
+
+## Introduction
+
+This Chapter is about building a more complex app with the tools we learned in the previous chapters.
+
+We're going to use the following packages:
+
+```{r package-list, message=FALSE, warning=FALSE}
+library(shiny)
+library(vroom)
+library(tidyverse)
+```
+
+
+## The data
+
+We're exploring data from the National Electronic Injury Surveillance System (NEISS), which covers **accidents reported from a sample of hospitals in the US**.
+
+For every accident / inured person we have
+
+- **date**,
+- **age**,
+- **sex**,
+- **race**,
+- **body part**,
+- **diagnosis** and
+- **location** (Home, School, Street Or Highway etc.)
+
+as well as
+
+- **primary product** associated with the injury and
+- **a brief story** how the accident occured.
+
+Further we have a **weight** attribute for an estimation how may people the current case represents if the dataset was scaled to the entire US population.
+
+Code to download the data:
+
+```{r download-data, eval=FALSE}
+dir.create("neiss")
+
+download <- function(name) {
+  url <- "https://github.com/hadley/mastering-shiny/raw/master/neiss/"
+  download.file(paste0(url, name), paste0("neiss/", name), quiet = TRUE)
+}
+
+download("injuries.tsv.gz")
+download("population.tsv")
+download("products.tsv")
+```
+
+Main data:
+
+```{r main-data, message=FALSE}
+injuries <- vroom("neiss/injuries.tsv.gz")
+injuries
+```
+
+Product names:
+
+```{r product-data, message=FALSE}
+products <- vroom("neiss/products.tsv")
+products
+```
+
+Population data:
+
+```{r population-data, message=FALSE}
+population <- vroom("neiss/population.tsv")
+population
+```
+
+
+
+## Exploration
+
+As motivation for the app we want to build, we're going to explore the data.
+
+Let's have a look at accidents related to toilets:
+
+```{r no-toilets}
+# product code for toilets is 649
+selected <- injuries %>%
+  filter(prod_code == 649)
+
+nrow(selected)
+```
+
+We're interested in how many accidents related to toilets we see for different locations, body parts and diagnosis.
+
+```{r count-toilets}
+selected %>%
+  count(location, wt = weight, sort = TRUE)
+
+selected %>%
+  count(body_part, wt = weight, sort = TRUE)
+
+selected %>%
+  count(diag, wt = weight, sort = TRUE)
+```
+
+Next we'll we create a plot for the number of accidents for different age and sex:
+
+```{r line-plot}
+summary <- selected %>%
+  count(age, sex, wt = weight) %>% 
+  left_join(y = population, by = c("age", "sex")) %>% 
+  mutate(rate = n / population * 1e4)
+
+summary %>%
+  ggplot(mapping = aes(x = age, y = rate, color = sex)) +
+  geom_line(na.rm = TRUE) +
+  labs(y = "Injuries per 10,000 people")
+```
+
+The goal is to build an app, which outputs the tables and the plot for different products, which the user selects.
+
+
+## Prototype
+
+The first version of the app is a dashboard, where the user can choose a product and get the tables and the plot we have seen in the previous chapter.
+
+Code of the ui:
+
+```{r prototype-ui, eval=FALSE}
+ui <- fluidPage(
+  # choose product
+  fluidRow(
+    column(
+      width = 6,
+      selectInput(inputId = "code", label = "Product", choices = prod_codes)
+    )
+  ),
+  # display tables
+  fluidRow(
+    column(width = 4, tableOutput(outputId = "diag")),
+    column(width = 4, tableOutput(outputId = "body_part")),
+    column(width = 4, tableOutput(outputId = "location"))
+  ),
+  # display plot
+  fluidRow(
+    column(width = 12, plotOutput(outputId = "age_sex"))
+  )
+)
+```
+
+Code of the server:
+
+```{r prototype-server, eval=FALSE}
+server <- function(input, output, session) {
+  # reactive for filtered data frame
+  selected <- reactive(
+    injuries %>%
+      filter(prod_code == input$code)
+  )
+  
+  # render diagnosis table
+  output$diag <- renderTable(
+    selected() %>%
+      count(diag, wt = weight, sort = TRUE)
+  )
+  
+  # render body part table
+  output$body_part <- renderTable(
+    selected() %>%
+      count(body_part, wt = weight, sort = TRUE)
+  )
+  
+  # render location table
+  output$location <- renderTable(
+    selected() %>%
+      count(location, wt = weight, sort = TRUE)
+  )
+  
+  # reactive for plot data
+  summary <- reactive(
+    selected() %>%
+      count(age, sex, wt = weight) %>%
+      left_join(y = population, by = c("age", "sex")) %>%
+      mutate(rate = n / population * 1e4)
+  )
+  
+  # render plot
+  output$age_sex <- renderPlot(
+    expr = {
+      summary() %>%
+        ggplot(mapping = aes(x = age, y = n, colour = sex)) +
+        geom_line() +
+        labs(y = "Estimated number of injuries")
+    },
+    res = 96
+  )
+}
+```
+
+_Note:_ The reactive for plot data is only used once. You could also compute the dataframe when rendering the plot, but it is good practise to **seperate computing and plotting**. It's easier to understand and generalise.
+
+This prototype is available at https://hadley.shinyapps.io/ms-prototype/.
+
+Now we're going to improve the app step-by-step.
+
+
+## Polish tables
+
+The prototype version of the app has very long tables. To make it a little clearer we only want to show the top 5 and lump together all other categories in every table.
+
+As an example the diagnosis table for all products would look like this:
+
+```{r diag-table}
+injuries %>%
+  mutate(diag = fct_lump(fct_infreq(diag), n = 5)) %>%
+  group_by(diag) %>%
+  summarise(n = as.integer(sum(weight)))
+```
+
+
+
+## Rate vs count
+
+Next step is to give the user the chance to plot the data relative to 10,000 People or in absolute numbers.
+
+The new ui looks like this:
+
+```{r rate-count-ui, eval=FALSE}
+ui <- fluidPage(
+  fluidRow(
+    column(
+      width = 8,
+      selectInput(
+        inputId = "code",
+        label = "Product",
+        choices = prod_codes,
+        width = "100%"
+      )
+    ),
+    column(
+      width = 2,
+      selectInput(inputId = "y", label = "Y axis", choices = c("rate", "count"))
+    )
+  ),
+  fluidRow(
+    column(width = 4, tableOutput(outputId = "diag")),
+    column(width = 4, tableOutput(outputId = "body_part")),
+    column(width = 4, tableOutput(outputId = "location"))
+  ),
+  fluidRow(
+    column(width = 12, plotOutput(outputId = "age_sex"))
+  )
+)
+```
+
+And plot rendering changes to:
+
+```{r rate-count-server, eval=FALSE}
+server <- function(input, output, session) {
+  ...
+  
+  output$age_sex <- renderPlot(
+    expr = {
+      if (input$y == "count") {
+        summary() %>%
+          ggplot(mapping = aes(x = age, y = n, colour = sex)) +
+          geom_line() +
+          labs(y = "Estimated number of injuries")
+        
+      } else {
+        summary() %>%
+          ggplot(mapping = aes(x = age, y = rate, colour = sex)) +
+          geom_line(na.rm = TRUE) +
+          labs(y = "Injuries per 10,000 people")
+      }
+    },
+    res = 96
+  )
+}
+```
+
+
+## Narrative
+
+Now we want a button to sample an accident story related to the currently chosen product and display it.
+
+We add the following ui elements:
+
+```{r narrative-ui, eval=FALSE}
+ui <- fluidPage(
+  ...
+  fluidRow(
+    column(
+      width = 2,
+      actionButton(inputId = "story", label = "Tell me a story")
+    ),
+    column(width = 10, textOutput(outputId = "narrative"))
+  )
+)
+```
+
+In the backend we need an `eventReactive` that triggers, when the button is clicked or the selected data changes:
+
+```{r narrative-server, eval=FALSE}
+server <- function(input, output, session) {
+  ...
+  
+  narrative_sample <- eventReactive(
+    eventExpr = list(input$story, selected()),
+    valueExpr = selected() %>%
+      pull(narrative) %>%
+      sample(1)
+  )
+  
+  output$narrative <- renderText(narrative_sample())
+}
+```
+
+The resulting version of the app is available at https://hadley.shinyapps.io/ms-prototype/.
