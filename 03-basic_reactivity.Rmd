@@ -46,7 +46,7 @@ Important Learnings so far, main app components:
 - ALWAYS use with a render fn() - sets up the reactive context & renders the HTML.      
 
 
-```{r}
+```{r eval=FALSE}
 ui <- fluidPage(
   textInput("name", "What's your name?"),
   textOutput("greeting")
