@@ -44,7 +44,7 @@ Further we have a **weight** attribute for an estimation how may people the curr
 
 Code to download the data:
 
-```{r download-data, eval=FALSE}
+```{r download-data}
 dir.create("neiss")
 
 download <- function(name) {
