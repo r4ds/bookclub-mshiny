@@ -55,3 +55,8 @@ apps you create and place your `app.R` file in there.
 For example, if while working on chapter 3 ("Basic Reactivity"), you create an
 app to illustrate controlling the timing of evaluation, you might add your app
 as `./examples/03-basic_reactivity-timing_evaluation/app.R`.
+
+## Images
+
+If any static image files are used in the .Rmd for a chapter, please add them into the directory
+`./images/<chapter_number>-<title_stub>/`. For example, to include images for the "01-your_first_shiny_app" chapter, please place them in `./images/01-your_first_shiny_app/`.

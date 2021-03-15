@@ -19,7 +19,7 @@ Then introduces **reactive programming** - which is how shiny automatically upda
 
 Shiny outputs (tables, charts etc.) can automatically **react** (recalculate) when their inputs change.  
 
-![](01_images/basic_react.png)
+![](images/01-your_first_shiny_app/basic_react.png)
 
 ### If you haven't installed Shiny already: 
 
@@ -191,14 +191,14 @@ server <- function(input, output, session) {
 
 The flow visualised in 2.1 now has a middle layer - a reactive expression.
 
-![](01_images/reactive_expression.png)
+![](images/01-your_first_shiny_app/reactive_expression.png)
 
 Which lives in the server function of the app. The ui to server connections can be visualised like this: 
-![](01_images/reactive_ui_server.png)
+![](images/01-your_first_shiny_app/reactive_ui_server.png)
 
 Using our 'first app' as an example:
 
-![](01_images/reactive_ui_server_example.png)
+![](images/01-your_first_shiny_app/reactive_ui_server_example.png)
 
 ## Shiny resources 
 
