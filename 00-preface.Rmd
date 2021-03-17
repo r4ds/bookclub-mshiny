@@ -1,4 +1,4 @@
-# Preface
+# Preface {.unnumbered}
 
 The preface chapter will not be studied as part of the book-club.
 It provides an overview of the purpose of `shiny`, a brief description of
