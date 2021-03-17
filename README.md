@@ -4,7 +4,8 @@ Welcome to the R4DS Mastering Shiny Book Club!
 
 We are working together to read [Mastering Shiny](https://mastering-shiny.org/) by Hadley Wickham.
 Join the #book_club-mastering_shiny channel on the [R4DS Slack](https://r4ds.io/join) to participate.
-As we read, we are producing [notes about the book](https://r4ds.github.io/bookclub-mshiny/).
+As we read, we are producing [notes about the book](https://r4ds.github.io/bookclub-mshiny/).  
+You can catch up on Book Club recordings on the Mastering Shiny [YouTube Playlist](https://www.youtube.com/playlist?list=PL3x6DOfs2NGi4B1Idnv8MLaUhFwOqfc3h).
 
 ## Meeting Schedule
 
