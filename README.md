@@ -21,7 +21,7 @@ If you would like to present, please add your name next to a chapter using the [
 - 2021-03-30: Chapter 7: _Graphics_: Jessica Mukiri
 - 2021-04-06: Chapter 8: _User Feedback_: Anne Hoffrichter
 - 2021-04-13: Chapter 9: _Uploads and Downloads_: Presenter TBC
-- 2021-04-20: Chapter 10: _Dynamic UI_: Presenter TBC
+- 2021-04-20: Chapter 10: _Dynamic UI_: Federica Gazzelloni
 - 2021-04-27: Chapter 11: _Bookmarking_: Layla Bouzoubaa
 - 2021-05-04: Chapter 12: _Tidy evaluation_: Presenter TBC
 
