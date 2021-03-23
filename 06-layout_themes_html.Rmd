@@ -1,6 +1,7 @@
 # Layout, themes, HTML
 
 ```{r}
+library(bslib)
 library(htmltools)
 library(shiny)
 ```
@@ -220,28 +221,71 @@ You can write custom rules to style based on
 
 ## Bootstrap & Themes
 
-<!--
+Shiny uses the [bootstrap](https://getbootstrap.com/) toolkit for styling.
 
-## Book Structure
+Here's the strapline for bootstrap:
 
-Book sections:
-- Single page layouts (+Ex; this section was previously in the UI chapter, and
-  was covered in an earlier bookclub week)
-- Multi page layouts
-- Bootstrap
-- Themes (+Ex)
-- Under the hood
+    Quickly design and customize responsive mobile-first sites with Bootstrap,
+    the world’s most popular front-end open source toolkit, featuring Sass
+    variables and mixins, responsive grid system, extensive prebuilt components,
+    and powerful JavaScript plugins.
 
-? When presenting, maybe reverse the order of the sections:
+What does that mean?
 
-- Learning Outcomes
-- Under the hood
-  - HTML
-  - CSS
-- Bootstrap & Themes
-- Layouts
-  - Single page
-  - Multi page
+- Responsive
+  - The page alters layout / appearance for different screen widths
+- Sass variables and mixins
+  - These are tools that reduce the amount of repetition when writing CSS
+- Prebuilt components
+  - You don't have to write your own button, navbar, etc ... classes from
+  scratch
+- Javascript plugins
+  - eg, for using dropdowns
 
-TODO: think up an exercise that uses multi-page layouts
--->
+So bootstrap solves lots of challenges for us
+
+Use package `{bslib}` to work with bootstrap in R
+
+To modify themes:
+
+```r
+bslib::bs_theme(
+  # colours in RGB
+  bg = "#202123", # background
+  fg = "#B8BCC2", # foreground
+  primary = NULL,
+  secondary = NULL,
+  success = NULL,
+  info = NULL,
+  warning = NULL,
+  danger = NULL,
+  # fonts
+  base_font = list(bslib::font_google("Pacifico", local = TRUE), "sans-serif"),
+  code_font = NULL,
+  heading_font = NULL
+  # further options ...
+)
+```
+
+Or use `bootswatch` to pick a prebuilt theme:
+
+```r
+bslib::bs_theme(bootswatch = "sandstone")
+```
+
+Then use a theme in your UI definition:
+
+```{r, comment = ""}
+theme_dark <- bslib::bs_theme(
+  bootswatch = "darkly",
+  base_font = list(bslib::font_google("Pacifico", local = TRUE), "sans-serif")
+)
+
+ui_with_bs <- fluidPage(
+  theme = theme_dark
+)
+
+cat(
+  shiny:::renderPage(ui_with_bs)
+)
+```
