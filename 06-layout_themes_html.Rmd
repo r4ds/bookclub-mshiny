@@ -289,3 +289,16 @@ cat(
   shiny:::renderPage(ui_with_bs)
 )
 ```
+
+## Layouts
+
+The Layouts section was moved from the Basic UI chapter with little change.
+
+Rather than go over them again, we'll rewrite a simple (single-page layout) app
+into something more complicated (and style it while we're at it)
+
+See `./examples/06-layout_themes_html-single_to_multipage_app/`
+
+### Single-page Layouts
+
+### Multi-page Layouts
