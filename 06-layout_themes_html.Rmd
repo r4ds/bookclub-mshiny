@@ -1,0 +1,355 @@
+# Layout, themes, HTML
+
+```{r}
+library(bslib)
+library(htmltools)
+library(shiny)
+```
+
+## Disclaimer
+
+"Mastering Shiny" is a moving target.
+
+Much of the content for "Layout, themes, HTML" chapter was originally part of
+the "Basic UI" chapter.
+
+<!-- So I'm attempting to put a web-dev oriented spin on the material -->
+
+Hence, these notes have greater emphasis on low-level web concerns (html / css /
+bootstrap)
+
+## Learning objectives
+
+- Creating raw html using R
+- HTML elements: attributes, classes, content
+- CSS for styling
+- Bootstrap (and related) front end toolkits
+- Shiny produces single-page applications
+- ... but multipage _layouts_ are possible
+
+## Resources
+
+### Websites
+
+- [Awesome Shiny Extensions](https://github.com/nanxstats/awesome-shiny-extensions)
+- [Shiny Application Layout Guide](https://shiny.rstudio.com/articles/layout-guide.html)
+
+- Mozilla Developer Network
+  - [Intro to HTML](https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML)
+  - [CSS First Steps](https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps)
+  - [Website parsing figure](https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/How_CSS_works/rendering.svg)
+
+### Books
+
+- [Outstanding User Interfaces ...](https://unleash-shiny.rinterface.com)
+  - Especially Chapters 1, 5, 6, 7
+
+### Packages / Tools
+
+- [Bootstrap](https://getbootstrap.com/)
+- [Sass](https://sass-lang.com/)
+
+- R packages
+  - `{htmltools}` (for building raw html)
+  - `{sass}` (for building css using Sass rules; not mentioned in Wickham)
+  - `{bslib}` (handles working with bootstrap)
+  - `{thematic}` (matches plotting theme to app theme)
+  - `{shiny.semantic}` (formantic)
+  - `{shinyMobile}` (framework 7)
+  - `{shinymaterial}` (Material design)
+  - `{shinydashboard}` (for building dashboards)
+
+## Under the hood
+
+A typical web app:
+
+- In the browser (front-end):
+  - .html file defines the content
+  - .css files define the style
+  - javascript handles interactivity
+
+- On the server (back-end):
+  - Requests received from the client
+  - R performs computations based on those requests
+  - Sends responses to the client
+
+### HTML - Hypertext markup language
+
+To view the .html for an app
+
+- Open an app in the browser or Rstudio
+- "View source" / "Inspect" / Open "Developer Tools"
+
+Typical .html structure:
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Metadata goes here (encodings, dependencies, author ...) -->
+    <meta charset="utf-8">
+    <title>The page title</title>
+  </head>
+  <body>
+    <!-- Content goes here!-->
+    <h1>My Printed Title</h1>
+    <p>
+      A paragraph of text.
+    </p>
+  </body>
+</html>
+```
+
+### Writing HTML with `shiny` / `htmltools`
+
+How to write .html using just R code?
+
+The simplest shiny UI:
+
+```{r}
+ui <- shiny::fluidPage()
+```
+
+The .html body for that UI can be viewed directly:
+
+```{r, comment = ""}
+cat(
+  as.character(ui)
+)
+```
+
+To also include the 'head' for the .html:
+
+```{r, comment=""}
+cat(
+  shiny:::renderPage(ui)
+)
+```
+
+`script` and `link` elements in the `<head>` = dependencies for the site
+
+Adding bare HTML to the shiny-produced HTML
+
+```{r, comment=""}
+ui_with_raw_html <- shiny::fluidPage(
+  # some raw html
+  htmltools::HTML(r"(
+    <h1>This is a heading</h1>
+    <ul>
+      <li>First bullet</li>
+      <li>Second bullet</li>
+    </ul>
+    )"
+  ),
+  # a shiny text imput
+  textInput("name", "What's your name?")
+)
+
+cat(
+  as.character(ui_with_raw_html)
+)
+```
+
+Using HTML helpers:
+
+```{r}
+ui_from_html_helpers <- shiny::fluidPage(
+  h1("This is a heading", class = "my-class"),
+  tags$ul(
+    tags$li("First bullet"),
+    tags$li("Second bullet")
+  ),
+  textInput("name", "What's your name?")
+)
+
+cat(
+  as.character(ui_from_html_helpers)
+)
+```
+
+### CSS - Cascading Style Sheets
+
+CSS
+
+- isn't covered in the chapter (but links provided)
+- but underlies how bootstrap styles your shiny app
+
+Much more detail at
+
+- [MDN](https://developer.mozilla.org/en-US/docs/Learn/CSS);
+- and in [Outstanding User Interfaces with Shiny](https://unleash-shiny.rinterface.com/beautify-css.html)
+
+How does the browser display a site / app?
+
+[MDN Website parsing figure](https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/How_CSS_works/rendering.svg)
+
+### Using CSS to style a shiny app
+
+A simple CSS file to set any text with "my-class" as class to red
+
+```css
+/* ./examples/06-layout_themes_html-css_example/www/style.css */
+.my-class {
+  color: red
+}
+```
+
+- Put static files (javascript / css) in the `./www` subdirectory of your app
+- Include your files using `tags$link` when defining the UI
+- Note: the path in the link should be "style.css" not "www/style.css"
+
+```r
+# ./examples/06-layout_themes_html-css_example/app.R
+library(shiny)
+
+ui <- shiny::fluidPage(
+  tags$link(rel = "stylesheet", type = "text/css", href = "style.css"),
+  h1("This is a heading", class = "my-class"),
+  textInput("name", "What's your name?")
+)
+server <- function(input, output, session) {}
+
+shinyApp(ui, server)
+```
+
+You can write custom rules to style based on
+
+- html element (`p`, `h1`, ...),
+- attributes
+- IDs 
+- and on interactive things (eg, when the mouse hovers)
+
+## Bootstrap & Themes
+
+Shiny uses the [bootstrap](https://getbootstrap.com/) toolkit for styling.
+
+Here's the strapline for bootstrap:
+
+    Quickly design and customize responsive mobile-first sites with Bootstrap,
+    the world’s most popular front-end open source toolkit, featuring Sass
+    variables and mixins, responsive grid system, extensive prebuilt components,
+    and powerful JavaScript plugins.
+
+What does that mean?
+
+- Responsive
+  - The page alters layout / appearance for different screen widths
+- Sass variables and mixins
+  - These are tools that reduce the amount of repetition when writing CSS
+- Prebuilt components
+  - You don't have to write your own button, navbar, etc ... classes from
+  scratch
+- Javascript plugins
+  - eg, for using dropdowns
+
+So bootstrap solves lots of challenges for us
+
+Use package `{bslib}` to work with bootstrap in R
+
+To modify themes:
+
+```r
+bslib::bs_theme(
+  # colours in RGB
+  bg = "#202123", # background
+  fg = "#B8BCC2", # foreground
+  primary = NULL,
+  secondary = NULL,
+  success = NULL,
+  info = NULL,
+  warning = NULL,
+  danger = NULL,
+  # fonts
+  base_font = list(bslib::font_google("Pacifico", local = TRUE), "sans-serif"),
+  code_font = NULL,
+  heading_font = NULL
+  # further options ...
+)
+```
+
+Or use `bootswatch` to pick a prebuilt theme:
+
+```r
+bslib::bs_theme(bootswatch = "sandstone")
+```
+
+Then use a theme in your UI definition:
+
+```{r, comment = ""}
+theme_dark <- bslib::bs_theme(
+  bootswatch = "darkly",
+  base_font = list(bslib::font_google("Pacifico", local = TRUE), "sans-serif")
+)
+
+ui_with_bs <- fluidPage(
+  theme = theme_dark
+)
+
+cat(
+  shiny:::renderPage(ui_with_bs)
+)
+```
+
+## Layouts
+
+The Layouts section was moved from the Basic UI chapter with little change.
+
+Rather than go over them again, we'll rewrite a simple (single-page layout) app
+into something more complicated (and style it while we're at it)
+
+See `./examples/06-layout_themes_html-single_to_multipage_app/`
+
+### Single-page Layouts
+
+Page functions: `fluidPage`, `fixedPage`, `fillPage`
+
+Layout functions: `sidebarLayout`, `fluidRow`, `column`
+
+### Multi-page Layouts
+
+Page functions: `navbarPage` (or nest the following in `fluidPage`)
+
+Layout functions: `tabsetPanel`, `tabPanel`, `navlistPanel`, `navbarMenu`
+
+## Case study
+
+This is one of the first shiny apps I wrote, it pulls data for a specific user
+from Stack Overflow, works out which "tags" they have received the most votes
+for, then plots those top tags in a word cloud.
+
+### The initial app (app-01.R)
+
+How might this app be improved?
+
+- Code
+  - `stackr` eagerly obtains data from stack overflow (maybe it should wait til
+  user has input a complete user ID)
+
+- UX
+  - Visual style is boring (maybe it should look more like stack overflow?)
+  - Could we input user name, rather than ID?
+  - Could we show the user-name / image, so the user knows they've copied in the
+  correct user ID
+  - Can we add some extra plots / tables and make a multipage layout
+
+```{r, code=readLines("examples/06-layout_themes_html-single_to_multipage_app/app-01.R"), eval = FALSE}
+```
+
+### The final app (app.R)
+
+Relative to the original app, we have:
+
+- introduced a new results table (containing the data obtained from
+  stack-overflow)
+- converted from a single-panel to a multi-panel layout (using `tabsetPanel`
+  and two `tabPanel`s)
+- attempted to use the stack-overflow colour scheme as part of the apps theme,
+  and also in the wordcloud colour scheme
+
+The stack overflow colour scheme was obtained by using the browser's developer
+tools (here using "Inspect" in chromium and looking at the "styles" section) on
+an open SO page.
+
+```{r, code=readLines("examples/06-layout_themes_html-single_to_multipage_app/app-01.R"), eval = FALSE}
+```
+
