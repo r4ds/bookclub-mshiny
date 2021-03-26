@@ -1,14 +1,38 @@
 # Plot a wordcloud to summarise the tags that a stack-overflow user tends to
 # answer/ask about
 
-# Made from app-03.R
+# In app-01.R, the app showed a wordcloud for a stack overflow user, based on
+# the score that user has received for their answers to questions related to a
+# specific stackoverflow-tag. It had a single-page interface.
+#
+# This app is an extension of that app
+#
+# Based on the learning objectives in the "Layouts, themes, HTML" chapter we:
+# - added a multipanel layout (two tabPanels in a tabsetPanel):
+#   - panel 1: the original wordcloud
+#   - panel 2: the table from which the wordcloud was generated
+# - changed the colourscheme to be more in-keeping with the stack-overflow
+# colour scheme
+#   - both the palette for the wordcloud and the app-theme were modified
+#
+# Differences between this app and app-01.R are highlighted (don't comment this
+# liberally in production code :0) )
 
+# -- NEW: required to manipulate the stack overflow dataset
+#
 library(dplyr)
+
 library(shiny)
 library(wordcloud)
 library(stackr)
 
 # Constants
+# NEW:
+# -- the colours were obtained by inspecting the CSS for the stackoverflow site
+# -- `palette` is used to set the colour-scheme in the wordcloud to match that
+# for the stackoverflow site
+# -- `theme` is used to match the colour-scheme of the app with that of stack
+# overflow
 
 colours <- c(
   "orange" = "#f48024",
@@ -30,6 +54,8 @@ theme <- bs_theme(
 
 # Helper functions
 
+# -- NEW: this helper was introduced to ensure the newly-added answers table is
+# ordered from the tag with the highest to the lowest score
 format_answer_score_table <- function(df) {
   df %>%
     dplyr::select(tag_name, answer_count, answer_score) %>%
@@ -50,8 +76,8 @@ make_word_cloud <- function(df, palette) {
   )
 }
 
-# Define UI for application that plots information about a user's stack overflow
-# presence
+# Define UI for application that plots information about a user's stack
+# overflow presence
 
 ui <- fluidPage(
   theme = theme,
@@ -67,6 +93,9 @@ ui <- fluidPage(
 
     # Show a plot of a wordcloud and table of the user's answer-tags
     mainPanel(
+      # -- NEW: replaced the single-panel layout of the original app with a
+      # two-panel layout (word-cloud in the first panel, answer-table in the
+      # second)
       tabsetPanel(
         tabPanel("Word Cloud", plotOutput("word_cloud")),
         tabPanel("Answer Table", tableOutput("answer_table"))
@@ -87,6 +116,8 @@ server <- function(input, output) {
     make_word_cloud(stack_data(), so_palette)
   )
 
+  # -- NEW: this is the data from which the word-cloud was produced, it was
+  # added so that a user can get more detailed information
   output$answer_table <- renderTable(
     format_answer_score_table(stack_data())
   )
