@@ -319,7 +319,7 @@ for, then plots those top tags in a word cloud.
 
 ### The initial app (app-01.R)
 
-Some notes:
+How might this app be improved?
 
 - Code
   - `stackr` eagerly obtains data from stack overflow (maybe it should wait til
@@ -334,3 +334,22 @@ Some notes:
 
 ```{r, code=readLines("examples/06-layout_themes_html-single_to_multipage_app/app-01.R"), eval = FALSE}
 ```
+
+### The final app (app.R)
+
+Relative to the original app, we have:
+
+- introduced a new results table (containing the data obtained from
+  stack-overflow)
+- converted from a single-panel to a multi-panel layout (using `tabsetPanel`
+  and two `tabPanel`s)
+- attempted to use the stack-overflow colour scheme as part of the apps theme,
+  and also in the wordcloud colour scheme
+
+The stack overflow colour scheme was obtained by using the browser's developer
+tools (here using "Inspect" in chromium and looking at the "styles" section) on
+an open SO page.
+
+```{r, code=readLines("examples/06-layout_themes_html-single_to_multipage_app/app-01.R"), eval = FALSE}
+```
+
