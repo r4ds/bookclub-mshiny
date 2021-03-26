@@ -59,7 +59,7 @@ user_interface <- fluidPage(
     # Husker Du?
     # **renderText()** <-> **textOutput()**
     # **renderPrint()**  <-> **verbatimTextOutput()**
-    textOutput(inputId = "text", label = "tell me your name."),
+    # textOutput(inputId = "text", label = "tell me your name."),
     verbatimTextOutput("print"),
 
     # Output Tables
