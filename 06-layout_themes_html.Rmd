@@ -301,4 +301,36 @@ See `./examples/06-layout_themes_html-single_to_multipage_app/`
 
 ### Single-page Layouts
 
+Page functions: `fluidPage`, `fixedPage`, `fillPage`
+
+Layout functions: `sidebarLayout`, `fluidRow`, `column`
+
 ### Multi-page Layouts
+
+Page functions: `navbarPage` (or nest the following in `fluidPage`)
+
+Layout functions: `tabsetPanel`, `tabPanel`, `navlistPanel`, `navbarMenu`
+
+## Case study
+
+This is one of the first shiny apps I wrote, it pulls data for a specific user
+from Stack Overflow, works out which "tags" they have received the most votes
+for, then plots those top tags in a word cloud.
+
+### The initial app (app-01.R)
+
+Some notes:
+
+- Code
+  - `stackr` eagerly obtains data from stack overflow (maybe it should wait til
+  user has input a complete user ID)
+
+- UX
+  - Visual style is boring (maybe it should look more like stack overflow?)
+  - Could we input user name, rather than ID?
+  - Could we show the user-name / image, so the user knows they've copied in the
+  correct user ID
+  - Can we add some extra plots / tables and make a multipage layout
+
+```{r, code=readLines("examples/06-layout_themes_html-single_to_multipage_app/app-01.R"), eval = FALSE}
+```
