@@ -29,7 +29,8 @@ Writing reprexes, self-contained chunks of code that illustrate a problem. Repre
 
        
        
-  ![](images/workflow.png)
+  ![](images/05-workflow/workflow.png)
+
 
  
 
@@ -83,8 +84,7 @@ Writing reprexes, self-contained chunks of code that illustrate a problem. Repre
 
 - Specific focus to three debugging challenges to Shiny apps
 
-  ![](images/workflow.png)
-
+  
 
 ### Three dubugging Challenges(What goes wrong) 
 
@@ -102,8 +102,9 @@ Writing reprexes, self-contained chunks of code that illustrate a problem. Repre
 <!-- - Three main cases of problems: -->
 
 
-  ![](images/debugging_challenges.png)
+  ![](images/05-workflow/debugging_challenges.png)
   
+
 - You get an unexpected error (easiest case). 
 
 Solution : 
@@ -132,7 +133,7 @@ Solution :
  
 
 
-  ![](images/call_stack.png)
+  ![](images/05-workflow//call_stack.png)
 - Example of reading traceback
 
 ```{r}
@@ -310,6 +311,9 @@ if (my_reactive() < 0) {
 ## Getting help (using Reprex) 
 
 
+
+  ![](images/05-workflow//workflow.png)
+  
 - If you cant debug the error, it is time to ask for help at Shiny Community by creating Reprex
 
 - A reprex is just some R code that works when you copy and paste it into a R session on another computer
@@ -318,8 +322,6 @@ if (my_reactive() < 0) {
 
 - Below is an example of Shiny reprex
 
-  ![](images/workflow.png)
-  
 ###  How to make a reprex  
 
 
