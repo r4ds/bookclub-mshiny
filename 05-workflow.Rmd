@@ -1,0 +1,539 @@
+# Workflow 
+
+## Why workflow? 
+
+> "I think of workflow as one of my "secret" powers: one of the reasons that I've been able to accomplish so much is that I devote time to analysing and improving my workflow. I highly encourage you to do the same!".....Hadley Wikham
+
+-   Workflow makes the process of writing Shiny apps more enjoyable, and helps your skills improve more quickly.
+
+## Learning objectives
+
+- The goal of this chapter is to help you improve three important Shiny workflows:
+
+
+    -   Learn basic **development cycle** for creating apps,making changes, and quickly expirement with the results.
+
+    -   Learn how to **debug** Shiny apps
+    
+<!-- your comment 
+    
+    Debugging, the workflow where you figure out what's gone wrong with your code and then brainstorm solutions to fix it.
+-->
+    
+    -   Learn how to write **self-contained reprexes**
+
+    
+<!-- your comment 
+Writing reprexes, self-contained chunks of code that illustrate a problem. Reprexes are a powerful debugging technique, and they are essential if you want to get help from someone else.
+ --> 
+
+       
+       
+  ![](images/05-workflow/workflow.png)
+
+
+ 
+
+  
+
+
+## Development workflow 
+
+-   Why development workflow?
+
+    - Allows you to reduce the time between making a change and seeing the outcome
+
+    - The faster you can iterate, the faster you can experiment, and the faster you can become a better Shiny developer.
+ 
+- Two main workflows to optimise here:
+
+    -   creating apps (for first time),
+
+    -   making changes and experimenting with the results faster (speeding up the iterative cycle).
+
+### Creating apps 
+
+-  Type `shinyapp` in `app.R` and you will see prompt to insert snippet(Shift + Tab)
+
+-   If you are using RStudio, you can create Shiny Web Application project easily
+
+### Seeing your changes faster 
+
+- Avoid clicking "Run App" button
+- Use keyboard shortcut: `Cmd/Ctrl + Shift + Enter`
+- Turn auto reload on and run the app in the background as described [here](https://github.com/sol-eng/background-jobs/tree/master/shiny-job).
+    - gives faster workflow: write some code, `Cmd/Ctrl + S` to save the file and experiment interactively.
+    - **disadvantage:** harder to debug because the app is running in a separate process.
+    
+### Controlling the view 
+
+-   Run in Viewer Pane: opens the app in the viewer pane . for smaller apps
+
+-   Run External: opens the app in your usual web browser.
+ 
+     - useful for larger apps
+
+
+
+##  Debugging 
+
+
+- something will go wrong definitely. 
+
+- it takes years of experience to write code that works the first time (So, we need a robust workflow for identifying and fixing mistakes)
+
+- Specific focus to three debugging challenges to Shiny apps
+
+  
+
+### Three dubugging Challenges(What goes wrong) 
+
+
+
+
+<!-- A grammatically correct program may give you incorrect results due to logic errors. In case such errors (i.e. bugs) occur, you need to find out why and where they occur so that you can fix them. The procedure to identify and fix bugs is called “debugging”. -->
+
+<!-- - R’s debugging tools include the traceback, browser, debug, debugonce, trace, and recover functions -->
+
+<!-- - it takes years of experience in any language before you can reliably write code that works the first time. -->
+
+<!-- - So,bugs do happens. -->
+
+<!-- - Three main cases of problems: -->
+
+
+  ![](images/05-workflow/debugging_challenges.png)
+  
+
+- You get an unexpected error (easiest case). 
+
+Solution : 
+
+- You will get a traceback which allows you to figure out exactly where the error occurred
+
+- The interactive debugger is a powerful assistant for this process.
+
+> You don’t get any errors,
+
+- Solution: use the interactive debugger, along with your investigative skills to track down the root cause.
+
+> All the values are correct, but they’re not updated when you expect
+
+- Most challenging problem because it’s unique to Shiny, so you can’t take advantage of your existing R debugging skills.
+
+
+
+### How to fix errors (using tracebacks) 
+
+- In R, every error is accompanied by a traceback, or call stack, which literally traces back through the sequence of calls that lead to the error
+
+- The functions are printed in reverse order
+
+- The traceback tool pinpoints the location of an error.
+ 
+
+
+  ![](images/05-workflow//call_stack.png)
+- Example of reading traceback
+
+```{r}
+f <- function(x) g(x)
+g <- function(x) h(x)
+h <- function(x) 2 * 2
+
+f(3)
+```
+
+
+```{r, eval=FALSE}
+
+f <- function(x) g(x)
+g <- function(x) h(x)
+h <- function(x) x * 2
+
+f("a")
+
+```
+
+- This will generate an error below
+
+```{r, eval=FALSE}
+f("a")
+#> Error in x * 2: non-numeric argument to binary operator
+```
+
+- The traceback is shown below: 
+- Top of the stack point to an error 
+
+```{r, eval=FALSE}
+
+traceback()
+
+#> 3: h(x)
+#> 2: g(x)
+#> 1: f("a")
+```
+
+- Flipping the traceback shows the better sequence(the top of the stack poins to an error location)
+
+-  shows sequence of calls that lead to the error — f() called g() called h() (which errors)
+
+```{r, eval=FALSE}
+
+1: f("a")
+2: g(x)
+3: h(x)
+```
+
+
+- 
+###  Tracebacks in Shiny 
+ 
+- You can’t use traceback() in Shiny because you can’t run code while an app is running. 
+ 
+-  Shiny automatically print the traceback for you.
+ 
+ 
+```{r eval=FALSE, error= TRUE}
+library(shiny)
+
+f <- function(x) g(x)
+g <- function(x) h(x)
+h <- function(x) x * 2
+
+ui <- fluidPage(
+  selectInput("n", "N", 1:10),
+  plotOutput("plot")
+)
+server <- function(input, output, session) {
+  output$plot <- renderPlot({
+    n <- f(input$n)
+    plot(head(cars, n))
+  }, res = 96)
+}
+shinyApp(ui, server)
+```
+ 
+- We will see an error below 
+ 
+ 
+```{r, eval=FALSE}
+Error in *: non-numeric argument to binary operator
+  169: g [app.R#4]
+  168: f [app.R#3]
+  167: renderPlot [app.R#13]
+  165: func
+  125: drawPlot
+  111: <reactive:plotObj>
+   95: drawReactive
+   82: renderFunc
+   81: output$plot
+    1: runApp
+```
+ 
+ 
+- We can also flip the error
+
+
+```{r, eval=FALSE}
+Error in *: non-numeric argument to binary operator
+   1: runApp
+  81: output$plot
+  82: renderFunc
+  95: drawReactive
+ 111: <reactive:plotObj>
+ 125: drawPlot
+ 165: func
+ 167: renderPlot [app.R#13]
+ 168: f [app.R#3]
+ 169: g [app.R#4]
+```
+
+### Three part of Shiny error stack
+
+- **First**: few calls start the app. Ignore anything before the first runApp(); this is just the setup code to get the app running.
+
+```{r, eval=FALSE}
+ 
+1: runApp
+
+#Sometimes, you may see other things before runAPP ignore them
+#1: source
+#3: print.shiny.appobj
+#5: runApp
+```
+
+
+
+- **Second:** some internal Shiny code in charge of calling the reactive expression(output$plot is where the problem is) :
+
+```{r, eval=FALSE}
+ 81: output$plot
+ 82: renderFunc
+ 95: drawReactive
+111: <reactive:plotObj>
+125: drawPlot
+165: func
+```
+
+- **Third**: Code that you have written
+
+```{r, eval=FALSE}
+167: renderPlot [app.R#13]
+168: f [app.R#3]
+169: g [app.R#4]
+
+```
+
+### How to fix errors (using interactive debugger) 
+
+- You have identified the error using `traceback` and want to figure out what’s causing it,
+
+- Use the interactive debugger to debugg your code
+
+- Two ways to launch the debugger:
+
+- Add a call to `browser()` in your source code
+    
+```{r, eval=FALSE}
+if (input$value == "a") {
+  browser()
+}
+# Or maybe
+if (my_reactive() < 0) {
+  browser()
+}
+```
+    
+- Add an RStudio breakpoint by clicking to the left of the line number
+
+
+## Getting help (using Reprex) 
+
+
+
+  ![](images/05-workflow//workflow.png)
+  
+- If you cant debug the error, it is time to ask for help at Shiny Community by creating Reprex
+
+- A reprex is just some R code that works when you copy and paste it into a R session on another computer
+
+- Good reprex, makes it easy for others to help you debug your app 
+
+- Below is an example of Shiny reprex
+
+###  How to make a reprex  
+
+
+- Create a single self-contained file that contains everything needed to run your code (e.g load all packages)
+
+- Test it by restarting fresh R session and then running the code
+
+- Potential problem is sharing your data
+    
+    - Use buil-in datasets(mpg), 
+    - create sample datasets and illustrate the problem, 
+    - use subset of the data with `dput()`
+
+```{r}
+(mydata <- data.frame(x = 1:5, y = c("a", "b", "c", "d", "e")))
+
+```
+
+
+```{r}
+dput(mydata)
+
+```
+
+-  Last resort is to provide complete app.R and the needed data files using Gihub or Zip files (if reading data from disk seems irreducible part of the problem)
+
+- Make sure you use relative paths
+
+- Format your code for to be easy read
+  
+  - Use `styler` package if you adopt [tidyverse style guide](https://style.tidyverse.org)
+  
+  
+### Making a minimal reprex   
+
+-  Trim out all the code that’s ok (make the life of a helper much easier) rather than forcing a potential helper to understand your entire app.
+ 
+- This process often lead you to discover what the problem is, so you don’t have to wait for help from someone else!
+
+- A good way to find error code is to remove sections of code from your application, piece by piece, until the problem goes away
+
+-  If removing a particular piece of code makes the problem stop, it’s likely that that code is related to the problem. 
+
+
+
+####  Example of Bad reprex
+
+- all the needed packages are not loaded
+- The code is not style, making it uneasy to help
+
+```{r, eval=FALSE}
+library(shiny)
+
+shinyApp(
+  ui = fluidPage(
+    uiOutput("interaction_slider"),
+    verbatimTextOutput("breaks")
+  ),
+  
+  server = function(input, output, session) {
+    
+    df <- data.frame (dateTime = c("2019-08-20 16:00:00",
+                   "2019-08-20 16:00:01",
+                   "2019-08-20 16:00:02",
+                   "2019-08-20 16:00:03",
+                   "2019-08-20 16:00:04",
+                   "2019-08-20 16:00:05"),
+      var1 = c(9, 8, 11, 14, 16, 1),
+      var2 = c(3, 4, 15, 12, 11, 19),
+      var3 = c(2, 11, 9, 7, 14, 1)
+    )
+    
+    timeSeries <- as.xts(df[,2:4],order.by=strptime(df[,1], format="%Y-%m-%d %H:%M:%S"))
+    print (paste(min(time(timeSeries)),is.POSIXt(min(time(timeSeries))),sep=' '))
+    print (paste(max(time(timeSeries)),is.POSIXt(max(time(timeSeries))),sep=' '))
+    
+    output$interaction_slider <- renderUI({
+      sliderInput(
+        "slider",
+```
+
+
+####  Making the bad reprex better(minimal)
+
+- loaded needd packages
+- The code is style, making it easy to help
+
+```{r, eval=FALSE}
+library(xts)
+library(lubridate)
+library(shiny)
+
+ui <- fluidPage(
+  uiOutput("interaction_slider"),
+  verbatimTextOutput("breaks")
+)
+server <- function(input, output, session) {
+  df <- data.frame(
+    dateTime = c(
+      "2019-08-20 16:00:00",
+      "2019-08-20 16:00:01",
+      "2019-08-20 16:00:02",
+      "2019-08-20 16:00:03",
+      "2019-08-20 16:00:04",
+      "2019-08-20 16:00:05"
+    ),
+    var1 = c(9, 8, 11, 14, 16, 1),
+    var2 = c(3, 4, 15, 12, 11, 19),
+    var3 = c(2, 11, 9, 7, 14, 1)
+  )
+
+  timeSeries <- as.xts(df[, 2:4], 
+    order.by = strptime(df[, 1], format = "%Y-%m-%d %H:%M:%S")
+  )
+  print(paste(min(time(timeSeries)), is.POSIXt(min(time(timeSeries))), sep = " "))
+  print(paste(max(time(timeSeries)), is.POSIXt(max(time(timeSeries))), sep = " "))
+
+  output$interaction_slider <- renderUI({
+    sliderInput(
+      "slider",
+      "Select Range:",
+      min = min(time(timeSeries)),
+      max = max(time(timeSeries)),
+      value = c(min, max)
+    )
+  })
+
+  brks <- reactive({
+    req(input$slider)
+    seq(input$slider[1], input$slider[2], length.out = 10)
+  })
+
+  output$breaks <- brks
+}
+shinyApp(ui, server)
+```
+
+- Remove part of the code that is independent with the error(e.g  two lines starting with `print()`, timeSeres and df)
+
+- new server calls reduced:
+
+```{r, eval=FALSE}
+datetime <- Sys.time() + (86400 * 0:10)
+
+server <- function(input, output, session) {
+  output$interaction_slider <- renderUI({
+    sliderInput(
+      "slider",
+      "Select Range:",
+      min   = min(datetime),
+      max   = max(datetime),
+      value = c(min, max)
+    )
+  })
+  
+  brks <- reactive({
+    req(input$slider)
+    seq(input$slider[1], input$slider[2], length.out = 10)
+  })
+  
+  output$breaks <- brks
+}
+```
+
+- Next, the example uses a relatively sophisticated Shiny technique where the UI is generated in the server function.
+
+- But  the `renderUI()` doesn’t use any reactive inputs, so it should work the UI. this leads to new UI that generate the error:
+
+
+```{r, eval=FALSE}
+ui <- fluidPage(
+  sliderInput("slider",
+    "Select Range:",
+    min   = min(datetime),
+    max   = max(datetime),
+    value = c(min, max)
+  ),
+  verbatimTextOutput("breaks")
+)
+#> Error: Type mismatch for `min`, `max`, and `value`.
+#> i All values must have same type: either numeric, Date, or POSIXt.
+```
+
+
+- looking at each of the inputs we’re feeding to min, max, and value to see where the problem is:
+
+
+```{r, eval=FALSE}
+min(datetime)
+#> [1] "2021-03-15 23:20:03 UTC"
+max(datetime)
+#> [1] "2021-03-25 23:20:03 UTC"
+c(min, max)
+#> [[1]]
+#> function (..., na.rm = FALSE)  .Primitive("min")
+#> 
+#> [[2]]
+#> function (..., na.rm = FALSE)  .Primitive("max")
+```
+
+- Now the problem is obvious: we haven’t assigned min and max variables
+
+
+```{r, eval=FALSE}
+ui <- fluidPage(
+  sliderInput("slider",
+    "Select Range:",
+    min   = min(datetime),
+    max   = max(datetime),
+    value = range(datetime)
+  ),
+  verbatimTextOutput("breaks")
+)
+```
+
