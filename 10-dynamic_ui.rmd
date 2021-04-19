@@ -2,9 +2,9 @@
 
 **Learning objectives:**
 
-Learn how to **add dynamics to a Shiny app** to be able to see interactive changes to potentially automate command funtions for more complex visualizations.
+Learn how to **add dynamics to a Shiny app** to be able to see interactive changes to potentially automate command functions for more complex visualizations.
 
-At the end of this chapter you will be able to understand what is a dynamic user interface, and what are the functions to update, hide or make visible and render the changes made interactively from UI to the server output.
+At the end of this chapter, you will be able to understand what is a dynamic user interface, and what are the functions to update, hide or make visible and render the changes made interactively from UI to the server output.
 
 ------------------------------------------------------
 
@@ -22,7 +22,7 @@ Conclusions
 
 ## Introduction 
 
-This chapter is based on Dynamic UI and it is meant to address the user interface with updating the server outcome. It is made of three main sections, all of them relating with automated functions able to dynamic change the output passing through parallel commands between the UI and the server.
+This chapter based on Dynamic UI is made to addressing the user interface by updating the server outcome. Three main sections, all of them relating to automated functions able to dynamically change the output passing through parallel commands between the UI and the server.
 
 What is a dynamic user interface?
 
@@ -34,7 +34,7 @@ Changing the UI using code run in the server function and by modifying inputs an
 
 ## Updating inputs
 
-### Three are the key techniques for creating dynamic user interface:
+**Three are the key techniques for creating dynamic user interface:**
 
 ```{r libraries, message=FALSE, warning=FALSE, include=FALSE}
 library(shiny)
@@ -87,9 +87,8 @@ The first example is the User Interface and Server basic structure for updating
 
 -----------------------------------------
 
-### Updating
+### Update functions
 
-#### 1 - update functions
 
 ```{r , echo=FALSE}
 mermaid("
@@ -98,8 +97,8 @@ A[id Input]-->B[update id Input]
 ")
 ```
 
+The *Update function* allows you to modify the control after it has been created, with a series of [id]Input and update[id]Input, as shown below:
 
-It allows you to modify the control after it has been created
 ```{r}
 # [id]Input()
 # textInput() # ui
@@ -120,11 +119,12 @@ It allows you to modify the control after it has been created
 # updateSliderInput()
 ```
 
-- Hierarchical, Freezing and Circular references
 
-The selection of natural hierarchy in the data to create a user interface that allows you to update the input dynamically generated across multiple categories, let's you establish priorities and provides with key features such as "freezing Reactive Inputs" to visually summarize your data. 
+*Hierarchical, Freezing and Circular references*
 
-The circularity is seen in apps where updating the input, automatically another input is created in function of the first one. In this cases the cycle can create an infinite loop on the current value of an input bringing it to run again and again in circularity.
+Other considerations need to be done when requesting the app to updates following an interactive input by the user. For example, the selection of natural hierarchy in the data is one of them, and it is important to create a user interface that allows updating the input maintaining stability while dynamically generating changes across multiple categories. 
+
+Other important considerations involve establishing priorities with the application of key features such as "freezing Reactive Inputs", a provided feature to freeze part of the inputs when expected a series of changes to establish priorities. and visually summarize your data. 
 
 ```{r}
 # [id]Input()
@@ -135,8 +135,7 @@ The circularity is seen in apps where updating the input, automatically another 
 ```
 
 
-The function - update[id]Input() - only has an affect after all outputs and observers have run, for this reason the freezing function would let you hierarchically updating all your inputs before displaying it.
-
+The function - update[id]Input() - only affects all outputs and observers that have run, for this reason, the freezing function would let you hierarchically updating all your inputs before displaying it.
 ```{r}
 # [id]Input()
 # [some]Output()
@@ -146,11 +145,14 @@ The function - update[id]Input() - only has an affect after all outputs and obse
 # update[id]Input() 
 ```
 
-##### How the "Action button" reset the "input"
+The last consideration for this section is "circularity" as seen in many apps when requesting for making simultaneous changes recursively. 
 
-- Reset button
+In other words, it is seen in apps were updating the input, automatically another input is created in the function of the first one. In these cases, the cycle can create an infinite loop on the current value of an input bringing it to run again and again in circularity.
 
-to make it easy to reset parameters back to their initial value (first simple example)
+
+*How the "Action button" reset the "input"*
+
+The *Reset button* is one of the clearest examples of what it means with dynamic changes. When the user interactively intervenes on the app making a choice then the "reset" button makes it easy to reset the parameters back to their initial value.
 
 ```{r}
 # [id]Input()
@@ -184,17 +186,14 @@ server <- function(input, output, session) {
 }
 ```
 
+-----------------------------------------------------
 
-## Second
+## Dynamic visibility
 
-### To show and hide parts of the UI
+*To show and hide parts of the UI* dynamically 
 
 
------------------------------------------------
-
-### Dynamic visibility
-
-#### 2 - tabsetPanel()
+*tabsetPanel()*
 
 This second section of the Dynamic uses the - tabsetPanel() - function to show and hide some of the tabs set in the main panel of the app. It is a technique allows you to manage the appearance of your app with selecting visibility of the tabs as shown in - [Tabsets](https://shiny.rstudio.com/articles/layout-guide.html) section of the Shiny.rstudio.com guide website.
 
