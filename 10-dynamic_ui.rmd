@@ -1,10 +1,197 @@
 # Dynamic UI
 
+**Learning objectives:**
 
-
-
+- Learn how to **add dynamics to a Shiny app**
+- Updating inputs **how to update your app based on your data**
+- Simple uses **create your app step-by-step**
+- Hierarchical select boxes **using the techniques you learned so far**
+- Freezing reactive inputs
+- Circular references
+- Inter-related inputs
+- Exercises
+- Dynamic visibility
+- Conditional UI
+- Wizard interface
+- Exercises
+- Creating UI with code
+- Getting started
+- Multiple controls
+- Dynamic filtering
+- Dialog boxes
+- Exercises
+- Summary
 
 ## Introduction 
 
 This chapter is based on Dynamic UI
+
+What is a dynamic user interface?
+
+How to create dynamic user interfaces, changing the UI using code run in the server function,by modifying inputs and outputs.
+
+### Three key techniques for creating dynamic user interface:
+
+```{r libraries, message=FALSE, warning=FALSE}
+library(shiny)
+library(dplyr, warn.conflicts = FALSE)
+library(DiagrammeR)
+```
+
+---------------------------------------
+
+1 - update functions
+
+```{r intro-graph, echo=FALSE}
+mermaid("
+graph LR
+A[id Input]-->B[update id Input]
+")
+```
+
+
+allows you to modify the control after it has been created
+```{r}
+# [id]Input()
+textInput() # ui
+# update [....] Input()
+updateTextInput() # server
+
+numericInput()
+# update [....] Input()
+updateNumericInput()
+
+#-------------------------------------
+selectInput()
+# update [....] Input()
+updateSelectInput()
+
+sliderInput()
+# update [....] Input()
+updateSliderInput()
+```
+
+- Reset
+to make it easy to reset parameters back to their initial value
+```{r}
+# [id]Input()
+# actionButton()
+
+# observeEvent()
+# update[id]Input()
+
+
+# [id]Input()
+# actionButton()
+
+# observeEvent()
+# updateActionButton()
+```
+
+
+- Hierarchical
+
+table example:
+
+```{r}
+# [id]Input()
+# tableOutput()
+
+# observeEvent()
+# update[id]Input() 
+
+```
+
+- Freezing
+
+updateSelectInput() only has an affect after all outputs and observers have run
+```{r}
+# [id]Input()
+# [some]Output()
+
+# observeEvent()
+# freezeReactiveValue() “freezing” the input
+# update[id]Input() 
+```
+
+
+Structure Example: 
+
+```{r intro-graph, echo=FALSE}
+mermaid("
+graph LR
+A[User Interface]-->B[Server]
+")
+```
+
+
+User Interface and Server basic structure:
+```{r}
+# ui <- fluidPage(
+  
+#  [id]Input(),
+  
+#  actionButton()
+# )
+
+# server <- function(input, output, session) {
+  
+#  observeEvent(input$... , {
+    
+#    update[id]Input(inputId = ... , ... = input$... )
+#  })  
+  ...
+# }
+```
+
+
+ex:
+```{r}
+ui <- fluidPage(
+  numericInput("year", "year", value = 2020),
+  dateInput("date", "date")
+)
+
+server <- function(input, output, session) {
+  observeEvent(input$year,{
+   #freezeReactiveValue(input, "date")
+   updateNumericInput(inputId = "year", year = input$year)
+  })
+}
+```
+
+
+-----------------------------------------------
+
+
+2 - tabsetPanel()
+
+------------------------------------------------
+
+3 - uiOutput() and renderUI()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
