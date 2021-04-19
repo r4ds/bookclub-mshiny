@@ -2,23 +2,18 @@
 
 **Learning objectives:**
 
-- Learn how to **add dynamics to a Shiny app**
+Learn how to **add dynamics to a Shiny app**
+
+Introduction
 
 1 - Updating inputs
+
 2 - Dynamic visibility
 
+3 - Creating UI with code
 
+Conclusions
 
-- Conditional UI
-- Wizard interface
-- Exercises
-- Creating UI with code
-- Getting started
-- Multiple controls
-- Dynamic filtering
-- Dialog boxes
-- Exercises
-- Summary
 
 ## Introduction 
 
@@ -187,6 +182,8 @@ server <- function(input, output, session) {
 ### Dynamic visibility
 
 #### 2 - tabsetPanel()
+
+This second section of the Dynamics let's show and hide some of the tabs set in the panel. It is a technique allows you to manage the apperance of the app with selecting on
 
 ```{r}
 mermaid("
