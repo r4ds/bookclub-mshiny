@@ -97,7 +97,7 @@ A[id Input]-->B[update id Input]
 ")
 ```
 
-The *Update function* allows you to modify the control after it has been created, with a series of [id]Input and update[id]Input, as shown below:
+The **Update function** allows you to modify the control after it has been created, with a series of [id]Input and update[id]Input, as shown below:
 
 ```{r}
 # [id]Input()
@@ -120,11 +120,11 @@ The *Update function* allows you to modify the control after it has been created
 ```
 
 
-*Hierarchical, Freezing and Circular references*
+**Hierarchical, Freezing and Circular references**
 
-Other considerations need to be done when requesting the app to updates following an interactive input by the user. For example, the selection of natural hierarchy in the data is one of them, and it is important to create a user interface that allows updating the input maintaining stability while dynamically generating changes across multiple categories. 
+Other considerations need to be done when requesting the app to updates following an interactive input by the user. For example, the selection of *natural hierarchy* in the data is one of them, and it is important to create a user interface that allows updating the input maintaining stability while dynamically generating changes across multiple categories. 
 
-Other important considerations involve establishing priorities with the application of key features such as "freezing Reactive Inputs", a provided feature to freeze part of the inputs when expected a series of changes to establish priorities. and visually summarize your data. 
+Other important considerations involve establishing priorities with the application of key features such as *freezing Reactive Inputs*, a provided feature to freeze part of the inputs when expected a series of changes to establish priorities. and visually summarize your data. 
 
 ```{r}
 # [id]Input()
@@ -135,7 +135,7 @@ Other important considerations involve establishing priorities with the applicat
 ```
 
 
-The function - update[id]Input() - only affects all outputs and observers that have run, for this reason, the freezing function would let you hierarchically updating all your inputs before displaying it.
+The function **update[id]Input()** only affects all outputs and observers that have run, for this reason, the freezing function would let you hierarchically updating all your inputs before displaying it.
 ```{r}
 # [id]Input()
 # [some]Output()
@@ -145,12 +145,12 @@ The function - update[id]Input() - only affects all outputs and observers that h
 # update[id]Input() 
 ```
 
-The last consideration for this section is "circularity" as seen in many apps when requesting for making simultaneous changes recursively. 
+The last consideration for this section is *circularity* as seen in many apps when requesting for making simultaneous changes recursively. 
 
 In other words, it is seen in apps were updating the input, automatically another input is created in the function of the first one. In these cases, the cycle can create an infinite loop on the current value of an input bringing it to run again and again in circularity.
 
 
-*How the "Action button" reset the "input"*
+**How the "Action button" reset the "input"**
 
 The *Reset button* is one of the clearest examples of what it means with dynamic changes. When the user interactively intervenes on the app making a choice then the "reset" button makes it easy to reset the parameters back to their initial value.
 
@@ -190,10 +190,11 @@ server <- function(input, output, session) {
 
 ## Dynamic visibility
 
-*To show and hide parts of the UI* dynamically and interactively.
+**To show and hide parts of the UI** dynamically and interactively.
 
+-----------------------------------------------------------
 
-The *tabsetPanel()* is the second function for this chapter and it involves the visibility of part of the app.
+The **tabsetPanel()** is the second function for this chapter and it involves the visibility of part of the app.
 
 This second function is made to let the user show and/or hide some of the tabs set in the main panel. It is a technique that allows managing the appearance of the app with selecting visibility of the tabs as shown in - [Tabsets](https://shiny.rstudio.com/articles/layout-guide.html) section of the Shiny.rstudio.com guide website.
 
@@ -205,7 +206,7 @@ A[tabsetPanel]-->B[updateTabsetPanel]
 ```
 
 
-In addition to {shiny} package you can use:
+In addition to **{shiny}** package you can use:
 ```{r message=FALSE, warning=FALSE}
 library(shinyWidgets)
 library(shinydashboard)
@@ -214,7 +215,7 @@ library(shinythemes)
 
 to enhance you app with features and the most wanted themes.
 
-As an example on how to set the visibility of a tab in your app, you can follow the steps of this example:  [Gallery](https://shiny.rstudio.com/gallery/tabsets.html)
+As an example on how to set the visibility of a tab in your app, you can follow the steps found here:  [Gallery](https://shiny.rstudio.com/gallery/tabsets.html)
 
 ```{r}
 library(shiny)
@@ -239,7 +240,6 @@ ui <- fluidPage(
                   min = 1,
                   max = 1000)
     ),
-
     mainPanel(
       # The "tabsetPanel()" sets the tabs, the titles and the output 
       tabsetPanel(
@@ -251,9 +251,6 @@ ui <- fluidPage(
     )
   )
 )
-
-
-
 ################# SERVER #######################################
 
 server <- function(input, output,session) {
@@ -299,23 +296,26 @@ The *Wizard interface* allows you to spread collected information across multipl
 
 ## Creating UI with code
 
-To *Modify the user interface while the app is running* with a separate code section.
+**Modify the user interface while the app is running** with a separate code section.
 
-The final two most important functions are *uiOutput() and renderUI()*, the technique of creating part of the UI separately in a chunk of code, gives the developer the ability to create and modify the user interface while the app is running.
+-------------------------------------------------------------------
 
-*uiOutput()* act in the UI part of the app while *renderUI()* act in the server.
+The final two most important functions are **uiOutput() and renderUI()**, the technique of creating part of the UI separately in a chunk of code, gives the developer the ability to create and modify the user interface while the app is running.
+
+**uiOutput()** act in the UI part of the app while **renderUI()** act in the server.
 
 
 In addition to the aforementioned function more features are available as a composition of each other and many more, to allow the user for *Multiple controls*, *Dynamic filtering* and *Dialog boxes*.
 
 
 -------------------------------------------------------------------
-Conclusions
+
+## Conclusions
 
 The dynamic of the UI can be appreciated by modification of the server. Many compositions of the basic functions would let the user be able to interactively change the output to the desired visualization.
 
 
-
+----------------------------------------------------------------------
 
 
 
