@@ -226,13 +226,13 @@ ui <- fluidPage(
   titlePanel("App Statistics"),
   sidebarLayout(
     sidebarPanel(
-      selectInput("controller", "Show", choices = c("summary","plot")),
+      selectInput("controller", "Show", choices = c("plot","summary")),
       radioButtons("dist", "Distribution type:",
                    c("Normal" = "norm",
                      "Uniform" = "unif",
                      "Log-normal" = "lnorm",
                      "Exponential" = "exp")),
-
+      
       br(), # to add vertical spacing
       sliderInput("n",
                   "Number of observations:",
@@ -251,28 +251,29 @@ ui <- fluidPage(
     )
   )
 )
-################# SERVER #######################################
+
 
 server <- function(input, output,session) {
-  observeEvent(input$controller, {
-    updateTabsetPanel(inputId = "switcher", selected = input$controller)
-    
-  d <- reactive({
-    dist <- switch(input$dist,
-                   norm = rnorm,
-                   unif = runif,
-                   lnorm = rlnorm,
-                   exp = rexp,
-                   rnorm)
-
-    dist(input$n)
-  })
-  })
+      d <- reactive({
+      dist <- switch(input$dist,
+                     norm = rnorm,
+                     unif = runif,
+                     lnorm = rlnorm,
+                     exp = rexp,
+                     rnorm)
+      
+      dist(input$n)
+    })
+      
+      observeEvent(input$controller, {
+        # 
+        updateTabsetPanel(inputId = "switcher", selected = input$controller)
+      })
   
   output$plot <- renderPlot({
     dist <- input$dist
     n <- input$n
-
+    
     hist(d(),
          main = paste("r", dist, "(", n, ")", sep = ""),
          col = "navy", border = "white")
