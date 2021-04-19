@@ -45,7 +45,9 @@ library(DiagrammeR)
 ---------------------------------------
 
 1 - update functions
+
 2 - tabsetPanel()
+
 3 - uiOutput() and renderUI()
 
 -------------------------------------------
@@ -54,7 +56,7 @@ In this first part of the Dynamic UI chapter we will see how to pass from a basi
 
 As we know the basic structure of a Shiny app is made of a UI (user interface) and a server.
 
-```{r  echo=FALSE}
+```{r echo=FALSE}
 mermaid("
 graph LR 
 A[User Interface]-->B[Server]
@@ -89,7 +91,7 @@ The first example is the User Interface and Server basic structure for updating
 
 #### 1 - update functions
 
-```{r intro-graph, echo=FALSE}
+```{r , echo=FALSE}
 mermaid("
 graph LR
 A[id Input]-->B[update id Input]
@@ -194,21 +196,115 @@ server <- function(input, output, session) {
 
 #### 2 - tabsetPanel()
 
-This second section of the Dynamics let's show and hide some of the tabs set in the panel. It is a technique allows you to manage the apperance of the app with selecting on
+This second section of the Dynamic uses the - tabsetPanel() - function to show and hide some of the tabs set in the main panel of the app. It is a technique allows you to manage the appearance of your app with selecting visibility of the tabs as shown in - [Tabsets](https://shiny.rstudio.com/articles/layout-guide.html) section of the Shiny.rstudio.com guide website.
 
-```{r}
+```{r echo=FALSE}
 mermaid("
 graph LR 
 A[tabsetPanel]-->B[updateTabsetPanel]
 ")
 ```
 
+In addition to {shiny} package you can use:
+```{r message=FALSE, warning=FALSE}
+library(shinyWidgets)
+library(shinydashboard)
+library(shinythemes)
+```
+
+to enhance you app with features and the most wanted themes.
+
+As an example on how to set the visibility of a tab in your app, you can follow the steps of this example:  [Gallery](https://shiny.rstudio.com/gallery/tabsets.html)
+
+```{r}
+library(shiny)
+
+##################  USER INTERFACE ##############################
+ui <- fluidPage(
+  # Panel title
+  titlePanel("App Statistics"),
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("controller", "Show", choices = c("summary","plot")),
+      radioButtons("dist", "Distribution type:",
+                   c("Normal" = "norm",
+                     "Uniform" = "unif",
+                     "Log-normal" = "lnorm",
+                     "Exponential" = "exp")),
+
+      br(), # to add vertical spacing
+      sliderInput("n",
+                  "Number of observations:",
+                  value = 500,
+                  min = 1,
+                  max = 1000)
+    ),
+
+    mainPanel(
+      # The "tabsetPanel()" sets the tabs, the titles and the output 
+      tabsetPanel(
+        id="switcher",
+        type = "hidden",
+        tabPanel("Plot", plotOutput("plot")),
+        tabPanel("Summary", verbatimTextOutput("summary"))
+      )
+    )
+  )
+)
+
+
+
+################# SERVER #######################################
+
+server <- function(input, output,session) {
+  observeEvent(input$controller, {
+    updateTabsetPanel(inputId = "switcher", selected = input$controller)
+    
+  d <- reactive({
+    dist <- switch(input$dist,
+                   norm = rnorm,
+                   unif = runif,
+                   lnorm = rlnorm,
+                   exp = rexp,
+                   rnorm)
+
+    dist(input$n)
+  })
+  })
+  
+  output$plot <- renderPlot({
+    dist <- input$dist
+    n <- input$n
+
+    hist(d(),
+         main = paste("r", dist, "(", n, ")", sep = ""),
+         col = "navy", border = "white")
+  })
+  output$summary <- renderPrint({
+    summary(d())
+  })
+}
+
+```
+
+
+
 The Conditional UI allows you to simulate different parameters to be set in the app. The - tabsetPanel() - is update with input requests as a separate section with different types of [id]Input() and then embedded inside a fuller UI.
 
 The Wizard interface allows you to spread collected information across multiple pages with the - switch_page() - command. This also can be automatized and it will be shown in Section 19.
 
+```{r}
+
+```
+
+
+## Third
+
+### Modify the user interface while the app is running
 
 ------------------------------------------------
+
+### Creating UI with code
 
 #### 3 - uiOutput() and renderUI()
 
