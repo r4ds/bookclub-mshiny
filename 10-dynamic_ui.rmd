@@ -169,9 +169,9 @@ The *Reset button* is one of the clearest examples of what it means with dynamic
 # updateActionButton()
 ```
 
-A simple use of the "reset" input button is shown in this example: 
+Simple use of the "reset" input button is shown in this example: 
 
-Spring temperature generally lasts on average between 19 and 25 C° degree, let's set and average value of 21 C° as "reset" point.
+Spring temperature generally lasts on average between 19 and 25 C° degrees, let's set an average value of 21 C° as "reset" point.
 
 ```{r}
 ui <- fluidPage(
@@ -190,12 +190,12 @@ server <- function(input, output, session) {
 
 ## Dynamic visibility
 
-*To show and hide parts of the UI* dynamically 
+*To show and hide parts of the UI* dynamically and interactively.
 
 
-*tabsetPanel()*
+The *tabsetPanel()* is the second function for this chapter and it involves the visibility of part of the app.
 
-This second section of the Dynamic uses the - tabsetPanel() - function to show and hide some of the tabs set in the main panel of the app. It is a technique allows you to manage the appearance of your app with selecting visibility of the tabs as shown in - [Tabsets](https://shiny.rstudio.com/articles/layout-guide.html) section of the Shiny.rstudio.com guide website.
+This second function is made to let the user show and/or hide some of the tabs set in the main panel. It is a technique that allows managing the appearance of the app with selecting visibility of the tabs as shown in - [Tabsets](https://shiny.rstudio.com/articles/layout-guide.html) section of the Shiny.rstudio.com guide website.
 
 ```{r echo=FALSE}
 mermaid("
@@ -203,6 +203,7 @@ graph LR
 A[tabsetPanel]-->B[updateTabsetPanel]
 ")
 ```
+
 
 In addition to {shiny} package you can use:
 ```{r message=FALSE, warning=FALSE}
@@ -287,42 +288,31 @@ server <- function(input, output,session) {
 ```
 
 
+Finally, the *Conditional UI* allows you to simulate different parameters to be set in the app. 
+The - tabsetPanel() - is updated with input requests as a separate section with different types of [id]Input() and then embedded inside a fuller UI.
 
-The Conditional UI allows you to simulate different parameters to be set in the app. The - tabsetPanel() - is update with input requests as a separate section with different types of [id]Input() and then embedded inside a fuller UI.
-
-The Wizard interface allows you to spread collected information across multiple pages with the - switch_page() - command. This also can be automatized and it will be shown in Section 19.
-
-```{r}
-
-```
-
-
-## Third
-
-### Modify the user interface while the app is running
-
-------------------------------------------------
-
-### Creating UI with code
-
-#### 3 - uiOutput() and renderUI()
-
-The technique of Creating UI with code gives the developer the ability to create and modify the user interface while the app is running with two functions:
-
-- uiOutput() in the UI part of the app 
-- renderUI() in the server 
-
-
-Multiple controls
-
-Dynamic filtering
-
-Dialog boxes
-
-Summary
+The *Wizard interface* allows you to spread collected information across multiple pages with the - switch_page() - command. This also can be automatized and it will be shown in Section 19.
 
 
 
+-----------------------------------------------------------------
+
+## Creating UI with code
+
+To *Modify the user interface while the app is running* with a separate code section.
+
+The final two most important functions are *uiOutput() and renderUI()*, the technique of creating part of the UI separately in a chunk of code, gives the developer the ability to create and modify the user interface while the app is running.
+
+*uiOutput()* act in the UI part of the app while *renderUI()* act in the server.
+
+
+In addition to the aforementioned function more features are available as a composition of each other and many more, to allow the user for *Multiple controls*, *Dynamic filtering* and *Dialog boxes*.
+
+
+-------------------------------------------------------------------
+Conclusions
+
+The dynamic of the UI can be appreciated by modification of the server. Many compositions of the basic functions would let the user be able to interactively change the output to the desired visualization.
 
 
 
