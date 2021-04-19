@@ -3,14 +3,12 @@
 **Learning objectives:**
 
 - Learn how to **add dynamics to a Shiny app**
-- Updating inputs **how to update your app based on your data**
-- Simple uses **create your app step-by-step**
-- Hierarchical select boxes **using the techniques you learned so far**
-- Freezing reactive inputs
-- Circular references
-- Inter-related inputs
-- Exercises
-- Dynamic visibility
+
+1 - Updating inputs
+2 - Dynamic visibility
+
+
+
 - Conditional UI
 - Wizard interface
 - Exercises
@@ -30,9 +28,11 @@ What is a dynamic user interface?
 
 How to create dynamic user interfaces, changing the UI using code run in the server function,by modifying inputs and outputs.
 
+## First
+
 ### Three key techniques for creating dynamic user interface:
 
-```{r libraries, message=FALSE, warning=FALSE}
+```{r libraries, message=FALSE, warning=FALSE, include=FALSE}
 library(shiny)
 library(dplyr, warn.conflicts = FALSE)
 library(DiagrammeR)
@@ -41,85 +41,16 @@ library(DiagrammeR)
 ---------------------------------------
 
 1 - update functions
+2 - tabsetPanel()
+3 - uiOutput() and renderUI()
 
-```{r intro-graph, echo=FALSE}
+-------------------------------------------
+
+Basic structure Example: 
+
+```{r  echo=FALSE}
 mermaid("
-graph LR
-A[id Input]-->B[update id Input]
-")
-```
-
-
-allows you to modify the control after it has been created
-```{r}
-# [id]Input()
-textInput() # ui
-# update [....] Input()
-updateTextInput() # server
-
-numericInput()
-# update [....] Input()
-updateNumericInput()
-
-#-------------------------------------
-selectInput()
-# update [....] Input()
-updateSelectInput()
-
-sliderInput()
-# update [....] Input()
-updateSliderInput()
-```
-
-- Reset
-to make it easy to reset parameters back to their initial value
-```{r}
-# [id]Input()
-# actionButton()
-
-# observeEvent()
-# update[id]Input()
-
-
-# [id]Input()
-# actionButton()
-
-# observeEvent()
-# updateActionButton()
-```
-
-
-- Hierarchical
-
-table example:
-
-```{r}
-# [id]Input()
-# tableOutput()
-
-# observeEvent()
-# update[id]Input() 
-
-```
-
-- Freezing
-
-updateSelectInput() only has an affect after all outputs and observers have run
-```{r}
-# [id]Input()
-# [some]Output()
-
-# observeEvent()
-# freezeReactiveValue() “freezing” the input
-# update[id]Input() 
-```
-
-
-Structure Example: 
-
-```{r intro-graph, echo=FALSE}
-mermaid("
-graph LR
+graph LR 
 A[User Interface]-->B[Server]
 ")
 ```
@@ -140,38 +71,152 @@ User Interface and Server basic structure:
     
 #    update[id]Input(inputId = ... , ... = input$... )
 #  })  
-  ...
+#  ...
 # }
 ```
 
 
-ex:
+
+-----------------------------------------
+
+### Updating
+
+#### 1 - update functions
+
+```{r intro-graph, echo=FALSE}
+mermaid("
+graph LR
+A[id Input]-->B[update id Input]
+")
+```
+
+
+It allows you to modify the control after it has been created
+```{r}
+# [id]Input()
+# textInput() # ui
+# update [....] Input()
+# updateTextInput() # server
+
+# numericInput()
+# update [....] Input()
+# updateNumericInput()
+
+#-------------------------------------
+# selectInput()
+# update [....] Input()
+# updateSelectInput()
+
+# sliderInput()
+# update [....] Input()
+# updateSliderInput()
+```
+
+- Hierarchical, Freezing and Circular references
+
+The selection of natural hierarchy in the data to create a user interface that allows you to update the input dynamically generated across multiple categories, let's you establish priorities and provides with key features such as "freezing Reactive Inputs" to visually summarize your data. 
+
+The circularity is seen in apps where updating the input, automatically another input is created in function of the first one. In this cases the cycle can create an infinite loop on the current value of an input bringing it to run again and again in circularity.
+
+```{r}
+# [id]Input()
+# tableOutput()
+
+# observeEvent()
+# update[id]Input() 
+```
+
+
+The function - update[id]Input() - only has an affect after all outputs and observers have run, for this reason the freezing function would let you hierarchically updating all your inputs before displaying it.
+
+```{r}
+# [id]Input()
+# [some]Output()
+
+# observeEvent()
+# freezeReactiveValue() “freezing” the input
+# update[id]Input() 
+```
+
+##### How the "Action button" reset the "input"
+
+- Reset button
+
+to make it easy to reset parameters back to their initial value (first simple example)
+
+```{r}
+# [id]Input()
+# actionButton()
+
+# observeEvent()
+# update[id]Input()
+
+
+# [id]Input()
+# actionButton()
+
+# observeEvent()
+# updateActionButton()
+```
+
+A simple use of the "reset" input button is shown in this example: 
+
+Spring temperature generally lasts on average between 19 and 25 C° degree, let's set and average value of 21 C° as "reset" point.
+
 ```{r}
 ui <- fluidPage(
-  numericInput("year", "year", value = 2020),
-  dateInput("date", "date")
+  sliderInput("temperature", "Spring temperature", 21, min = 19, max = 25),
+  actionButton("reset", "Reset")
 )
 
 server <- function(input, output, session) {
-  observeEvent(input$year,{
-   #freezeReactiveValue(input, "date")
-   updateNumericInput(inputId = "year", year = input$year)
+  observeEvent(input$reset,{
+    updateSliderInput(inputId = "temperature", value = 21)
   })
 }
 ```
 
 
+## Second
+
+### To show and hide parts of the UI
+
+
 -----------------------------------------------
 
+### Dynamic visibility
 
-2 - tabsetPanel()
+#### 2 - tabsetPanel()
+
+```{r}
+mermaid("
+graph LR 
+A[tabsetPanel]-->B[updateTabsetPanel]
+")
+```
+
+The Conditional UI allows you to simulate different parameters to be set in the app. The - tabsetPanel() - is update with input requests as a separate section with different types of [id]Input() and then embedded inside a fuller UI.
+
+The Wizard interface allows you to spread collected information across multiple pages with the - switch_page() - command. This also can be automatized and it will be shown in Section 19.
+
 
 ------------------------------------------------
 
-3 - uiOutput() and renderUI()
+#### 3 - uiOutput() and renderUI()
+
+The technique of Creating UI with code gives the developer the ability to create and modify the user interface while the app is running with two functions:
+
+- uiOutput() in the UI part of the app 
+- renderUI() in the server 
 
 
+Multiple controls
 
+Dynamic filtering
+
+Dialog boxes
+
+Summary
 
 
 
