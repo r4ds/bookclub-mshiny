@@ -2,7 +2,11 @@
 
 **Learning objectives:**
 
-Learn how to **add dynamics to a Shiny app**
+Learn how to **add dynamics to a Shiny app** to be able to see interactive changes to potentially automate command funtions for more complex visualizations.
+
+At the end of this chapter you will be able to understand what is a dynamic user interface, and what are the functions to update, hide or make visible and render the changes made interactively from UI to the server output.
+
+------------------------------------------------------
 
 Introduction
 
@@ -14,18 +18,23 @@ Introduction
 
 Conclusions
 
+----------------------------------------------------------
 
 ## Introduction 
 
-This chapter is based on Dynamic UI
+This chapter is based on Dynamic UI and it is meant to address the user interface with updating the server outcome. It is made of three main sections, all of them relating with automated functions able to dynamic change the output passing through parallel commands between the UI and the server.
 
 What is a dynamic user interface?
 
-How to create dynamic user interfaces, changing the UI using code run in the server function,by modifying inputs and outputs.
+How to create dynamic user interfaces?
 
-## First
+Changing the UI using code run in the server function and by modifying inputs and outputs will be possible to see dynamic changes in the app.
 
-### Three key techniques for creating dynamic user interface:
+--------------------------------------------------------------
+
+## Updating inputs
+
+### Three are the key techniques for creating dynamic user interface:
 
 ```{r libraries, message=FALSE, warning=FALSE, include=FALSE}
 library(shiny)
@@ -41,7 +50,9 @@ library(DiagrammeR)
 
 -------------------------------------------
 
-Basic structure Example: 
+In this first part of the Dynamic UI chapter we will see how to pass from a basic structure to a more complicate one adding dynamics to the output of the app, calling "updating functions".
+
+As we know the basic structure of a Shiny app is made of a UI (user interface) and a server.
 
 ```{r  echo=FALSE}
 mermaid("
@@ -51,7 +62,7 @@ A[User Interface]-->B[Server]
 ```
 
 
-User Interface and Server basic structure:
+The first example is the User Interface and Server basic structure for updating  
 ```{r}
 # ui <- fluidPage(
   
