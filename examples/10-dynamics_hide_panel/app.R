@@ -24,25 +24,26 @@ ui <- fluidPage(
                   min = 1,
                   max = 1000),
       
-      selectInput("controller", "Show", choices = c("plot","summary"))
+      selectInput("controller", "Show", "plot",choices = c("plot","summary")),
       
-      
+      actionButton("reset", "Reset")
     ),
     mainPanel(
       tabsetPanel(
         id = "switcher",
         type = "hidden",
         tabPanelBody("plot", "plot",plotOutput("plot")),
-        tabPanelBody("summary", "summary")
+        tabPanelBody("summary", "summary",verbatimTextOutput("summary"))
         
       )
     )
   )
 )
-
+#############################################################################
 server <- function(input, output, session) {
   observeEvent(input$controller, {
     updateTabsetPanel(inputId = "switcher", selected = input$controller)
+    
   })
   
   d <- reactive({
@@ -65,9 +66,17 @@ server <- function(input, output, session) {
          col = "#75AADB", border = "white")
   })
   
+  observeEvent(input$reset,{
+    updateSliderInput(inputId = "controller", value="plot")
+  })
+  
   
   output$summary <- renderPrint({
     summary(d())
+  })
+  
+  observeEvent(input$reset,{
+    updateSliderInput(inputId = "controller", value="plot")
   })
   
 }
