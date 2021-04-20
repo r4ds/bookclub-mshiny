@@ -1,0 +1,353 @@
+# Dynamic UI
+
+**Learning objectives:**
+
+Learn how to **add dynamics to a Shiny app** to be able to see interactive changes to potentially automate command functions for more complex visualizations.
+
+At the end of this chapter, you will be able to understand what is a dynamic user interface, and what are the functions to update, hide or make visible and render the changes made interactively from UI to the server output.
+
+------------------------------------------------------
+
+Introduction
+
+1 - Updating inputs
+
+2 - Dynamic visibility
+
+3 - Creating UI with code
+
+Conclusions
+
+----------------------------------------------------------
+
+## Introduction 
+
+This chapter based on Dynamic UI is made to addressing the user interface by updating the server outcome. Three main sections, all of them relating to automated functions able to dynamically change the output passing through parallel commands between the UI and the server.
+
+What is a dynamic user interface?
+
+How to create dynamic user interfaces?
+
+Changing the UI using code run in the server function and by modifying inputs and outputs will be possible to see dynamic changes in the app.
+
+--------------------------------------------------------------
+
+## Updating inputs
+
+**Three are the key techniques for creating dynamic user interface:**
+
+```{r libraries, message=FALSE, warning=FALSE, include=FALSE}
+library(shiny)
+library(dplyr, warn.conflicts = FALSE)
+library(DiagrammeR)
+```
+
+---------------------------------------
+
+1 - update functions
+
+2 - tabsetPanel()
+
+3 - uiOutput() and renderUI()
+
+-------------------------------------------
+
+In this first part of the Dynamic UI chapter we will see how to pass from a basic structure to a more complicate one adding dynamics to the output of the app, calling "updating functions".
+
+As we know the basic structure of a Shiny app is made of a UI (user interface) and a server.
+
+```{r echo=FALSE}
+mermaid("
+graph LR 
+A[User Interface]-->B[Server]
+")
+```
+
+
+The first example is the User Interface and Server basic structure for updating  
+```{r}
+# ui <- fluidPage(
+  
+#  [id]Input(),
+  
+#  actionButton()
+# )
+
+# server <- function(input, output, session) {
+  
+#  observeEvent(input$... , {
+    
+#    update[id]Input(inputId = ... , ... = input$... )
+#  })  
+#  ...
+# }
+```
+
+
+
+-----------------------------------------
+
+### Update functions
+
+
+```{r , echo=FALSE}
+mermaid("
+graph LR
+A[id Input]-->B[update id Input]
+")
+```
+
+The **Update function** allows you to modify the control after it has been created, with a series of [id]Input and update[id]Input, as shown below:
+
+```{r}
+# [id]Input()
+# textInput() # ui
+# update [....] Input()
+# updateTextInput() # server
+
+# numericInput()
+# update [....] Input()
+# updateNumericInput()
+
+#-------------------------------------
+# selectInput()
+# update [....] Input()
+# updateSelectInput()
+
+# sliderInput()
+# update [....] Input()
+# updateSliderInput()
+```
+
+
+**Hierarchical, Freezing and Circular references**
+
+Other considerations need to be done when requesting the app to updates following an interactive input by the user. For example, the selection of *natural hierarchy* in the data is one of them, and it is important to create a user interface that allows updating the input maintaining stability while dynamically generating changes across multiple categories. 
+
+Other important considerations involve establishing priorities with the application of key features such as *freezing Reactive Inputs*, a provided feature to freeze part of the inputs when expected a series of changes to establish priorities. and visually summarize your data. 
+
+```{r}
+# [id]Input()
+# tableOutput()
+
+# observeEvent()
+# update[id]Input() 
+```
+
+
+The function **update[id]Input()** only affects all outputs and observers that have run, for this reason, the freezing function would let you hierarchically updating all your inputs before displaying it.
+```{r}
+# [id]Input()
+# [some]Output()
+
+# observeEvent()
+# freezeReactiveValue() “freezing” the input
+# update[id]Input() 
+```
+
+The last consideration for this section is *circularity* as seen in many apps when requesting for making simultaneous changes recursively. 
+
+In other words, it is seen in apps were updating the input, automatically another input is created in the function of the first one. In these cases, the cycle can create an infinite loop on the current value of an input bringing it to run again and again in circularity.
+
+
+**How the "Action button" reset the "input"**
+
+The *Reset button* is one of the clearest examples of what it means with dynamic changes. When the user interactively intervenes on the app making a choice then the "reset" button makes it easy to reset the parameters back to their initial value.
+
+```{r}
+# [id]Input()
+# actionButton()
+
+# observeEvent()
+# update[id]Input()
+
+
+# [id]Input()
+# actionButton()
+
+# observeEvent()
+# updateActionButton()
+```
+
+Simple use of the "reset" input button is shown in this example: 
+
+Spring temperature generally lasts on average between 19 and 25 C° degrees, let's set an average value of 21 C° as "reset" point.
+
+```{r}
+ui <- fluidPage(
+  sliderInput("temperature", "Spring temperature", 21, min = 19, max = 25),
+  actionButton("reset", "Reset")
+)
+
+server <- function(input, output, session) {
+  observeEvent(input$reset,{
+    updateSliderInput(inputId = "temperature", value = 21)
+  })
+}
+```
+
+-----------------------------------------------------
+
+## Dynamic visibility
+
+**To show and hide parts of the UI** dynamically and interactively.
+
+-----------------------------------------------------------
+
+The **tabsetPanel()** is the second function for this chapter and it involves the visibility of part of the app.
+
+This second function is made to let the user show and/or hide some of the tabs set in the main panel. It is a technique that allows managing the appearance of the app with selecting visibility of the tabs as shown in - [Tabsets](https://shiny.rstudio.com/articles/layout-guide.html) section of the Shiny.rstudio.com guide website.
+
+```{r echo=FALSE}
+mermaid("
+graph LR 
+A[tabsetPanel]-->B[updateTabsetPanel]
+")
+```
+
+
+To enhance you app with features and the most wanted themes and as an example on how to set the visibility of a tab in your app, you can follow the steps found here:  [Gallery](https://shiny.rstudio.com/gallery/tabsets.html)
+
+As an example her is to show how to switch between panels hiding one panel to show the other with different content.
+
+```{r}
+library(shiny)
+
+##################  switcher ##############################
+
+ui <- fluidPage(
+  sidebarLayout(
+    sidebarPanel(
+      selectInput("controller", "Show", choices = c("plot","summary"))
+    ),
+    mainPanel(
+      tabsetPanel(
+        id = "switcher",
+        type = "hidden",
+        tabPanelBody("plot", "Plot"),
+        tabPanelBody("summary", "Summary")
+        
+      )
+    )
+  )
+)
+
+server <- function(input, output, session) {
+  
+  observeEvent(input$controller, {
+    updateTabsetPanel(inputId = "switcher", selected = input$controller)
+  })
+  
+}
+```
+
+
+Finally, the *Conditional UI* allows you to simulate different parameters to be set in the app. 
+The **tabsetPanel()** is updated with input requests as a separate section with different types of [id]Input() and then embedded inside a fuller UI.
+
+Example of a chunk of code to be integrated in the UI
+```{r}
+parameter_tabs <- tabsetPanel(
+  
+  tabPanel("normal",
+    numericInput("mean", "mean", value = 1)
+  )
+)
+```
+
+
+```{r}
+ui <- fluidPage(
+  sidebarLayout(
+    sidebarPanel(
+      
+      numericInput("n", "Number of samples", value = 100),
+      
+      parameter_tabs, # where to set the chunk of code
+    ),
+    mainPanel(
+      plotOutput("hist")
+    )
+  )
+)
+```
+
+
+There are other options to use to be able to switch among different pages and this can be done creating a *wizard* and the **switch_page()** function, this will be seen in particular in [Chapter 18 - Functions](https://mastering-shiny.org/scaling-functions.html)
+
+-----------------------------------------------------------------
+
+## Creating UI with code
+
+**Create and modify the user interface while the app is running** 
+
+-------------------------------------------------------------------
+
+```{r , echo=FALSE}
+mermaid("
+graph LR
+A[uiOutput]-->B[renderUI]
+")
+```
+
+These last two functions **uiOutput() and renderUI()**, are the functions to apply the technique of rendering the UI by setting the value of the new input to the current value of the existing control, it gives the developer the ability to create and modify the user interface while the app is running.
+
+**uiOutput()** act in the UI part of the app while **renderUI()** act in the server.
+
+
+In this contest the function **isolate()** would be able to select the input see [Section 15.4.1](https://mastering-shiny.org/reactivity-objects.html#isolate)
+
+Final example to show the position of the two functions inside the **UI** and the **Server**:
+```{r}
+##############################################
+
+ui <- fluidPage(
+  selectInput("type", "type", c("slider", "numeric")),
+  
+  uiOutput("numeric")
+)
+
+###############################################
+server <- function(input, output, session) {
+  
+  output$numeric <- renderUI({
+    
+    if (input$type == "slider") {
+      sliderInput("n", "n", value = 0, min = 0, max = 100)
+    } else {
+      numericInput("n", "n", value = 0, min = 0, max = 100)  
+    }
+  })
+}
+####################################
+```
+
+
+In addition to the aforementioned functions more features are available as a composition of each other and many more, to allow the user for *Multiple controls*, *Dynamic filtering* and *Dialog boxes*.
+
+
+-------------------------------------------------------------------
+
+## Conclusions
+
+The dynamic of the UI can be appreciated by modification of the server. Many compositions of the basic functions would let the user be able to interactively change the output to the desired visualization.
+
+
+----------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
