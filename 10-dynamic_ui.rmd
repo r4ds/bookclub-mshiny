@@ -206,107 +206,124 @@ A[tabsetPanel]-->B[updateTabsetPanel]
 ```
 
 
-In addition to **{shiny}** package you can use:
-```{r message=FALSE, warning=FALSE}
-library(shinyWidgets)
-library(shinydashboard)
-library(shinythemes)
-```
+To enhance you app with features and the most wanted themes and as an example on how to set the visibility of a tab in your app, you can follow the steps found here:  [Gallery](https://shiny.rstudio.com/gallery/tabsets.html)
 
-to enhance you app with features and the most wanted themes.
-
-As an example on how to set the visibility of a tab in your app, you can follow the steps found here:  [Gallery](https://shiny.rstudio.com/gallery/tabsets.html)
+As an example her is to show how to switch between panels hiding one panel to show the other with different content.
 
 ```{r}
 library(shiny)
 
-##################  USER INTERFACE ##############################
+##################  switcher ##############################
+
 ui <- fluidPage(
-  # Panel title
-  titlePanel("App Statistics"),
   sidebarLayout(
     sidebarPanel(
-      selectInput("controller", "Show", choices = c("plot","summary")),
-      radioButtons("dist", "Distribution type:",
-                   c("Normal" = "norm",
-                     "Uniform" = "unif",
-                     "Log-normal" = "lnorm",
-                     "Exponential" = "exp")),
-      
-      br(), # to add vertical spacing
-      sliderInput("n",
-                  "Number of observations:",
-                  value = 500,
-                  min = 1,
-                  max = 1000)
+      selectInput("controller", "Show", choices = c("plot","summary"))
     ),
     mainPanel(
-      # The "tabsetPanel()" sets the tabs, the titles and the output 
       tabsetPanel(
-        id="switcher",
+        id = "switcher",
         type = "hidden",
-        tabPanel("Plot", plotOutput("plot")),
-        tabPanel("Summary", verbatimTextOutput("summary"))
+        tabPanelBody("plot", "Plot"),
+        tabPanelBody("summary", "Summary")
+        
       )
     )
   )
 )
 
-
-server <- function(input, output,session) {
-      d <- reactive({
-      dist <- switch(input$dist,
-                     norm = rnorm,
-                     unif = runif,
-                     lnorm = rlnorm,
-                     exp = rexp,
-                     rnorm)
-      
-      dist(input$n)
-    })
-      
-      observeEvent(input$controller, {
-        # 
-        updateTabsetPanel(inputId = "switcher", selected = input$controller)
-      })
+server <- function(input, output, session) {
   
-  output$plot <- renderPlot({
-    dist <- input$dist
-    n <- input$n
-    
-    hist(d(),
-         main = paste("r", dist, "(", n, ")", sep = ""),
-         col = "navy", border = "white")
+  observeEvent(input$controller, {
+    updateTabsetPanel(inputId = "switcher", selected = input$controller)
   })
-  output$summary <- renderPrint({
-    summary(d())
-  })
+  
 }
-
 ```
 
 
 Finally, the *Conditional UI* allows you to simulate different parameters to be set in the app. 
-The - tabsetPanel() - is updated with input requests as a separate section with different types of [id]Input() and then embedded inside a fuller UI.
+The **tabsetPanel()** is updated with input requests as a separate section with different types of [id]Input() and then embedded inside a fuller UI.
 
-The *Wizard interface* allows you to spread collected information across multiple pages with the - switch_page() - command. This also can be automatized and it will be shown in Section 19.
+Example of a chunk of code to be integrated in the UI
+```{r}
+parameter_tabs <- tabsetPanel(
+  
+  tabPanel("normal",
+    numericInput("mean", "mean", value = 1)
+  )
+)
+```
 
 
+```{r}
+ui <- fluidPage(
+  sidebarLayout(
+    sidebarPanel(
+      
+      numericInput("n", "Number of samples", value = 100),
+      
+      parameter_tabs, # where to set the chunk of code
+    ),
+    mainPanel(
+      plotOutput("hist")
+    )
+  )
+)
+```
+
+
+There are other options to use to be able to switch among different pages and this can be done creating a *wizard* and the **switch_page()** function, this will be seen in particular in [Chapter 18 - Functions](https://mastering-shiny.org/scaling-functions.html)
 
 -----------------------------------------------------------------
 
 ## Creating UI with code
 
-**Modify the user interface while the app is running** with a separate code section.
+**Create and modify the user interface while the app is running** 
 
 -------------------------------------------------------------------
 
-The final two most important functions are **uiOutput() and renderUI()**, the technique of creating part of the UI separately in a chunk of code, gives the developer the ability to create and modify the user interface while the app is running.
+```{r , echo=FALSE}
+mermaid("
+graph LR
+A[uiOutput]-->B[renderUI]
+")
+```
+
+These last two functions **uiOutput() and renderUI()**, are the functions to apply the technique of rendering the UI by setting the value of the new input to the current value of the existing control, it gives the developer the ability to create and modify the user interface while the app is running.
 
 **uiOutput()** act in the UI part of the app while **renderUI()** act in the server.
 
 
-In addition to the aforementioned function more features are available as a composition of each other and many more, to allow the user for *Multiple controls*, *Dynamic filtering* and *Dialog boxes*.
+In this contest the function **isolate()** would be able to select the input see [Section 15.4.1](https://mastering-shiny.org/reactivity-objects.html#isolate)
+
+Final example to show the position of the two functions inside the **UI** and the **Server**:
+```{r}
+##############################################
+
+ui <- fluidPage(
+  selectInput("type", "type", c("slider", "numeric")),
+  
+  uiOutput("numeric")
+)
+
+###############################################
+server <- function(input, output, session) {
+  
+  output$numeric <- renderUI({
+    
+    if (input$type == "slider") {
+      sliderInput("n", "n", value = 0, min = 0, max = 100)
+    } else {
+      numericInput("n", "n", value = 0, min = 0, max = 100)  
+    }
+  })
+}
+####################################
+```
+
+
+In addition to the aforementioned functions more features are available as a composition of each other and many more, to allow the user for *Multiple controls*, *Dynamic filtering* and *Dialog boxes*.
 
 
 -------------------------------------------------------------------
