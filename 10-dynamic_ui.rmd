@@ -22,13 +22,13 @@ Conclusions
 
 ## Introduction 
 
-This chapter based on Dynamic UI is made to addressing the user interface by updating the server outcome. Three main sections, all of them relating to automated functions able to dynamically change the output passing through parallel commands between the UI and the server.
+This chapter based on Dynamic UI is made to addressing the user interface by updating the server outcome. There are three main sections, all of them relating to automated functions, able to dynamically change the output passing through parallel commands between the UI and the Server.
 
-What is a dynamic user interface?
+**What is a dynamic user interface?**
 
-How to create dynamic user interfaces?
+**How to create dynamic user interfaces?**
 
-Changing the UI using code run in the server function and by modifying inputs and outputs will be possible to see dynamic changes in the app.
+One way to do this is changing the UI using *code run* in the Server function, and by modifying inputs and outputs to see dynamic changes in the app.
 
 --------------------------------------------------------------
 
@@ -52,9 +52,9 @@ library(DiagrammeR)
 
 -------------------------------------------
 
-In this first part of the Dynamic UI chapter we will see how to pass from a basic structure to a more complicate one adding dynamics to the output of the app, calling "updating functions".
+In this first part of the Dynamic UI chapter we will see how to pass from a basic structure to a more complicate one by adding dynamics to the output of the app, calling the "updating functions".
 
-As we know the basic structure of a Shiny app is made of a UI (user interface) and a server.
+As we know the basic structure of a Shiny app is made of a **UI** (user interface) and a **Server**.
 
 ```{r echo=FALSE}
 mermaid("
@@ -64,23 +64,26 @@ A[User Interface]-->B[Server]
 ```
 
 
-The first example is the User Interface and Server basic structure for updating  
+The first example is the User Interface and Server basic structure for updating the app.  
 ```{r}
+############################################
 # ui <- fluidPage(
   
-#  [id]Input(),
+#            [id]Input(),
   
-#  actionButton()
-# )
+#            actionButton()
+#       )
+ 
+#############################################
 
 # server <- function(input, output, session) {
   
-#  observeEvent(input$... , {
+#           observeEvent(input$... , {
     
-#    update[id]Input(inputId = ... , ... = input$... )
-#  })  
-#  ...
-# }
+#           update[id]Input(inputId = ... , ... = input$... )
+#           })  
+#           ...
+#         }
 ```
 
 
@@ -97,7 +100,7 @@ A[id Input]-->B[update id Input]
 ")
 ```
 
-The **Update function** allows you to modify the control after it has been created, with a series of [id]Input and update[id]Input, as shown below:
+The **Update function** allows you to modify the control after it has been created with a series of **[id]Input** and **update[id]Input**, as shown below:
 
 ```{r}
 # [id]Input()
@@ -122,9 +125,11 @@ The **Update function** allows you to modify the control after it has been creat
 
 **Hierarchical, Freezing and Circular references**
 
-Other considerations need to be done when requesting the app to updates following an interactive input by the user. For example, the selection of *natural hierarchy* in the data is one of them, and it is important to create a user interface that allows updating the input maintaining stability while dynamically generating changes across multiple categories. 
+Other considerations need to be done when requesting the app to update following an interactive input request made by the user. 
 
-Other important considerations involve establishing priorities with the application of key features such as *freezing Reactive Inputs*, a provided feature to freeze part of the inputs when expected a series of changes to establish priorities. and visually summarize your data. 
+For example, the selection of *natural hierarchy* in the data is one of them, and it is important to create a user interface that allows updating the input maintaining stability while dynamically generating changes across multiple categories. 
+
+Further considerations involve establishing priorities with the application of key features such as *freezing Reactive Inputs*, a provided feature to freeze part of the inputs when expected a series of changes and so for establishing priorities and visually summarize data correctly.
 
 ```{r}
 # [id]Input()
@@ -145,14 +150,16 @@ The function **update[id]Input()** only affects all outputs and observers that h
 # update[id]Input() 
 ```
 
-The last consideration for this section is *circularity* as seen in many apps when requesting for making simultaneous changes recursively. 
+The last consideration for this section is to *circularity* as seen in many apps, it is created when requested for making simultaneous changes recursively. 
 
-In other words, it is seen in apps were updating the input, automatically another input is created in the function of the first one. In these cases, the cycle can create an infinite loop on the current value of an input bringing it to run again and again in circularity.
+In other words, it is seen in apps when updating the input, automatically another input is created in the function of the first one. Under this condition, the cycle can create an recursive loop on the current value of the input bringing it to run again and again in circularity.
 
 
-**How the "Action button" reset the "input"**
+**How the "Action button" reset the input**
 
-The *Reset button* is one of the clearest examples of what it means with dynamic changes. When the user interactively intervenes on the app making a choice then the "reset" button makes it easy to reset the parameters back to their initial value.
+A simple example of the use of this command is the *Reset button*. It is one of the clearest examples of what is meant with making dynamic changes. 
+
+When the user interactively intervenes on the app making a choice, then the "reset" button makes it easy to reset the parameters back to their initial value.
 
 ```{r}
 # [id]Input()
@@ -169,9 +176,9 @@ The *Reset button* is one of the clearest examples of what it means with dynamic
 # updateActionButton()
 ```
 
-Simple use of the "reset" input button is shown in this example: 
+A simple use of the *reset input button* is shown in this example: 
 
-Spring temperature generally lasts on average between 19 and 25 C° degrees, let's set an average value of 21 C° as "reset" point.
+Spring temperature generally varies on average between 19 and 25 C° degrees, let's set an average value of 21 C° as *reset* point.
 
 ```{r}
 ui <- fluidPage(
@@ -196,7 +203,7 @@ server <- function(input, output, session) {
 
 The **tabsetPanel()** is the second function for this chapter and it involves the visibility of part of the app.
 
-This second function is made to let the user show and/or hide some of the tabs set in the main panel. It is a technique that allows managing the appearance of the app with selecting visibility of the tabs as shown in - [Tabsets](https://shiny.rstudio.com/articles/layout-guide.html) section of the Shiny.rstudio.com guide website.
+This second function is made to let the user show and/or hide some of the tabs set in the main panel. It is a technique that allows managing the appearance of the app with selecting visibility of the tabs as shown in the [Tabsets](https://shiny.rstudio.com/articles/layout-guide.html) section of the **Shiny.rstudio.com** guide's page of the website.
 
 ```{r echo=FALSE}
 mermaid("
@@ -206,9 +213,9 @@ A[tabsetPanel]-->B[updateTabsetPanel]
 ```
 
 
-To enhance you app with features and the most wanted themes and as an example on how to set the visibility of a tab in your app, you can follow the steps found here:  [Gallery](https://shiny.rstudio.com/gallery/tabsets.html)
+To enhance your **app** with features and the most wanted themes and as an example on how to set the visibility of a tab in your app, you can follow the steps found here:  [Gallery](https://shiny.rstudio.com/gallery/tabsets.html)
 
-As an example her is to show how to switch between panels hiding one panel to show the other with different content.
+As an example here is shown how to switch between panels hiding one panel and showing the other with different content.
 
 ```{r}
 library(shiny)
@@ -242,10 +249,10 @@ server <- function(input, output, session) {
 ```
 
 
-Finally, the *Conditional UI* allows you to simulate different parameters to be set in the app. 
-The **tabsetPanel()** is updated with input requests as a separate section with different types of [id]Input() and then embedded inside a fuller UI.
+Finally, the technique of the *Conditional UI* allows you to simulate different parameters to be set in the app. 
+The **tabsetPanel()** is updated with input requests as a separate section with different types of **[id]Input()** and then embedded inside a fuller UI.
 
-Example of a chunk of code to be integrated in the UI
+Example of a chunk of code to be integrated in the UI:
 ```{r}
 parameter_tabs <- tabsetPanel(
   
@@ -273,7 +280,7 @@ ui <- fluidPage(
 ```
 
 
-There are other options to use to be able to switch among different pages and this can be done creating a *wizard* and the **switch_page()** function, this will be seen in particular in [Chapter 18 - Functions](https://mastering-shiny.org/scaling-functions.html)
+There are other options to use to be able to switch among different pages, an example of this is creating a *wizard* and using the **switch_page()** function, this will be shown in [Chapter 18 - Functions](https://mastering-shiny.org/scaling-functions.html) as said in the book.
 
 -----------------------------------------------------------------
 
@@ -290,12 +297,13 @@ A[uiOutput]-->B[renderUI]
 ")
 ```
 
-These last two functions **uiOutput() and renderUI()**, are the functions to apply the technique of rendering the UI by setting the value of the new input to the current value of the existing control, it gives the developer the ability to create and modify the user interface while the app is running.
+The last two functions **uiOutput()** and **renderUI()**, are for applying the technique of rendering the UI by setting the value of the new input to the current value of the existing control. 
 
-**uiOutput()** act in the UI part of the app while **renderUI()** act in the server.
+This technique gives the developer the ability to create and modify the user interface while the app is running.
 
+**uiOutput()** act in the UI part of the app while **renderUI()** act in the Server.
 
-In this contest the function **isolate()** would be able to select the input see [Section 15.4.1](https://mastering-shiny.org/reactivity-objects.html#isolate)
+In this contest the function **isolate()** would be able to do this isolating a particular input, for more info see: [Section 15.4.1](https://mastering-shiny.org/reactivity-objects.html#isolate)
 
 Final example to show the position of the two functions inside the **UI** and the **Server**:
 ```{r}
@@ -330,7 +338,7 @@ In addition to the aforementioned functions more features are available as a com
 
 ## Conclusions
 
-The dynamic of the UI can be appreciated by modification of the server. Many compositions of the basic functions would let the user be able to interactively change the output to the desired visualization.
+The dynamic of the UI can be appreciated by modification of the Server. Many compositions of the basic functions would let the user be able to interactively change the output to the desired visualization.
 
 
 ----------------------------------------------------------------------
