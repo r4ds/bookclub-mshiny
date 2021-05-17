@@ -26,7 +26,11 @@ If you would like to present, please add your name next to a chapter using the [
 - 2021-04-27: Chapter 11: _Bookmarking_: Layla Bouzoubaa
 - 2021-05-04: Chapter 9: _Uploads and Downloads_: Andrew Bates
 - 2021-05-11: Chapter 12: _Tidy evaluation_: Robert Overman
-- 2021-05-18: Interlude - details soon!
+- 2021-05-18: Interlude - Q&A with Shiny Expert: Colin Fay
+- 2021-05-25: Chapter 13: _Why reactivity?_: Andrew Bates
+- 2021-06-01: Chapter 14: _The reactive graph_: Presenter TBA
+- 2021-06-08: Chapter 15: _Reactive building blocks_: Russ Hyde
+- 2021-06-15: Chapter 16: _Escaping the graph_: Presenter TBA
 
 ## How to Present
 
