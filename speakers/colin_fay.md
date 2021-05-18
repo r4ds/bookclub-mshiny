@@ -35,7 +35,15 @@ doesn't quite fit).
 
 ### Development
 
+- For non-work applications, where do ideas for a new application come from?
+- Are there any tools other than RStudio you use when developing a Shiny application? (e.g. VS Code + extensions)
+
 ### Debugging and Testing
+
+- How do you go about debugging a Shiny application? 
+    - Where do you start? 
+    - How do you decide if you should look at the R UI, R server, JavaScript, etc.?
+- Are there any Shiny specific tools that can help with debugging?
 
 ### Deployment
 
@@ -55,6 +63,15 @@ doesn't quite fit).
 
 ### Suggestions for further study after "Mastering Shiny"
 
+- Do you have any suggestions for improving our Shiny skills after this book club?
+
 ### General R
 
+### General Shiny
+
+- Is there anything about Shiny that you think can be improved?
+- Is there anything you would like to see brought into the Shiny ecosystem? (e.g. new UI framework, JS library)
+
 ### The R Community
+
+- Who do you recommend following in the Shiny community?
