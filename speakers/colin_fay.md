@@ -31,12 +31,21 @@ It was discussed that if we had a Q&A then we should prepare some questions befo
 (add any questions in an appropriate subsection, or add a new subsection if your question
 doesn't quite fit).
 
+### Colin's Career
+
+- Shiny was released in 2012
+  - Were you working with R at the time
+  - Did you have experience building web applications before working with shiny?
+
 ### Notable Shiny Apps
 
 ### Development
 
 - For non-work applications, where do ideas for a new application come from?
 - Are there any tools other than RStudio you use when developing a Shiny application? (e.g. VS Code + extensions)
+- In your book, 'modules' are introduced really early on (and we haven't yet studied modules in the bookclub)
+  - when splitting an app up into modules, how does the thought process differ from splitting up a script into functions/classes
+  - what determines where to separate modules: the data, the behaviour or the UI
 
 ### Debugging and Testing
 
@@ -51,7 +60,24 @@ doesn't quite fit).
 
 ### The "Reactive" Mindset
 
+- Tips for understanding reactivity? This appears one of the big challenges in Shiny dev
+- Do you draw a lot of pictures to understand reactivity?
+
 ### Shiny compared to other web frameworks
+
+- When Shiny was released
+ - Was it obvious that it would be of value within the R community?
+ - What were the typical ways to release (R-based) analysis results to clients
+
+- What are the alternatives to Shiny for interactive data-apps now?
+ - Within R?
+ - Beyond R?
+
+- I often hear R dismised as "Not production ready"
+ - What does "production ready" mean wrt a framework or language
+ - What features is R or Shiny missing that would make it "production ready"
+
+- Where are Shiny's strengths relative to alternative frameworks / languages
 
 ### Shiny compared to Rmarkdown
 
@@ -59,7 +85,15 @@ doesn't quite fit).
 
 ### Contents of "Mastering Shiny"
 
+- The book has recently been printed, how does the current version differ from the version you originally reviewed
+
 ### Golem and "Engineering-Shiny"
+
+- How does you book complement Mastering Shiny
+
+- Tell us about Golem: why you wrote it, and what value it brings
+
+- Is Golem useful even for small apps / teams?
 
 ### Suggestions for further study after "Mastering Shiny"
 
