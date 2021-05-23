@@ -13,24 +13,36 @@ If you would like to present, please add your name next to a chapter using the [
 
 *Cohort 1: (starts 2021-02-16) - Tuesdays, 12pm EST/EDT*
 
-- 2021-02-16: Chapter 1: _Your First Shiny App_: Jerome Ahye
-- 2021-02-23: Chapter 2: _Basic UI_: Matt Curcio
-- 2021-03-02: Chapter 3: _Basic Reactivity_: Priyanka
-- 2021-03-09: Chapter 4: _Case Study: ER injuries_: David Heß
-- 2021-03-16: Chapter 5: _Workflow_: Shamsudeen
-- 2021-03-23: Chapter 6: _Layout, themes, HTML_: Russ Hyde
-- 2021-03-30: _Cancelled_
-- 2021-04-06: Chapter 8: _User Feedback_: Anne Hoffrichter
-- 2021-04-13: Chapter 7: _Graphics_: Jessica Mukiri
-- 2021-04-20: Chapter 10: _Dynamic UI_: Federica Gazzelloni
-- 2021-04-27: Chapter 11: _Bookmarking_: Layla Bouzoubaa
-- 2021-05-04: Chapter 9: _Uploads and Downloads_: Andrew Bates
-- 2021-05-11: Chapter 12: _Tidy evaluation_: Robert Overman
-- 2021-05-18: Interlude - Q&A with Shiny Expert: Colin Fay
-- 2021-05-25: Chapter 13: _Why reactivity?_: Andrew Bates
-- 2021-06-01: Chapter 14: _The reactive graph_: Presenter TBA
-- 2021-06-08: Chapter 15: _Reactive building blocks_: Russ Hyde
-- 2021-06-15: Chapter 16: _Escaping the graph_: Presenter TBA
+- Part 1 (Getting started)
+  - 2021-02-16: Chapter 1: _Your First Shiny App_: Jerome Ahye
+  - 2021-02-23: Chapter 2: _Basic UI_: Matt Curcio
+  - 2021-03-02: Chapter 3: _Basic Reactivity_: Priyanka
+  - 2021-03-09: Chapter 4: _Case Study: ER injuries_: David Heß
+- Part 2 (Shiny in action)
+  - 2021-03-16: Chapter 5: _Workflow_: Shamsudeen
+  - 2021-03-23: Chapter 6: _Layout, themes, HTML_: Russ Hyde
+  - 2021-03-30: _Cancelled_
+  - 2021-04-06: Chapter 8: _User Feedback_: Anne Hoffrichter
+  - 2021-04-13: Chapter 7: _Graphics_: Jessica Mukiri
+  - 2021-04-20: Chapter 10: _Dynamic UI_: Federica Gazzelloni
+  - 2021-04-27: Chapter 11: _Bookmarking_: Layla Bouzoubaa
+  - 2021-05-04: Chapter 9: _Uploads and Downloads_: Andrew Bates
+  - 2021-05-11: Chapter 12: _Tidy evaluation_: Robert Overman
+  - 2021-05-18: Interlude - Q&A with Shiny Expert: Colin Fay
+- Part 3 (Mastering reactivity)
+  - 2021-05-25: Chapter 13: _Why reactivity?_: Andrew Bates
+  - 2021-06-01: Chapter 14: _The reactive graph_: Diamantis Sellis
+  - 2021-06-08: Chapter 15: _Reactive building blocks_: Russ Hyde
+  - 2021-06-15: Chapter 16: _Escaping the graph_: Presenter TBA
+- Part 4 (Best practices)
+  - 2021-06-22: Chapter 17: _General guidelines_: Presenter TBA
+  - 2021-06-29: Chapter 18: _Functions_: Presenter TBA
+  - 2021-07-06: Chapter 19: _Shiny modules_: Andrew MacDonald
+  - 2021-07-13: Chapter 20: _Packages_: Presenter TBA
+  - 2021-07-20: Chapter 21: _Testing_: Presenter TBA
+  - 2021-07-27: Chapter 22: _Security_: Presenter TBA
+  - 2021-08-03: Chapter 23: _Performance_: Presenter TBA
+  - 2021-08-10: Roundup
 
 ## How to Present
 
