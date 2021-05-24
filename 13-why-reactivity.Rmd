@@ -1,0 +1,187 @@
+# Why reactivity?
+
+This chapter starts a new section of the book focused on reactivity.
+Yes, we have already learned about reactivity in earlier chapters.
+But in this section, we shift from an intuitive understanding based on applying
+ reactivity to a formal understanding of the underlying theory.
+This chapter focuses on what reactivity, or reactive programming, is and why
+ it is used in Shiny.
+ 
+## Introduction
+
+- Shiny is "magic"
+- specifically, it is "good" magic
+- Shiny magic = "simple concepts combined in consistent ways" (vs. heuristics
+ and special cases)
+ 
+## Why do we need reactive programming?
+ 
+What is reactive programming?
+ 
+ - "focuses on values that change over time, and calculations and actions that
+  depend on those values"
+- ([Wikipedia](https://en.wikipedia.org/wiki/Reactive_programming)) "... 
+ reactive programming is ... concerned with data streams and the 
+ **propagation of changes** (emphasis mine).
+ 
+Why reactive programming in Shiny?
+
+- Shiny applications are interactive
+- need something dynamic, unlike most R code
+- want inputs & outputs to stay in sync, while minimizing computation
+  - outputs and reactive expressions change _if and only if_ their inputs change
+- reactive programming -> **automatic** updating/propagation of **necessary**
+ changes
+
+### Why can't you use variables?
+
+- reactive programming: values that change over time.
+- don't variables change over time?
+- variables don't update automatically -> no good
+
+```{r why-not-variables, eval = FALSE}
+temp_c <- 10
+temp_f <- (temp_c * 9 / 5) + 32
+temp_f
+#> [1] 50
+
+temp_c <- 30
+
+# temp_f not automatically updated
+temp_f
+#> [1] 50
+```
+
+
+
+### Why about functions?
+
+- solves automatic updating problem
+- doesn't solve necessary computation problem
+
+```{r what-about-functions, eval = FALSE}
+temp_c <- 10
+temp_f <- function() {
+  message("Converting") 
+  (temp_c * 9 / 5) + 32
+}
+temp_f()
+#> Converting
+#> [1] 50
+
+# temp_f automatically updated
+temp_c <- -3
+temp_f() 
+#> Converting
+#> [1] 26.6
+
+# but does unnecessary computation (recomputes every time it's called)
+temp_f() 
+#> Converting
+#> [1] 26.6
+```
+
+
+### Event-driven programming
+
+- before, Shiny would probably have used event-driven programming
+  - callback functions that run in response to events
+  - Ex: when button clicked, run function to process order
+- can implement with R6 classes in R
+
+```{r event-driven-programming-class-def, eval = FALSE}
+DynamicValue <- R6::R6Class("DynamicValue", list(
+  value = NULL,
+  on_update = NULL,
+  
+  get = function() self$value,
+
+  set = function(value) {
+    self$value <- value
+    if (!is.null(self$on_update)) 
+      self$on_update(value)
+    invisible(self)
+  },
+  
+  onUpdate = function(on_update) {
+    self$on_update <- on_update
+    invisible(self)
+  }
+))
+```
+
+
+```{r event-driven-programming-class-usage, eval = FALSE}
+temp_c <- DynamicValue$new()
+temp_c$onUpdate(function(value) {
+  message("Converting") 
+  temp_f <<- (value * 9 / 5) + 32
+})
+
+temp_c$set(10)
+#> Converting
+temp_f
+#> [1] 50
+
+temp_c$set(-3)
+#> Converting
+temp_f
+#> [1] 26.6
+```
+
+
+- event-driven programming solves problem of unnecessary computation
+- but introduces a new problem
+  - very carefully track which inputs affect which computations
+  - hard to balance correctness vs. performance
+  
+## Reactive programming
+
+Reactive programming combines features of solutions we've seen so far.
+
+```{r reactive-programming, eval = FALSE}
+library(shiny)
+reactiveConsole(TRUE) # let's us use reactivity in console
+
+temp_c <- reactiveVal(10) # create
+temp_c()                  # get
+#> [1] 10
+temp_c(20)                # set
+temp_c()                  # get
+#> [1] 20
+
+
+temp_f <- reactive({
+  message("Converting") 
+  (temp_c() * 9 / 5) + 32
+})
+temp_f()
+#> Converting
+#> [1] 68
+
+# temp_f automatically updates
+temp_c(-10)
+temp_f()
+#> Converting
+#> [1] 14
+
+# _and_ only computes when needed (don't see "Converting")
+temp_f()
+#> [1] 14
+```
+
+
+2 important properties of reactive expressions
+
+- **lazy**. only does work when it's called
+- **cached**. saves last result -> only does work on first call
+
+## A brief history of reactive programming
+
+- spreadsheets! (VisCalc, 1979)
+- not really studied academically until late 1990s
+- 2010s -> mainstream
+  - JavaScript UI frameworks: Knockout, Ember, Meteor
+  - now: React, Vue, Angular
+- "reactive programming" is a general term. a lot of variablility in 
+ implementations and terminology
