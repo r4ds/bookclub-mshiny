@@ -9,6 +9,7 @@ jobs:
   bookdown:
     name: Render-Book
     runs-on: macOS-latest
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
     steps:
       - uses: actions/checkout@v2
       
@@ -27,7 +28,7 @@ jobs:
         with:
           path: ${{ env.R_LIBS_USER }}
           key: r4ds_bookclub-${{ hashFiles('DESCRIPTION') }}-${{ hashFiles('r-depends.rds') }}
-          restore-keys: r4ds_bookclub-${{ hashFiles('DESCRIPTION') }}
+          restore-keys: r4ds_bookclub-
 
       - name: Install dependencies
         run: |
