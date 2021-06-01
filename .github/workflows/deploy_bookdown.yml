@@ -14,13 +14,14 @@ jobs:
       - uses: r-lib/actions/setup-r@v1
         with: 
           r-version: '4.0.5'
+          
       - uses: r-lib/actions/setup-pandoc@v1
       - name: Cache R packages
         uses: actions/cache@v1
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: r-6-${{ hashFiles('DESCRIPTION') }}
-          restore-keys: r-6-
+          key: r4ds_book-${{ hashFiles('DESCRIPTION') }}
+          restore-keys: r4ds_book-
 
       - name: Install pak
         run: |
