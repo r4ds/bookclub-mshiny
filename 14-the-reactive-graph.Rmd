@@ -1,0 +1,98 @@
+# The reactive graph
+
+This chapter gives an overview of the reactive graph and explains how reactive components are linked to each other.
+
+## Quick review of chapter 3 Basic reactivity
+
+ - Imperative (most of R) vs declarative (shiny)
+ - Lazyness, only do what is necessary but could be difficult to debug
+ - The reactive graph notation:  ![](https://d33wubrfki0l68.cloudfront.net/6966978d8dc9ac65a0dfc6ec46ff05cfeef541e2/fdc7f/diagrams/basic-reactivity/graph-2b.png)
+ - Execution order is not top to bottom but determined by the reactive graph
+ - Reactive expressions with `reactive()`
+ - Observers with `observeEvent()`
+
+
+## Introduction
+
+We begin with a simple example:
+
+```{r, reactive-example, eval=FALSE}
+ui <- fluidPage(
+  numericInput("a", "a", value = 10),
+  numericInput("b", "b", value = 1),
+  numericInput("c", "c", value = 1),
+  plotOutput("x"),
+  tableOutput("y"),
+  textOutput("z")
+)
+
+server <- function(input, output, session) {
+  rng <- reactive(input$a * 2)
+  smp <- reactive(sample(rng(), input$b, replace = TRUE))
+  bc <- reactive(input$b * input$c)
+  
+  output$x <- renderPlot(hist(smp()))
+  output$y <- renderTable(max(smp()))
+  output$z <- renderText(bc())
+}
+```
+
+![](https://d33wubrfki0l68.cloudfront.net/9f65da9e6e5066eb409030bd85c465aa0c787e0c/7fce6/diagrams/reactivity-tracking/08.png)
+
+## An example
+
+- [example from book](https://mastering-shiny.org/reactive-graph.html#a-session-begins)
+- [example from reactlog](https://rstudio.github.io/reactlog/articles/reactlog.html#reactivity)
+
+## Excercises
+
+[excercises in book](https://mastering-shiny.org/reactive-graph.html#exercises-12)
+
+1.  Starting state is invalidated
+
+2.  x1 = 1sec, x2 = 1sec, x3 = 2sec
+
+3.  [recursion](https://i.redd.it/qlqb8ch1sdg11.jpg)
+
+## Dynamism
+
+```{r, eval=FALSE}
+ui <- fluidPage(
+  selectInput("choice", "A or B?", c("a", "b")),
+  numericInput("a", "a", 0),
+  numericInput("b", "b", 10),
+  textOutput("out")
+)
+
+server <- function(input, output, session) {
+  output$out <- renderText({
+  # different reactive dependencies
+  # a <- input$a
+  # b <- input$b
+    if (input$choice == "a") {
+      input$a
+    } else {
+      input$b
+    }
+  }) 
+}
+```
+
+
+## The reactlog package
+
+
+```{r, eval=FALSE}
+reactlog::reactlog_enable()
+shiny::runApp("examples/14-the-reactive-graph/app.R")
+```
+
+Ctrl+F3 or Cmd+F3
+
+## Summary
+
+Key concepts that were covered in the chapter:
+
+- How the reactive graph operates
+- Invalidation cycle
+- reactlog package
