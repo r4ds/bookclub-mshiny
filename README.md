@@ -36,7 +36,7 @@ If you would like to present, please add your name next to a chapter using the [
   - 2021-06-15: Chapter 16: _Escaping the graph_: Presenter TBA
 - Part 4 (Best practices)
   - 2021-06-22: Chapter 17: _General guidelines_: Presenter TBA
-  - 2021-06-29: Chapter 18: _Functions_: Presenter TBA
+  - 2021-06-29: Chapter 18: _Functions_: Layla Bouzoubaa
   - 2021-07-06: Chapter 19: _Shiny modules_: Andrew MacDonald
   - 2021-07-13: Chapter 20: _Packages_: Presenter TBA
   - 2021-07-20: Chapter 21: _Testing_: Presenter TBA
