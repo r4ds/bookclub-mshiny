@@ -33,7 +33,7 @@ If you would like to present, please add your name next to a chapter using the [
   - 2021-05-25: Chapter 13: _Why reactivity?_: Andrew Bates
   - 2021-06-01: Chapter 14: _The reactive graph_: Diamantis Sellis
   - 2021-06-08: Chapter 15: _Reactive building blocks_: Russ Hyde
-  - 2021-06-15: Chapter 16: _Escaping the graph_: Presenter TBA
+  - 2021-06-15: Chapter 16: _Escaping the graph_: Federica Gazzelloni
 - Part 4 (Best practices)
   - 2021-06-22: Chapter 17: _General guidelines_: Presenter TBA
   - 2021-06-29: Chapter 18: _Functions_: Layla Bouzoubaa
