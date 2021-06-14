@@ -36,7 +36,7 @@ One way to do this is changing the UI using *code run* in the Server function, a
 
 **Three are the key techniques for creating dynamic user interface:**
 
-```{r libraries, message=FALSE, warning=FALSE, include=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 library(shiny)
 library(dplyr, warn.conflicts = FALSE)
 library(DiagrammeR)
