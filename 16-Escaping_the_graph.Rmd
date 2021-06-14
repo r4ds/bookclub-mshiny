@@ -29,7 +29,7 @@ This chapter based on **Escaping the graph** is made to addressing the reactive 
 To recap: Reactive programming is used to specify a graph of dependencies so that when an input changes, all related outputs are automatically updated. The reactive graph describes how inputs and outputs are connected, it is a powerful tool for understanding how your app works, and it’s useful to sketch the dependencies in your graph.
 
 
-```{r libraries, message=FALSE, warning=FALSE, include=FALSE}
+```{r message=FALSE, warning=FALSE, include=FALSE}
 library(shiny)
 library(dplyr, warn.conflicts = FALSE)
 library(DiagrammeR)
