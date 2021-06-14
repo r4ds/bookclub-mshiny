@@ -1,0 +1,402 @@
+# User Feedback
+
+- __Validation__: informing user, if inputs are invalid
+- __Notification__: sending general messages to user
+- __Progress bars__: informing user about progress of time consuming operations
+- __Confirmation/undo__: giving the user a choice and extra security, when performing dangerous operations
+
+## Validation
+### Validating input
+
+- giving feedback with the `shinyFeedback` package
+
+__UI__: add `useShinyFeedback()`
+
+```{r, eval = FALSE}
+ui <- fluidPage(
+  shinyFeedback::useShinyFeedback(),
+  numericInput("n", "n", value = 10),
+  textOutput("half")
+)
+```
+
+__Server__: use `feedback()`, `feedbackWarning()`, `feedbackDanger()`, and `feedbackSuccess()`
+
+--> example app
+
+
+### Cancelling execution with `req()`
+
+`req()` checks for required values before allowing a reactive producer to continue.
+
+Without `req()` the complete reactive graph is computed (even without user input): 
+
+```{r, eval = FALSE}
+ui <- fluidPage(
+  selectInput("language", "Language", choices = c("", "English", "Maori")),
+  textInput("name", "Name"),
+  textOutput("greeting")
+)
+
+server <- function(input, output, session) {
+  greetings <- c(
+    English = "Hello", 
+    Maori = "Ki ora"
+  )
+  output$greeting <- renderText({
+    paste0(greetings[[input$language]], " ", input$name, "!")
+  })
+}
+```
+
+![](https://d33wubrfki0l68.cloudfront.net/8983f6fd77bdc3b97d45f06a7fdd0c67aaf52b3d/b3d13/demos/action-feedback/require-simple.png)
+
+Using `req()`:
+
+```{r, eval = FALSE}
+server <- function(input, output, session) {
+  greetings <- c(
+    English = "Hello", 
+    Maori = "Ki ora"
+  )
+  output$greeting <- renderText({
+    req(input$language, input$name)
+    paste0(greetings[[input$language]], " ", input$name, "!")
+  })
+}
+```
+
+![](https://d33wubrfki0l68.cloudfront.net/d6a1e82924f2cf77fca63f35b2805e4392377700/e8a89/demos/action-feedback/require-simple2-on-load.png)
+
+![](https://d33wubrfki0l68.cloudfront.net/e8048494af9066952f69e4c7e9ec06c826202c34/4933a/demos/action-feedback/require-simple2-langauge.png)
+
+![](https://d33wubrfki0l68.cloudfront.net/5c0d55e52be17b4fc4d52ace8b6bbdc6cdddba86/4d3df/demos/action-feedback/require-simple2-name.png)
+
+### `req()` and validation
+
+```{r, eval = FALSE}
+ui <- fluidPage(
+  shinyFeedback::useShinyFeedback(),
+  textInput("dataset", "Dataset name"), 
+  tableOutput("data")
+)
+```
+
+```{r, eval = FALSE}
+server <- function(input, output, session) {
+  data <- reactive({
+    req(input$dataset)
+    
+    exists <- exists(input$dataset, "package:datasets")
+    shinyFeedback::feedbackDanger("dataset", !exists, "Unknown dataset")
+    req(exists, cancelOutput = TRUE)
+
+    get(input$dataset, "package:datasets")
+  })
+  
+  output$data <- renderTable({
+    head(data())
+  })
+}
+```
+
+
+Check out this app: https://hadley.shinyapps.io/ms-require-cancel/
+
+### Validate output
+
+- `validate(message)` stops execution of the rest of the code and instead displays message in any downstream outputs
+
+```{r, eval = FALSE}
+ui <- fluidPage(
+  numericInput("x", "x", value = 0),
+  selectInput("trans", "transformation", 
+    choices = c("square", "log", "square-root")
+  ),
+  textOutput("out")
+)
+
+server <- function(input, output, session) {
+  output$out <- renderText({
+    if (input$x < 0 && input$trans %in% c("log", "square-root")) {
+      validate(message = "x can not be negative for this transformation")
+    }
+    
+    switch(input$trans,
+      square = input$x ^ 2,
+      "square-root" = sqrt(input$x),
+      log = log(input$x)
+    )
+  })
+}
+```
+
+![](https://d33wubrfki0l68.cloudfront.net/c1c59bed1d77fa2aea32024bbaa907e5dbba6244/b5824/demos/action-feedback/validate-init.png)
+![](https://d33wubrfki0l68.cloudfront.net/4b8074e75bbd617c04f59785861e4465c1a1f6cf/dafeb/demos/action-feedback/validate-log.png)
+
+## Notifications
+
+Use `showNotification()`, if there is no problem, but you want the user to know what is happening.
+
+- show a transient notification that automatically disappears after a fixed amount of time
+- show a notification when a process starts and remove it when the process ends
+- update a single notification with progressive updates
+
+### Transient notifications
+
+```{r, eval = FALSE}
+ui <- fluidPage(
+  actionButton("goodnight", "Good night")
+)
+
+server <- function(input, output, session) {
+  observeEvent(input$goodnight, {
+    showNotification("So long")
+    Sys.sleep(1)
+    showNotification("Farewell")
+    Sys.sleep(1)
+    showNotification("Auf Wiedersehen")
+    Sys.sleep(1)
+    showNotification("Adieu")
+  })
+}
+```
+
+--> example app
+
+### Removing on completion
+
+Show the notification when the task starts, and remove the notification when the task completes.
+
+- Set `duration = NULL` and `closeButton = FALSE` so that the notification stays visible until the task is complete
+- Store the id returned by `showNotification()`, and then pass this value to `removeNotification()` (& `on.exit()`)
+
+```{r, eval = FALSE}
+server <- function(input, output, session) {
+  data <- reactive({
+    id <- showNotification("Reading data...", duration = NULL, closeButton = FALSE)
+    on.exit(removeNotification(id), add = TRUE)
+    
+    read.csv(input$file$datapath)
+  })
+}
+```
+
+### Progressive updates
+
+- multiple calls to `showNotification()` --> multiple notifications
+- capture `id` from first call, use it in subsequent calls
+
+```{r, eval = FALSE}
+ui <- fluidPage(
+  tableOutput("data")
+)
+
+server <- function(input, output, session) {
+  notify <- function(msg, id = NULL) {
+    showNotification(msg, id = id, duration = NULL, closeButton = FALSE)
+  }
+
+  data <- reactive({ 
+    id <- notify("Reading data...")
+    on.exit(removeNotification(id), add = TRUE)
+    Sys.sleep(1)
+      
+    notify("Reticulating splines...", id = id)
+    Sys.sleep(1)
+    
+    notify("Herding llamas...", id = id)
+    Sys.sleep(1)
+
+    notify("Orthogonalizing matrices...", id = id)
+    Sys.sleep(1)
+        
+    mtcars
+  })
+  
+  output$data <- renderTable(head(data()))
+}
+```
+
+
+
+## Progress bars
+
+- good for long-running tasks
+- you need to be able to divide the big task into a known number of small pieces that each take roughly the same amount of time
+
+### Shiny
+
+Use `withProgress()` and `incProgress()`
+
+```{r, eval = FALSE}
+ui <- fluidPage(
+  numericInput("steps", "How many steps?", 10),
+  actionButton("go", "go"),
+  textOutput("result")
+)
+
+server <- function(input, output, session) {
+  data <- eventReactive(input$go, {
+    withProgress(message = "Computing random number", {
+      for (i in seq_len(input$steps)) {
+        Sys.sleep(0.5)
+        incProgress(1 / input$steps)
+      }
+      runif(1)
+    })
+  })
+  
+  output$result <- renderText(round(data(), 2))
+}
+```
+
+Check out this app: https://hadley.shinyapps.io/ms-progress
+
+### Waiter
+
+- `waiter` package uses an R6 object 
+
+```{r, eval = FALSE}
+ui <- fluidPage(
+  waiter::use_waitress(),
+  numericInput("steps", "How many steps?", 10),
+  actionButton("go", "go"),
+  textOutput("result")
+)
+```
+
+```{r, eval = FALSE}
+server <- function(input, output, session) {
+  data <- eventReactive(input$go, {
+    # Create a new progress bar
+    waitress <- waiter::Waitress$new(max = input$steps)
+    # Automatically close it when done
+    on.exit(waitress$close())
+    
+    for (i in seq_len(input$steps)) {
+      Sys.sleep(0.5)
+      # increment one step
+      waitress$inc(1)
+    }
+    
+    runif(1)
+  })
+  
+  output$result <- renderText(round(data(), 2))
+}
+```
+
+--> example app
+
+
+### Spinners
+
+- also use the `waiter()` package
+- instead of `Waitress` --> `Waiter`
+
+```{r, eval = FALSE}
+ui <- fluidPage(
+  waiter::use_waiter(),
+  actionButton("go", "go"),
+  textOutput("result")
+)
+
+server <- function(input, output, session) {
+  data <- eventReactive(input$go, {
+    waiter <- waiter::Waiter$new()
+    waiter$show()
+    on.exit(waiter$hide())
+    
+    Sys.sleep(sample(5, 1))
+    runif(1)
+  })
+  output$result <- renderText(round(data(), 2))
+}
+```
+
+Check out this app: https://hadley.shinyapps.io/ms-spinner-1
+
+You can use `Waiter` for specific outputs, which will make the code simpler: 
+
+```{r, eval = FALSE}
+ui <- fluidPage(
+  waiter::use_waiter(),
+  actionButton("go", "go"),
+  plotOutput("plot"),
+)
+
+server <- function(input, output, session) {
+  data <- eventReactive(input$go, {
+    waiter::Waiter$new(id = "plot")$show()
+    
+    Sys.sleep(3)
+    data.frame(x = runif(50), y = runif(50))
+  })
+  
+  output$plot <- renderPlot(plot(data()), res = 96)
+}
+```
+
+Check out this app: https://hadley.shinyapps.io/ms-spinner-2
+
+--> example app for more spinners
+
+## Confirming and undoing
+
+- for potentially dangerous actions, like deleting things
+
+### Explicit confirmation
+
+- create a dialog box with `modalDialog()`
+
+```{r, eval = FALSE}
+modal_confirm <- modalDialog(
+  "Are you sure you want to continue?",
+  title = "Deleting files",
+  footer = tagList(
+    actionButton("cancel", "Cancel"),
+    actionButton("ok", "Delete", class = "btn btn-danger")
+  )
+)
+```
+
+![](https://d33wubrfki0l68.cloudfront.net/1fd6b657c2fd4df4ef9de687459e433e0b6144f4/93f7d/demos/action-feedback/dialog.png)
+
+```{r, eval = FALSE}
+ui <- fluidPage(
+  actionButton("delete", "Delete all files?")
+)
+```
+
+```{r, eval = FALSE}
+server <- function(input, output, session) {
+  observeEvent(input$delete, {
+    showModal(modal_confirm)
+  })
+  
+  observeEvent(input$ok, {
+    showNotification("Files deleted")
+    removeModal()
+  })
+  observeEvent(input$cancel, {
+    removeModal()
+  })
+}
+```
+
+
+### Undoing an action
+
+More like waiting some time before acually performing the task and giving the user time to stop the action before it's actually happening. 
+
+--> example app
+
+
+
+
+
+
+
+
+

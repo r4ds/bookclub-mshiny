@@ -1,0 +1,113 @@
+# Uploads and Downloads
+
+In this chapter we learn how to upload/download files to/from a Shiny
+ application.
+The UI for both uploads and downloads is simple, with essentially one function 
+ for each operation.
+The server side is more complex.
+The upload and download functions for the server each have their own quirks.
+
+## Uploads
+
+### UI
+
+To upload a file use `fileInput(id, label)`. Some other arguments are
+
+- `multiple` - can multiple files be uploaded at once?
+- `accept` - what file types are accepted? (character vector)
+    - file extension: `.csv`, `.tsv`, `.rds`
+    - MIME type: `application/JSON`, `image/png`
+    - one of: `audio/*`, `video/*`, `image/*`
+    
+### Server
+
+In the server, we work with a **data frame** with a special structure.
+There are 4 columns:
+
+- `name` - name of the file on user's computer
+- `size` - file size in bytes. Default 5 MB; adjust with 
+ `shiny.maxRequestSize` option.
+- `type` - MIME type of the file
+- `datapath` - file path on the server. Temporary.
+
+### Uploading data
+
+There are 2 things to note about uploading a data set.
+
+- Use `req(input$file)` to make sure file is uploaded before code runs.
+- Use `accept` argument to `fileInput()` to limit input types.
+    - browser doesn't always enforce, so make sure to `validate()`
+    
+Example of uploading a data set and validating file type (from book):
+
+```{r, eval = FALSE}
+ui <- fluidPage(
+  fileInput("file", NULL, accept = c(".csv", ".tsv")),
+  numericInput("n", "Rows", value = 5, min = 1, step = 1),
+  tableOutput("head")
+)
+
+server <- function(input, output, session) {
+  data <- reactive({
+    req(input$file)
+    
+    ext <- tools::file_ext(input$file$name)
+    switch(ext,
+      csv = vroom::vroom(input$file$datapath, delim = ","),
+      tsv = vroom::vroom(input$file$datapath, delim = "\t"),
+      validate("Invalid file; Please upload a .csv or .tsv file")
+    )
+  })
+  
+  output$head <- renderTable({
+    head(data(), input$n)
+  })
+}
+```
+
+
+## Downloads
+
+### UI
+
+For file downloads, use `downloadButton(id, label)` or `downloadLink(id, label)`.
+Customize the appearance with the `class` or `icon` arguments.
+
+
+### Server
+
+In the server, use `downloadHandler(filename, content)`.
+There are only 2 arguments, both are **functions**.
+
+- `filename` - no arguments. Returns file name as a string.
+- `content(file)` - one argument (`file`). Path to save the file.
+
+```{r, eval = FALSE}
+output$download <- downloadHandler(
+  filename = function() {
+    paste0(input$dataset, ".csv")
+  },
+  content = function(file) {
+    write.csv(data(), file)
+  }
+)
+```
+
+
+### Downloading reports
+
+We can allow the user to download a report based on their exploration of an
+ application.
+ 
+- parameterized R Markdown is a good way to do this
+- potential parameters - filters, simulation parameters
+- specify parameters in YAML header of R Markdown document
+- **key idea** - call `rmarkdown::render()` from `content` argument of
+ `downloadHandler()`
+
+Some tips & tricks:
+
+- `.Rmd` renders in working directory so copy file temporary directory before
+ rendering.
+- `.Rmd` renders in current R process so consider running in separate session
+ with e.g. `callr` package.
