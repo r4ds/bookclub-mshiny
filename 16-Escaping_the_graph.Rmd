@@ -106,7 +106,7 @@ server <- function(input, output, session) {
   })
 }
 
-shinyApp(ui = ui, server = server)
+# shinyApp(ui = ui, server = server)
 ```
 
 Instead if we sketch a graph of the connections with one of the {diagrammeR} functions for making flowcharts, such as **mermaid()** function, we visually identify the connections related to the action of the reset button. 
