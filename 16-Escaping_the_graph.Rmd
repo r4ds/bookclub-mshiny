@@ -89,8 +89,7 @@ In particular, we will see how **invalidation** caused by the user might not be 
 The figure below shows an app with an **actionButton()**, the input value of the app changes but the reactivity graph stays the same. The reactive graph does not capture the connection between the *unnamed observer* and the *input*.
 
 
-```{r}
-
+```{r eval = FALSE, echo = TRUE}
 reactlog_enable()
 
 ui <- fluidPage(
