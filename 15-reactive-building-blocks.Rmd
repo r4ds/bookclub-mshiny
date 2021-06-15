@@ -1,0 +1,465 @@
+# Reactive Building Blocks
+
+## Learning Objectives
+
+- Building blocks:
+  - Reactive values
+  - Reactive expressions
+  - Observers
+
+- How these tools are built from low-level functions:
+  - `observe()`
+  - `isolate()`
+  
+- How error messages / signal conditions move on reactive graph
+
+- Shiny reactive values are built on reference-semantics
+
+## Tools
+
+- Timed invalidation
+- `reactiveVal(some_value)` and `reactiveValues(a = abc, b = xyz)`
+- `reactiveConsole(TRUE)`
+- `{reactlog}`
+
+## Prerequisite Knowledge
+
+- Important properties of reactives:
+  - lazy
+  - cached
+
+- (non-shiny) R things
+  - Reference- vs Copy-On-Modify semantics
+  - Error handling in R
+  - Functions that are used inside other functions (on.exit, match.args)
+
+- Shiny examples and functions:
+  - difference between usage of (Section 3.5 and 3.6)
+    - `eventReactive` --- you want the value
+    - and `observeEvent` --- you want a side-effect
+  - `shiny::req()` (Chapter 8)
+  - `shiny::reactiveTimer()` (Section 3.5.1)
+
+## Reactive Values
+
+```{r, echo = FALSE}
+rv_details <- tibble::tribble(
+  ~ "", ~ "reactiveVal()", ~ "reactiveValues()",
+  "Holds", "Single value", "Multiple values (sim to list)",
+  "Definition", "x <- reactiveVal(1)", "x <- reactiveValues(a = 1, b = 2)",
+  "Getting syntax", "x()", "x\\$a",
+  "Setting syntax", "x(2)", "x\\$a <- 2",
+  "Class", "reactiveVal,reactive,function", "reactivevalues"
+)
+```
+
+```{r, echo = FALSE}
+rv_details %>%
+  kableExtra::kbl() %>%
+  kableExtra::kable_styling()
+```
+
+Reference semantics
+
+```{r}
+# Most of R uses copy-on-modify semantics
+f <- function(x) {
+  x$a = 2
+  x
+}
+x <- list(a = 1, b = 2)
+```
+
+```{r}
+f(x) # a new object is returned
+```
+
+```{r}
+x # ... and the initial object is unchanged
+```
+
+```{r}
+x1 <- x2 <- 1
+x2 <- 2
+x1
+x2
+```
+
+```{r}
+# R6 classes use reference semantics
+g <- function(x) {
+  x$a = 2
+  invisible(NULL)
+}
+Y <- R6::R6Class("Y", list(a = 1, b = 2))
+y <- Y$new()
+y
+```
+
+```{r}
+g(y)
+y
+```
+
+```{r}
+y1 <- y2 <- Y$new()
+y2$a <- 2
+y1
+y2
+```
+
+Both `reactiveVal` and `reactiveValues` have reference semantics
+
+```r
+# Exercise from the book
+# Run this interactively:
+
+l1 <- reactiveValues(a = 1, b = 2)
+l2 <- list(a = reactiveVal(1), b = reactiveVal(2))
+
+# ... with a little extra
+l3 <- reactiveVal(list(a = 1, b = 2))
+
+# Getting
+l1$a
+l1[["a"]]
+l2$a()
+l2[["a"]]()
+l3()$a
+
+# Setting
+l1$a <- 15
+l2$a(15)
+# For l3, can't easily update just 'a'
+l3(list(a = 15, b = 2))
+```
+
+```r
+# Exercise, run this interactively:
+
+# reactiveVal has reference semantics
+x <- reactiveVal(1)
+y <- x
+z <- reactiveVal(1)
+
+x_init_address <- pryr::address(x)
+
+x()
+y()
+z()
+
+x(2)
+
+x()
+y()
+z()
+
+pryr::address(x) == pryr::address(y)
+pryr::address(x) == pryr::address(z)
+pryr::address(x) == x_init_address
+```
+
+## Reactive Expressions
+
+Example of a reactive expression from Section 8.2.2 (User Feedback, Notifications, Removing on
+completion)
+
+```r
+server <- function(input, output, session) {
+  data <- reactive({
+    # Several lines of code can go inside this expression
+    id <- showNotification("Reading data...", duration = NULL, closeButton = FALSE)
+    
+    # the code inside `on.exit(...)` runs after this whole expression is evaluated
+    on.exit(removeNotification(id), add = TRUE)
+    
+    # on success, this value is cached in `data()`
+    read.csv(input$file$datapath)
+  })
+  
+  # ... some code that uses data()
+}
+```
+
+### Errors
+
+Errors
+- are cached just like values
+- propagate through the reactive graph
+- different behaviour when they reach
+  - output (error is displayed by the app)
+  - observer (eg, `observeEvent()`; crashes the session; unless you use try/tryCatch)
+
+```r
+# Errors are cached
+
+# Run this in the console
+r <- reactive(stop("Error occured at ", Sys.time(), call. = FALSE))
+r()
+Sys.sleep(2)
+r()
+```
+
+```r
+# Errors propagate through the reactive graph
+
+# Exercise --- run this in the console
+ui <- fluidPage(
+  checkboxInput("error", "error?"),
+  textOutput("result")
+)
+server <- function(input, output, session) {
+  a <- reactive({
+    if (input$error) {
+      stop("Error!")
+    } else {
+      1
+    }
+  })
+  b <- reactive(a() + 1)
+  c <- reactive(b() + 1)
+  output$result <- renderText(c())
+}
+
+reactlog::reactlog_enable()
+shinyApp(ui, server)
+```
+
+### `on.exit()`
+
+Where else do you see `on.exit()`?
+
+- inside [function bodies](https://adv-r.hadley.nz/functions.html#on-exit) (eg, close this file once
+the function completes, reset the plotting options after making this graph)
+- in [testthat expressions](https://www.tidyverse.org/blog/2020/04/self-cleaning-test-fixtures/)
+
+In functions, for example, the code in `on.exit()` runs after all the rest of the code has run.
+It runs even if there are errors / warnings.
+You can have multiple calls to `on.exit()` inside a function (use add = TRUE, so a call doesn't overwrite an earlier one)
+
+The expression in the definition of a `reactive` can be thought of as a function body (but with
+automatic caching / laziness):
+
+```r
+# Think of this:
+reactive({
+  do_something(x(), y())
+})
+# or eventReactive(triggers, {do_something(x(), y())})
+
+# Like this:
+function() {
+  do_something(x(), y())
+}
+```
+
+Because that's basically what it is:
+
+```{r}
+# note that `fun <- as_function(x)` line ...
+reactive
+```
+
+
+## Observers and Outputs
+
+Reactives : cached and lazy
+
+Observers / Outputs : forgetful and eager
+
+Why does `x()` never run here?
+
+```r
+server <- function(input, output, session) {
+  x <- reactive({
+    rnorm(10)
+  })
+}
+```
+
+In the reactive graph, observers and outputs are the terminal nodes.
+If they were lazy, nothing would get done.
+
+Eagerness is infectious
+
+Observer:
+
+- side-effect node (eg, write to file, send messages to console)
+- usually defined using `observeEvent()`
+
+Output:
+
+- as assigned to `output$x <- ...` variable
+
+Both created using low-level function `observe()`
+
+```r
+# observers are eager
+
+y <- reactiveVal(10)
+observe({
+  message("`y` is ", y())
+})
+y(5)
+y(4)
+```
+
+`observe()` doesn't do something, it creates something
+
+```r
+# example from the book (I found this a bit confusing)
+x <- reactiveVal(1)
+y <- observe({
+  x()
+  observe(print(x()))
+})
+x(2)
+x(3)
+
+# y() reacts each time x() updates
+# each time y() reacts it adds a new observer node that reacts to x()
+```
+
+```r
+# alternative example:
+# each time you change f, a new observer of g is added to the graph
+f <- reactiveVal(1)
+g <- reactiveVal(2)
+h <- observe({
+  f()
+  observe(print(g()))
+})
+```
+
+## Isolating Code
+
+`observeEvent()` and `eventReactive` allow you to access values in a reactive without taking a
+reactive dependency on them.
+
+How would you write a function to achieve that?
+
+From section 3.5.2
+
+```r
+ui <- fluidPage(
+  fluidRow(
+    column(3, 
+      numericInput("lambda1", label = "lambda1", value = 3),
+      numericInput("lambda2", label = "lambda2", value = 5),
+      numericInput("n", label = "n", value = 1e4, min = 0),
+      actionButton("simulate", "Simulate!")
+    ),
+    column(9, plotOutput("hist"))
+  )
+)
+
+server <- function(input, output, session) {
+  # x1 depends on `simulate`, `n` and `lambda1`
+  # ... but only has a "reactive dependency" on `simulate`
+  # ... sorry, ... what?
+  
+  x1 <- eventReactive(input$simulate, {
+    rpois(input$n, input$lambda1)
+  })
+  x2 <- eventReactive(input$simulate, {
+    rpois(input$n, input$lambda2)
+  })
+
+  output$hist <- renderPlot({
+    freqpoly(x1(), x2(), binwidth = 1, xlim = c(0, 40))
+  }, res = 96)
+}
+```
+
+So we've got
+
+```r
+new_reactive <- eventReactive(dependOnThis, runThis)
+```
+
+`isolate(expression)` is used.
+
+- separates access from dependency
+- executes the expression in a scope where the reactive values can be read (see `? isolate`)
+- reduces the time the reactive graph is invalidated
+
+Counting example from the book:
+
+```r
+r <- reactiveValues(count = 0, x = 1)
+observe({
+  r$x
+  # without the isolate() call, an infinite loop would occur
+  r$count <- isolate(r$count) + 1
+})
+
+r$x <- 1
+r$x <- 2
+r$count
+```
+
+In `eventReactive(dependOnThis, runThis)`,
+if you follow the code:
+- eventReactive calls `bindEvent()`
+- bindEvent (basically) calls `reactive({dependOnThis; isolate(runThis)})`
+
+So 
+- eventReactive(x, y) ===~ reactive(x, isolate(y))
+- (and similarly) observeEvent(x, y) ===~ observe({x, isolate(y)})
+
+## Timed Invalidation
+
+In section 3.5.1
+
+```r
+server <- function(input, output, session) {
+  # timer is invalidated every 500ms
+  # A) How is that possible?
+  timer <- reactiveTimer(500)
+  
+  x1 <- reactive({
+    # ... hence, a new x1 and x2 are sampled each 500ms
+    # B) What if sampling x1 took longer than 500ms?
+
+    timer()
+    rpois(input$n, input$lambda1)
+  })
+  x2 <- reactive({
+    timer()
+    rpois(input$n, input$lambda2)
+  })
+  
+  output$hist <- renderPlot({
+    freqpoly(x1(), x2(), binwidth = 1, xlim = c(0, 40))
+  }, res = 96)
+}
+```
+
+`invalidateLater(ms)` allows the programmer to invalidate a node in the graph
+
+```r
+# Example, add a new random number to a sum once every 300ms
+
+sum <- reactiveVal(0)
+observe({
+  invalidateLater(300)
+  sum(isolate(sum()) + runif(1))
+})
+```
+
+Note that `invalidateLater` runs from the time it is invoked.
+Combine it with on.exit() to ensure the node is invalidated a fixed-time after the node's
+computation completes
+
+```r
+# e.g.: iterate: load a file, one second after you finished reading it
+
+data <- reactive({
+  on.exit(invalidateLater(1000))
+  read.csv("data.csv")
+})
+```
+
+Additional tools `reactivePoll` and `reactiveFileReader` are built on invalidateLater
+
+Beware, the accuracy of timing may be affected by other processes
