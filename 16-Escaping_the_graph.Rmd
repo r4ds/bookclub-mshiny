@@ -90,7 +90,6 @@ The figure below shows an app with an **actionButton()**, the input value of the
 
 
 ```{r eval = FALSE, echo = TRUE}
-
 reactlog_enable()
 
 ui <- fluidPage(
@@ -112,7 +111,7 @@ server <- function(input, output, session) {
   })
 }
 
-shinyApp(ui = ui, server = server)
+# shinyApp(ui = ui, server = server)
 ```
 
 To have an idea of what is happening inside the app we can sketch a graph of the connections with one of the {diagrammeR} functions for making flowcharts, such as the **mermaid()** function, so, we visually identify the connections related to the action of the reset button. 
