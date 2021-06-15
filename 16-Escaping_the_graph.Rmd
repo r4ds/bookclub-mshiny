@@ -1,0 +1,285 @@
+# Escaping the graph
+
+**Learning objectives:**
+  
+Learn how to **escape the constraints of the reactive graph**, the fundamental building blocks that allows Shiny to do just the work that is needed.
+
+At the end of this chapter, you will be able to understand what are the *escaping of a reactive graph constrain*, and what are the techniques to *combine* and *connect* a reactive graph applying manual controls over parts of the graph. 
+
+
+------------------------------------------------------
+  
+Introduction
+
+1 - Combine reactive values
+
+2 - Connect the right side with the left side
+
+3 - Create infinite loops
+
+Conclusions
+
+----------------------------------------------------------
+  
+  
+## Introduction 
+  
+This chapter based on **Escaping the graph** is made to addressing the reactive programming identifying the connections inside the app, and to use **reactiveVal()** and **observe()/observeEvent()** functions with the scope of applying manual controls over parts of the graph.
+
+
+The questions we are going to answer in these notes of the [Mastering Shiny](https://mastering-shiny.org/) book by Hadley Wickham are:
+  
+**What’s happening inside the app?**
+  
+**How to escape the constraints of the reactive graph?** 
+  
+General usage of the **reactiveVal()** and **observe()/observeEvent()** functions is on a small scale, the interaction in bigger pieces results more complicated. A second suggestion is to keep the chunk of code isolated from the rest of the app so that the smallest possible number of observers modify the reactive value.
+
+-------------------------------------------
+
+**To recap**: Reactive programming is used to specify a graph of dependencies so that when an input changes, all related outputs are automatically updated. The reactive graph describes how inputs and outputs are connected, it is a powerful tool for understanding how your app works, and it’s useful to sketch the dependencies in your graph.
+
+
+```{r message=FALSE, warning=FALSE, include=FALSE}
+library(shiny)
+library(dplyr, warn.conflicts = FALSE)
+library(DiagrammeR)
+library(reactlog)
+```
+
+
+Figure \@ref(fig:diagram) shows the diagram of a general app.
+This is a basic visualization of the app connections, the connections between the reactive components are directional, with the arrows indicating the direction of reactivity.
+
+```{r diagram, echo = FALSE, out.width = NULL,fig.cap = "This basic diagram shows the main connections of the app"}
+
+mermaid("
+graph LR
+A(ui)-->B[input]
+B-->C{server}
+C-->D[reactive]
+C-->E[observer]
+D-->F[output]
+E-->F[output]
+")
+```
+
+
+
+--------------------------------------------------------------
+  
+## Combine reactive values
+  
+A reactive graph shows the connections between the reactive components of the app, which are directional indicating the direction of reactivity; when a connection is not in use, the graph highlights it in grey color which means that the connection is invalidated. 
+
+In this first part we learn how to combine reactive values which are *escaping the graph* and to do this we need to:
+  
+---------------------------------------
+  
+1 - modify the value of a reactive value
+
+2 - use reactiveVal() or reactiveValues() functions
+
+3 - combine them with observe() and observeEvent() in the server
+
+-------------------------------------------
+  
+In particular, we will see how **invalidation** caused by the user might not be captured by the reactivity graph, and for this reason, it is said to be *escaping the graph*. An example is a request of changing the input made by the user, such as when using the *reset* button (made with an *actionbutton()*), which is not evidenced in the reactivity graph.
+
+The figure below shows an app with an **actionButton()**, the input value of the app changes but the reactivity graph stays the same. The reactive graph does not capture the connection between the *unnamed observer* and the *input*.
+
+
+```{r echo = FALSE}
+
+reactlog_enable()
+
+ui <- fluidPage(
+  textInput("name", "Your name here"),
+  actionButton("clr", "Clear"),
+  textOutput("salutation")
+)
+
+server <- function(input, output, session) {
+  
+  # reactive function
+  hello <- reactive(paste0("Hello ", input$name))
+  
+  output$salutation <- renderText(hello())
+  
+  # observer
+  observeEvent(input$clr, {
+    updateTextInput(session, "name", value = "")
+  })
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+To have an idea of what is happening inside the app we can sketch a graph of the connections with one of the {diagrammeR} functions for making flowcharts, such as the **mermaid()** function, so, we visually identify the connections related to the action of the reset button. 
+
+Figure \@ref(fig:diagram2) Graph of the App
+
+```{r diagram2, echo = FALSE, out.width = NULL, fig.cap = "Graph of the steps made by the app "}
+mermaid("
+graph LR
+
+A((ui))-.-B
+   B(textInput)-.-C>textOutput]
+   C-. reactive connection .->D
+   D((server))-.-E
+E(reactive)-.-S(output)
+   
+A((ui))-.-F
+   F(name)-.-G(salutation)
+   G-. reactive connection .->    D((server))
+   D((server))-.-H(Hello)
+H-.-T(Your name here)
+   
+I((ui))-.-L(actionButton)
+L-.-M((server))
+M-.-N(observeEvent)
+N-.-O>updateTextInput]
+  O-.-P>no record of the reset in the reactive graph]
+
+I((ui))-.-Q
+Q(clr)-.-M
+M-.-R(Clear)
+R-.-U(name)
+U-.-P
+  style A fill:#f9f
+  style B fill:#bbf
+  style C fill:#f96
+  style D fill:#f9f
+  style I fill:#f9f
+  style L fill:#bbf
+  style M fill:#f9f
+  style O fill:#f96
+  style P fill:#bbf,stroke:#f66,stroke-width:2px,color:#fff,stroke-dasharray: 5 5
+
+ ")
+```
+
+In this contest, the reactive graph represent a static connection that doesn't show the recursivity of the reset. Another way to visualize and/or modify interactively the reactive graph is to change it directly, moving the parts aside and adjusting it as it is needed.
+
+----------------------------------------
+
+## Connect the right side with the left side
+
+In this section we combine **reactiveValues()** and **observeEvent()**
+
+
+Figure \@ref(fig:diagram3) Connecting the right side with the left side with directional arrow to show the missing connection  
+```{r diagram3, echo = FALSE, out.width = NULL, fig.cap = "This is the graph of the connection"}
+mermaid("
+graph LR
+A((ui))-.-B(actionButton)
+C((server))-.-D(reactiveValues)
+D-.-E(observeEvent)
+E==>B
+style A fill:#f9f
+style B fill:#bbf
+style C fill:#f9f
+style D fill:#bbf
+style E fill:#bbf
+")
+```
+
+### Case Studies:
+
+- One output modified by multiple inputs
+- Accumulating inputs
+- Pausing animations
+- Anti-patterns
+
+-----------------------------------------------------
+
+## Create infinite loops
+
+- Pausing animations
+
+In this example we use **running** reactive value and  **invalidateLater()** function. This is the case when we can't use **observeEvent()** but we need to used **observe()** and **isolate()** otherwise an infinite loop is created.
+
+```{r}
+ui <- fluidPage(
+  actionButton("start", "start"),
+  actionButton("stop", "stop"),
+  textOutput("n")
+)
+server <- function(input, output, session) {
+  
+  r <- reactiveValues(running = FALSE, n = 0)
+  
+  observeEvent(input$start, {
+    r$running <- TRUE
+  })
+  observeEvent(input$stop, {
+    r$running <- FALSE
+  })
+  
+  # we cannot use observeEvent() but observe() and isolate()
+  observe({
+    if (r$running) {
+      r$n <- isolate(r$n) + 1
+      invalidateLater(250)
+    }
+  })
+  
+  output$n <- renderText(r$n)
+}
+
+# shinyApp(ui = ui, server = server)
+```
+
+
+-----------------------------------------------------------------
+  
+  
+## Conclusions
+  
+To conclude the reactive section of the book, I'd like to highlight how to enable one of the features provided by **Shiny**: the **reactive graph**. The reactive graph can be activated with the following commands:
+
+```{r}
+# reactlog::reactlog_enable() 
+
+# or
+
+# options(shiny.reactlog = TRUE)
+```
+
+Then you can access to it by clicking [Ctrl+F3] in Windows or [cmd + F3] in Mac while the app is running.
+
+This feature lets you see the structure of the connections made by the app. To mind is the **escaping the graphs** status, generated by previous conditions, which the reactive graph doesn't take into consideration. For this reason, the main suggestion is to keep the conditions not reckon by the reactive graph feature on a small scale and use dedicated functions such as **isolate()** in combination with the recursivity of the app.
+
+In addition, the DiagrammeR package can be of help for you to see the missing piece of a connection in the structure, with the re-building of the reactive graph manually.
+
+----------------------------------------------------------------------
+
+
+### Resources:
+
+Experimental packages designed to explore “higher order” reactivity:
+
+- [reactlog](https://rstudio.github.io/reactlog/index.html)
+- [rxtools](https://github.com/jcheng5/rxtools)
+
+More readings:
+
+- [Reactivity-overview](https://shiny.rstudio.com/articles/reactivity-overview.html)
+- [Reactive programming](https://shinydata.wordpress.com/2015/02/02/a-few-things-i-learned-about-shiny-and-reactive-programming/)
+- [mermaid](https://mermaid-js.github.io/mermaid/#/flowchart?id=node-shapes)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
