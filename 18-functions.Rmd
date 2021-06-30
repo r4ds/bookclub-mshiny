@@ -1,0 +1,230 @@
+# Functions
+
+
+Like in R analyses, functions can be useful in Shiny applications to improve the functionality/optimization and make your code cleaner for quicker debugging. 
+
+**Learning objectives:**
+
++ Learn how to use functional programming techniques to make many controls at once
+
++ Understand how to use functions with reactives in the server
+
++ Walk through some use cases where functions may be appropriate
+
+------------------------------------------------------
+
+Outline
+
+1 - File Organization
+
+2 - UI functions
+
+3 - Server functions
+
+----------------------------------------------------------
+
+## File Organization 
+
++ *Functions* allow you to spread your code across multiple files
+  + this is where organization is `r emo::ji("key")`
++ Make sure to have an `R/` directory and in it, place large functions into their own script - `R/myFunc.R`
+  + Collections of smaller functions can go into 1 script, i.e. `R/utils.R`
+  + Shiny uses similar storing conventions as R packages
+
+--------------------------------------------------------------
+
+## UI Functions 
+
+**Functions are useful in reducing duplication**
+
+CASE 1: converting multiple sliders to a function
+
+```{r slider1, eval=FALSE}
+ui <- fluidRow(
+  sliderInput("alpha", "alpha", min = 0, max = 1, value = 0.5, step = 0.1),
+  sliderInput("beta",  "beta",  min = 0, max = 1, value = 0.5, step = 0.1),
+  sliderInput("gamma", "gamma", min = 0, max = 1, value = 0.5, step = 0.1),
+  sliderInput("delta", "delta", min = 0, max = 1, value = 0.5, step = 0.1)
+)
+```
+
+TO: 
+
+```{r slider2, eval=FALSE}
+sliderInput01 <- function(id) {
+  sliderInput(id, label = id, min = 0, max = 1, value = 0.5, step = 0.1)
+}
+
+ui <- fluidRow(
+  sliderInput01("alpha"),
+  sliderInput01("beta"),
+  sliderInput01("gamma"),
+  sliderInput01("delta")
+)
+```
+
+
+Like functions in R analyses, functions in apps makes you app more readable and efficient if we need to change the behavior, we would only do it one place. 
+
+CASE 2: customized `dateInput` with `...`
+
+```{r date-input, eval=FALSE}
+usWeekDateInput <- function(inputId, ...) {
+  dateInput(inputId, ..., format = "dd M, yy", daysofweekdisabled = c(0, 6))
+}
+```
+
+Just a reminder on `dateInput`:
+
+```
+dateInput(
+  inputId,
+  label,
+  value = NULL,
+  min = NULL,
+  max = NULL,
+  format = "yyyy-mm-dd",
+  startview = "month",
+  weekstart = 0,
+  language = "en",
+  width = NULL,
+  autoclose = TRUE,
+  datesdisabled = NULL,
+  daysofweekdisabled = NULL
+)
+```
+
+CASE 3: radio buttons to make 
+
+```{r}
+iconRadioButtons <- function(inputId, label, choices, selected = NULL) {
+  names <- lapply(choices, icon)
+  values <- if (is.null(names(choices))) names(choices) else choices
+  radioButtons(inputId,
+               label = label,
+               choiceNames = names, choiceValues = values, selected = selected
+  )
+}
+```
+
+
+### Functional Programming
+
++ Using functions like `map()` may help reduce code further
+
+```{r map-slider, eval=FALSE}
+library(purrr)
+# pass the variables for the slider to the built function sliderInput01
+vars <- c("alpha", "beta", "gamma", "delta")
+# returns a list of sliders
+sliders <- map(vars, sliderInput01)
+# fluidRow unpacks the list to become children of the container
+ui <- fluidRow(sliders)
+```
+
+
+### UI as data
+
+**Turning a UI structure into a data structure to have more varitey in inputs**
+
+```{r ui-data, eval=FALSE}
+vars <- tibble::tribble(
+  ~ id,   ~ min, ~ max,
+  "alpha",     0,     1,
+  "beta",      0,    10,
+  "gamma",    -1,     1,
+  "delta",     0,     1,
+)
+
+# function where arg names match the col names
+
+mySliderInput <- function(id, label = id, min = 0, max = 1) {
+  sliderInput(id, label, min = min, max = max, value = 0.5, step = 0.1)
+}
+
+# pmap to call mySliderInput over vars
+
+sliders <- pmap(vars, mySliderInput)
+```
+
+---------------------------------------
+
+## Server Functions
+
++ Long reactives should be put into a non-reactive functions outside the server
+  + easier to debug
+  + easier to tell what inputs were passed to a function vs a reactive expression
+
+
+CASE 1: Reading uploaded data
+
+```{r data, eval=FALSE}
+
+server <- function(input, output, session) {
+  data <- reactive({
+    req(input$file)
+    
+    ext <- tools::file_ext(input$file$name)
+    switch(ext,
+      csv = vroom::vroom(input$file$datapath, delim = ","),
+      tsv = vroom::vroom(input$file$datapath, delim = "\t"),
+      validate("Invalid file; Please upload a .csv or .tsv file")
+    )
+  })
+  
+  output$head <- renderTable({
+    head(data(), input$n)
+  })
+}
+
+```
+
+To a function that extracts:
+
+```{r data-extract, eval=FALSE}
+
+# IN ITS OWN FILE
+load_file <- function(name, path) {
+  ext <- tools::file_ext(name)
+  switch(ext,
+    csv = vroom::vroom(path, delim = ","),
+    tsv = vroom::vroom(path, delim = "\t"),
+    # validate works similarly to stop() outside of shiny
+    validate("Invalid file; Please upload a .csv or .tsv file")
+  )
+}
+#----------------------------------------------
+server <- function(input, output, session) {
+  data <- reactive({
+    req(input$file)
+    load_file(input$file$name, input$file$datapath)
+  })
+  
+  output$head <- renderTable({
+    head(data(), input$n)
+  })
+}
+```
+
+Note: generally better to keep reactive and non-reactive parts of app as separate as possible
+
+### Internal functions
+
+
+If the function needs to use input, output or session, it makes more sense to write the function directly in the server
+
+```{r internal-func, eval=FALSE}
+server <- function(input, output, session) {
+  switch_page <- function(i) {
+    updateTabsetPanel(input = "wizard", selected = paste0("page_", i))
+  }
+  
+  observeEvent(input$page_12, switch_page(2))
+  observeEvent(input$page_21, switch_page(1))
+  observeEvent(input$page_23, switch_page(3))
+  observeEvent(input$page_32, switch_page(2))
+}
+```
+
+
+-------------------------------------------

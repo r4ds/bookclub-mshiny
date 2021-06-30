@@ -15,6 +15,10 @@ Imports:
     shiny,
     tidyverse,
     vroom,
-    reactlog
+    reactlog,
+    tibble,
+    kableExtra,
+    R6,
+    pryr
 Remotes: 
     hadley/emo
