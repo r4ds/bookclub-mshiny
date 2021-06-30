@@ -60,7 +60,7 @@ As we know the basic structure of a Shiny app is made of a **UI** (user interfac
 mermaid("
 graph LR 
 A[User Interface]-->B[Server]
-")
+",height = '100%', width = '100%')
 ```
 
 
@@ -97,7 +97,7 @@ The first example is the User Interface and Server basic structure for updating 
 mermaid("
 graph LR
 A[id Input]-->B[update id Input]
-")
+",height = '100%', width = '100%')
 ```
 
 The **Update function** allows you to modify the control after it has been created with a series of **[id]Input** and **update[id]Input**, as shown below:
@@ -209,7 +209,7 @@ This second function is made to let the user show and/or hide some of the tabs s
 mermaid("
 graph LR 
 A[tabsetPanel]-->B[updateTabsetPanel]
-")
+",height = '100%', width = '100%')
 ```
 
 
@@ -270,7 +270,7 @@ ui <- fluidPage(
       
       numericInput("n", "Number of samples", value = 100),
       
-      parameter_tabs, # where to set the chunk of code
+      parameter_tabs # where to set the chunk of code
     ),
     mainPanel(
       plotOutput("hist")
@@ -294,7 +294,7 @@ There are other options to use to be able to switch among different pages, an ex
 mermaid("
 graph LR
 A[uiOutput]-->B[renderUI]
-")
+",height = '100%', width = '100%')
 ```
 
 The last two functions **uiOutput()** and **renderUI()**, are for applying the technique of rendering the UI by setting the value of the new input to the current value of the existing control. 

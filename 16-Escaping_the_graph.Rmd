@@ -61,7 +61,7 @@ C-->D[reactive]
 C-->E[observer]
 D-->F[output]
 E-->F[output]
-")
+",height = '100%', width = '100%')
 ```
 
 
@@ -87,6 +87,7 @@ In this first part we learn how to combine reactive values which are *escaping t
 In particular, we will see how **invalidation** caused by the user might not be captured by the reactivity graph, and for this reason, it is said to be *escaping the graph*. An example is a request of changing the input made by the user, such as when using the *reset* button (made with an *actionbutton()*), which is not evidenced in the reactivity graph.
 
 The figure below shows an app with an **actionButton()**, the input value of the app changes but the reactivity graph stays the same. The reactive graph does not capture the connection between the *unnamed observer* and the *input*.
+
 
 
 ```{r eval = FALSE, echo = TRUE}
@@ -155,7 +156,7 @@ U-.-P
   style O fill:#f96
   style P fill:#bbf,stroke:#f66,stroke-width:2px,color:#fff,stroke-dasharray: 5 5
 
- ")
+ ",height = '100%', width = '100%')
 ```
 
 In this contest, the reactive graph represent a static connection that doesn't show the recursivity of the reset. Another way to visualize and/or modify interactively the reactive graph is to change it directly, moving the parts aside and adjusting it as it is needed.
@@ -180,7 +181,7 @@ style B fill:#bbf
 style C fill:#f9f
 style D fill:#bbf
 style E fill:#bbf
-")
+",height = '100%', width = '100%')
 ```
 
 ### Case Studies:
