@@ -1,0 +1,128 @@
+# (Best practices) General guidelines
+
+Big apps or big teams == New challenges
+
+- Organisation
+
+- Stability
+
+- Maintainability
+
+## "Best practices" section of the book
+
+- Software engineering approach & mindset (today's chapter)
+
+- Decomposition:
+
+  - into functions
+
+  - into modules
+  
+- Organisation
+
+  - into packages
+  
+- Stability
+
+  - Testing
+
+- Security
+
+- Performance
+
+## Software engineering
+
+```{r, echo = FALSE}
+library(DiagrammeR)
+```
+
+```{r, echo = FALSE}
+mermaid("
+graph LR
+A[\"I don't understand it\"]-->B[\"I still need the docs\"]
+B-->C[\"I understand it fluently\"]
+")
+```
+
+## Code organization
+
+Empathy
+
+Code clarity
+
+Comments
+
+Function size
+
+Copy/Paste development
+
+Shiny: functions, modules
+
+## Testing
+
+What is a "test plan"
+
+Why does testing improve stability of an app
+
+Automation vs Manual
+
+Test types:
+
+- Unit, Integration, Functional, Load ....
+
+- Testing behaviour vs Testing components
+
+Can you have _too many_ tests
+
+Can you have the _wrong kind_ of tests
+
+## Dependency management
+
+Reproducibility
+
+Environment management: `{renv}`, `{packrat}`, conda, docker, `sessionInfo()`
+
+Configuration: `{config}`
+
+Are there different reproducibility requirements for
+
+- an app vs
+- an analysis project?
+
+When should you have different configurations for an app?
+
+The filesystem as part of the environment
+
+## Source code management
+
+R uses svn: [https://github.com/r-devel/r-svn#readme]()
+
+Did anyone use 'git' for the first time during the bookclub
+
+Related tools for version control-type things (tracking changes etc)
+
+Anyone using version-control systems other than git?
+
+What are the benefits and pain-points of git / github etc?
+
+## Continuous integration / Continuous deployment
+
+Continuous integration for an app
+
+- what things would you run?
+
+The bookclub as an example of continuous deployment
+
+## Code reviews
+
+A fresh pair of eyes
+
+Speeds up learning (try contributing to an R package, and see how much you don't yet know)
+
+Tricks to speed up code-review?
+
+Who should review who?
+
+Code review antipatterns?
+
+Alternatives / complements? pair programming
