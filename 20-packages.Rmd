@@ -1,0 +1,82 @@
+# Packages
+
+> A package is just a lightweight set of conventions that unlock useful tools and workflows.
+
+## Package Structure
+
+The most simple package contains a `DESCRIPTION` file, housing metadata about the package (e.g. name and authors), and an `R/` directory where `.R` files with function definitions live. 
+
+Packages may also contain:
+
+* A `data/` directory, which holds reference datasets.
+* A `tests/` directory, which holds unit-tests that are used to ensure code works as expected.
+* A `vignettes/` directory, which holds long-form documentation.
+* More! Read Hadley Wickham and Jenny Bryan's **amazing** book, [R Packages](https://r-pkgs.org)
+
+## Benefits
+
+In general, packages are beneficial for easily sharing your work. Packages provide a common organizational structure and offer improved workflow for loading and launching Shiny applications.
+
+## Converting an existing app
+
+1. Call [`usethis::create_package("pick-a-path")`](https://r-pkgs.org/whole-game.html#create_package). This will create the package directory and skeleton. 
+2. Remove any `library()` or `require()` calls, in favor of `usethis::use_package("name")`.
+3. If your app uses modules, place related ones in individual `.R` files with `usethis::use_r("module-category")`. 
+4. Wrap core app inside a function and place within a `.R` file, e.g:
+
+```{r greeting-app, eval = FALSE}
+
+greetingApp <- function() {
+# define a user-interface with two elements: a text input with an ID, 
+# label, and initial value; define a textOutput that 
+# returns the input + greeting
+ui <- fluidPage(
+  textInput(inputId = "nameInput", 
+            label = "What is your name?", 
+            value = "World"),
+  textOutput("name")
+)
+
+# define the server side logic to manipulate the inputs
+server <- function(input, output, session) {
+  # define the output that concatenates the strings 
+  # "Hello, " + user input + "."
+  output$name <- renderText({paste0("Hello, ", input$nameInput, ".")})
+}
+
+# run the application
+shinyApp(ui, server)
+}
+```
+
+5. Call `devtools::load_all()` and your function -- `greetingApp()` to say hello to your package!
+
+## Example: shinysurveys
+
+> shinysurveys provides easy-to-use, minimalistic code for creating and deploying surveys in Shiny.
+
+### Installation
+
+You can install {shinysurveys} via CRAN or GitHub and load it as follows:
+
+``` {.r}
+# Install released version from CRAN
+install.packages("shinysurveys")
+
+# Or, install the development version from GitHub
+remotes::install_github("jdtrat/shinysurveys")
+
+# Load package
+library(shinysurveys)
+```
+
+### Demo
+
+A survey made with shinysurveys package might look like this:
+
+![](https://www.jdtrat.com/project/shinysurveys/shinysurveys-final-demo.gif)
+You can run a demo survey with the function `shinysurveys::demo_survey()`.
+
+### Let's take a look!
+
+* Live walk-through of creating an app with shinysurveys, how everything is packaged together, and more!
