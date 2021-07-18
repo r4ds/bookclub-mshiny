@@ -44,6 +44,44 @@ If you would like to present, please add your name next to a chapter using the [
   - 2021-08-03: Chapter 23: _Performance_: Presenter TBA
   - 2021-08-10: Roundup
 
+*Cohort 2: (starts 2021-07-21) - Wednesdays, 6pm CST/CDT*
+
+- Part 0 (Getting up and running with `git`)
+  - 2021-07-21: _Git basics_: Collin Berke
+- Part 1 (Getting started)
+  - 2021-07-28: Chapter 1: _Your First Shiny App_: Collin Berke
+  - 2021-08-04: Chapter 2: _Basic UI_: Presenter TBA
+  - 2021-08-11: Chapter 3: _Basic Reactivity_: Presenter TBA
+  - 2021-08-18: Chapter 4: _Case Study: ER injuries_: Presenter TBA
+  - 2021-08-25: Project review
+- Part 2 (Shiny in action)
+  - 2021-09-01: Chapter 5: _Workflow_: Presenter TBA
+  - 2021-09-08: Chapter 6: _Layout, themes, HTML_: Presenter TBA
+  - 2021-09-15: Chapter 7: _Graphics_: Presenter TBA
+  - 2021-09-22: Chapter 8: _User Feedback_: Presenter TBA
+  - 2021-09-29: Project review
+  - 2021-10-06: Chapter 9: _Uploads and Downloads_: Presenter TBA
+  - 2021-10-13: Chapter 10: _Dynamic UI_: Presenter TBA
+  - 2021-10-20: Chapter 11: _Bookmarking_: Presenter TBA
+  - 2021-10-27: Chapter 12: _Tidy evaluation_: Presenter TBA
+  - 2021-11-03: Project review
+- Part 3 (Mastering reactivity)
+  - 2021-11-10: Chapter 13: _Why reactivity?_: Presenter TBA
+  - 2021-11-17: Chapter 14: _The reactive graph_: Presenter TBA
+  - 2021-11-24: Chapter 15: _Reactive building blocks_: Presenter TBA
+  - 2021-12-01: Chapter 16: _Escaping the graph_: Presenter TBA
+  - 2021-12-08: Project review
+- Part 4 (Best practices)
+  - 2021-12-15: Chapter 17: _General guidelines_: Presenter TBA
+  - 2021-12-22: Chapter 18: _Functions_: Layla Bouzoubaa
+  - 2021-12-29: Chapter 19: _Shiny modules_: Andrew MacDonald
+  - 2022-01-05: Chapter 20: _Packages_: Presenter TBA
+  - 2022-01-12: Project review
+  - 2022-01-19: Chapter 21: _Testing_: Presenter TBA
+  - 2022-01-26: Chapter 22: _Security_: Presenter TBA
+  - 2022-02-02: Chapter 23: _Performance_: Presenter TBA
+  - 2022-02-09: Roundup
+
 ## How to Present
 
 This repository is structured as a [{bookdown}](https://CRAN.R-project.org/package=bookdown) site.
