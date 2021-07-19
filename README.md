@@ -73,8 +73,8 @@ If you would like to present, please add your name next to a chapter using the [
   - 2021-12-08: Project review
 - Part 4 (Best practices)
   - 2021-12-15: Chapter 17: _General guidelines_: Presenter TBA
-  - 2021-12-22: Chapter 18: _Functions_: Layla Bouzoubaa
-  - 2021-12-29: Chapter 19: _Shiny modules_: Andrew MacDonald
+  - 2021-12-22: Chapter 18: _Functions_: Presenter TBA
+  - 2021-12-29: Chapter 19: _Shiny modules_: Presenter TBA
   - 2022-01-05: Chapter 20: _Packages_: Presenter TBA
   - 2022-01-12: Project review
   - 2022-01-19: Chapter 21: _Testing_: Presenter TBA
