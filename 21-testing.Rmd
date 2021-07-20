@@ -3,11 +3,18 @@
 ## Learning outcomes
 
   - Purpose of testing
-    - Ensure new features don't break existing code
-    - Ensure bugs only arise once
   - Different levels of test
   - Balance: speed, fragility, coverage
   - Reiterate: reactive code needs a reactive context
+
+## Purpose of testing
+
+- Ensure new features don't break existing code
+- Ensure bugs only arise once
+- Help you write new code
+- Confidence, when updating R, packages, data
+- To keep your colleagues happy
+- So you can go on holiday
 
 ## Discussions
 
@@ -416,3 +423,21 @@ What structural changes might be needed to use ShinyDriver-based end-to-end test
     - [Ctrl + R] : `devtools::test_coverage_file()`
 
   - Did anyone manage to do this?
+
+## Other interesting things
+
+- one of the {tinytest} vignettes has
+  ["a few tips on packages and unit testing"](
+    https://cran.r-project.org/web/packages/tinytest/vignettes/using_tinytest.pdf
+  )
+- two nice visualisations of
+  [the TDD cycle](https://www.obeythetestinggoat.com/book/chapter_philosophy_and_refactoring.html#simple-TDD-diagram),
+  and of
+  [TDD-until-the-feature's ready](https://www.obeythetestinggoat.com/book/chapter_philosophy_and_refactoring.html#Double-Loop-TDD-diagram)
+  are in "Test-Driven Development with Python" by Harry Percival.
+- ["R Packages"](https://r-pkgs.org/tests.html) has a chapter about "testthat"
+- The RStudio "shiny" website has
+  [three  articles / webinars](https://shiny.rstudio.com/articles/testing-overview.html)
+  on testing in shiny
+- chapter-section on testing in
+  ["Engineering Production-Grade Shiny Apps"](https://engineering-shiny.org/build-yourself-safety-net.html#testing-your-app)
