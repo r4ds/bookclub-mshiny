@@ -1,0 +1,418 @@
+# Testing
+
+## Learning outcomes
+
+  - Purpose of testing
+    - Ensure new features don't break existing code
+    - Ensure bugs only arise once
+  - Different levels of test
+  - Balance: speed, fragility, coverage
+  - Reiterate: reactive code needs a reactive context
+
+## Discussions
+
+  - Don't test the framework!
+  - Don't test too early! Or do!
+  - Testing religions / approaches
+    - TDD: Test-driven development
+    - BDD: Behaviour-driven development
+    - TCR: Test && Commit || Revert
+
+## Four levels of testing for shiny apps
+
+  - non-reactive functions
+  - input-value-driven updates to reactives & outputs
+  - browser-driven tests
+  - visual output of the app
+
+- So what does that separate:
+  - reactive from stateless behaviour
+  - UI-dependent and independent behaviour
+  - values from visuals
+
+## Example
+
+For this chapter, there is a sandpit [project on github](https://github.com/russHyde/er-injuries-sandpit)
+
+It is copied from the ER-injuries case-study app in Chapter 4 of Mastering Shiny.
+
+If you follow the tagged-releases it shows how to:
+
+- Start with a working app
+- Turn it into a package
+- Make the package pass `R CMD check`
+- Add tests for a non-reactive function
+- Add a reactivity test for an app's server-function
+- Add a reactivity test for a module's server-function
+
+In order to do each step, several structural changes to the app had to be made.
+Notes on how the app was modified and the tools that helped are in the README.
+
+We'll start from a release that is a package, and passes `R CMD check` (aside from one issue re the
+size of the dataset that is embedded in the package)
+[Release 0.2](https://github.com/russHyde/er-injuries-sandpit/tree/480851db355f0eb39c59ae91a398a62748d86ac5)
+
+To run the app, you run `er_app()`
+
+## Using {testthat}
+
+- App structure:
+  - Requires package structure
+  - `./tests/testthat.R`
+  - `./tests/testthat/test-<file>.R`
+  - `./tests/testthat/_snaps/<file>.md` (optional)
+
+## Recommended workflow
+
+  - create test files with `usethis::use_test()`
+  - Write code & tests
+  - Run `devtools::test_file()` while getting something to work
+  - Capture new bugs in tests
+  - Run `devtools::test_coverage_file()` to show you've covered all your function
+  - Run `devtools::test()` to test the whole package
+
+## Testing non-reactive functions
+
+[Release 0.4](https://github.com/russHyde/er-injuries-sandpit/tree/04-use-count_by_weight)
+
+Before modification, the app code looked like this:
+
+```r
+er_app <- function() {
+  # `injuries`, `products` and `population` are package-hosted datasets
+  # They can be accessed by name (but R CMD check complains about you referring to undefined vars)
+  injuries <- get("injuries")
+  products <- get("products")
+  population <- get("population")
+
+  prod_codes <- stats::setNames(products$prod_code, products$title)
+
+  ui <- fluidPage(...)
+
+  server <- function(input, output, session) {
+
+    selected <- reactive({...})
+
+    output$diag <- renderTable(
+      selected() %>% dplyr::count(.data[["diag"]], wt = .data[["weight"]], sort = TRUE)
+    )
+    output$body_part <- renderTable(
+      selected() %>% dplyr::count(.data[["body_part"]], wt = .data[["weight"]], sort = TRUE)
+    )
+    output$location <- renderTable(
+      selected() %>% dplyr::count(.data[["location"]], wt = .data[["weight"]], sort = TRUE)
+    )
+
+    summary <- reactive({...})
+
+    output$age_sex <- renderPlot({...})
+  }
+
+  shiny::shinyApp(ui, server)
+}
+```
+
+### Workflow
+
+- Add a function script `use_r("count_by_weight")`
+- Add a test script for the function `use_test("count_by_weight")`
+  - This adds {testthat} infrastructure
+- Add a few tests
+  - each tests a specific aspect of the functions behaviour
+- Add enough code to get the tests running
+
+### A typical test
+
+  - GIVEN, WHEN, THEN
+  - ARRANGE, ACT, ASSERT
+
+```
+test_that("it returns in count-sorted order", {
+  df <- tibble::tibble(
+    x = c(rep("a", 5), rep("b", 3), rep("c", 9)),
+    weight = 1
+  )
+
+  counted <- count_by_weight(df, column = "x")
+  expect_equal(
+    object = counted[["n"]],
+    expected = sort(counted[["n"]])
+  )
+})
+```
+
+## Testing Reactivity
+
+[Release 0.5](https://github.com/russHyde/er-injuries-sandpit/tree/0.5-reactive-update)
+
+- Reactivity tests require:
+  - a server (the thing that runs); and
+  - a server function (the thing that's ran)
+- Tests require data
+  - we don't want to use the data for the main app
+
+Structural changes:
+
+- extract server function from `er_app`
+- pass datasets (`injuries`, `products`, `population`) into the server as arguments
+
+But this wasn't so simple
+
+- server functions take arguments `input`, `output`, `session`
+- how do we pass data into them?
+
+### Restructured app
+
+```
+er_app <- function() {
+  # `injuries`, `products` and `population` are package-hosted datasets
+  # They can be accessed by name (but R CMD check complains about you referring to undefined vars)
+  injuries <- get("injuries")
+  products <- get("products")
+  population <- get("population")
+
+  ui <- er_ui(products = products)
+
+  server <- make_er_server(
+    injuries = injuries, products = products, population = population
+  )
+
+  shiny::shinyApp(ui, server)
+}
+
+er_ui <- function(products) {...}
+
+make_er_server <- function(injuries, products, population) {
+  function(input, output, session) {
+    selected <- reactive({...})
+
+    output$diag <- renderTable(...)
+    output$body_part <- renderTable(...)
+    output$location <- renderTable(...)
+
+    summary <- reactive({...})
+
+    output$age_sex <- renderPlot({...})
+  }
+}
+```
+
+### `shiny::testServer`
+
+  - `shiny::testServer(my_server_fn, {given__when__then}, args, session)`
+    - sets up reactive context for shiny (server logic) tests
+    - use `args` to pass in args required in module-server
+  - `session` methods:
+    - `session$setInputs(...)`
+      - sets input values for use in testServer tests
+      - all inputs start as NULL (regardless of UI defaults)
+    - `session$flushReact()`
+      - setting a value doesn't auto-update the reactive graph
+      - this function forces the reactive graph to update
+    - `session$getReturned()`
+      - to assess the value returned by a module
+    - `session$elapse(millis = 300)`
+      - advance the time
+
+### A typical reactivity test
+
+```
+test_that("it updates tables when product-code changes", {
+  # define test-data
+  test_injuries <- tibble::tibble(...)
+  test_products <- tibble::tibble(...)
+  test_population <- tibble::tibble(...)
+
+  # pass test-data into the server function
+  server <- make_er_server(
+    injuries = test_injuries,
+    products = test_products,
+    population = test_population
+  )
+
+  # check that the 'selected' table updates correctly
+  testServer(
+    server,
+    {
+      # no injuries with this code are present in the test data
+      
+      session$setInputs(code = 2345)
+
+      expect_equal(
+        selected(),
+        test_injuries[integer(0), ]
+      )
+
+      # the first and third entries in the injuries table have this code
+
+      session$setInputs(code = 1234)
+
+      expect_equal(
+        selected(),
+        test_injuries[c(1, 3), ]
+      )
+    }
+  )
+})
+```
+
+## Testing Reactivity: Module version
+
+Testing the server function for a module is similar to for an app's server function
+
+- But you can pass in arguments
+
+### Structural changes
+
+[Release 0.6](https://github.com/russHyde/er-injuries-sandpit/tree/0.6-reactive-module/)
+
+- Need to define a module first
+
+UI before the change:
+
+```
+er_ui <- function(products) {
+  prod_codes <- ...
+
+  ui <- fluidPage(
+    ...,
+    # TODO: replace with `count_tables_ui()`
+    fluidRow(
+      column(4, tableOutput("diag")),
+      column(4, tableOutput("body_part")),
+      column(4, tableOutput("location"))
+    ),
+    ...
+  )
+
+  ui
+}
+```
+
+Server before the change:
+
+```
+make_er_server <- function(injuries, products, population) {
+  function(input, output, session) {
+    ...
+    selected <- reactive({...})
+
+    # TODO: replace with `count_tables_server(selected)`
+    output$diag <- renderTable(
+      count_by_weight(selected(), "diag")
+    )
+    output$body_part <- renderTable(
+      count_by_weight(selected(), "body_part")
+    )
+    output$location <- renderTable(
+      count_by_weight(selected(), "location")
+    )
+
+    ...
+  }
+}
+```
+
+Introduced a module to create / render / format the count-tables:
+
+```
+count_tables_ui <- function(id) {
+  ns <- NS(id)
+  fluidRow(
+    column(4, tableOutput(ns("diag"))),
+    column(4, tableOutput(ns("body_part"))),
+    column(4, tableOutput(ns("location")))
+  )
+}
+
+count_tables_server <- function(id, selected) {
+  stopifnot(is.reactive(selected))
+
+  moduleServer(id, function(input, output, session) {
+    diag <- reactive(
+      count_by_weight(selected(), "diag")
+    )
+    output$diag <- renderTable(diag())
+
+    body_part <- reactive(
+      count_by_weight(selected(), "body_part")
+    )
+    output$body_part <- renderTable(body_part())
+
+    location <- reactive(
+      count_by_weight(selected(), "location")
+    )
+    output$location <- renderTable(location())
+  })
+}
+```
+
+### A typical module-reactivity test
+
+```
+test_selected <- tibble::tibble(...)
+
+expected_diag <- tibble::tibble(...)
+
+test_that("tables display the counts correctly", {
+  rx_selected <- reactive(test_selected)
+
+  testServer(count_tables_server, args = list(selected = rx_selected), {
+    expect_equal(
+      diag(),
+      expected = expected_diag
+    )
+    ...
+  })
+})
+```
+
+## Testing JavaScript
+
+  - JS doesn't work in testServer, because there's no front-end in testServer
+  - Lot's of functions used in the `server()` require JS (eg, `insertUI`)
+  - Need a browser for this
+  - 'headless' (can use a browser without manual-interaction)
+  - tools: `shinytest` (also puppeteer, selenium)
+  
+- Issues
+  - Slloooooowwww
+  - How to set up test-environment? (eg, custom databases)
+  - Flaky code? What if the html IDs change
+  - Can't see internal state
+
+### `shinytest::ShinyDriver`
+
+  - Example: a reset button and updateTextInput
+  - `app <- shinytest::ShinyDriver(my_app())`
+  - `app$setInput(name = "value")`
+  - `app$getValue("name")`
+  - `app$sendKeys(name, keys)`
+  - `app$click("someID")`
+
+### Exercise for the reader
+
+What structural changes might be needed to use ShinyDriver-based end-to-end tests with the app?
+
+- how do you pass in test data?
+
+## New testthat things mentioned in the chapter
+
+  - `expect_named(x, c("a", "b", "c"), ignore.order = TRUE, ignore.case = FALSE)`
+  - `expect_setequal(x, y)`
+  - `expect_mapequal(x, y)`
+  - `expect_snapshot()`
+    - Example: output for a UI function
+    - Expected value is stored in a file
+    - Update the expected value using `testthat::snapshot_accept()`
+
+## New RStudio mentioned in the chapter
+
+  - Add keyboard shortcuts:
+    - This did not work
+  - Shortcuts I hoped to add:
+    - [Ctrl + T] : `devtools::test_file()`
+    - [Ctrl + Shift + R] : `devtools::test_coverage()`
+    - [Ctrl + R] : `devtools::test_coverage_file()`
+
+  - Did anyone manage to do this?
