@@ -1,0 +1,184 @@
+# Up and running with `git`
+
+**Learning objectives**
+
+- Understand *what `git` is and how to use it in a basic workflow*
+- Understand *what GitHub is and how to use it in a basic workflow*
+- Review the *different `git` commands used in a basic workflow*
+- Apply *`git` commands to complete a basic workflow*
+- Observe a *basic workflow using RStudio's Git GUI*
+- Observe a *basic workflow using the terminal in RStudio*
+
+## What is `git`?
+
+* `git` is a version control system. 
+
+* Assists developers* when collaborating on big projects.
+    
+  + *Data scientists and analysts have adapted it for their needs.
+
+* Manages the set of files (i.e., a *repository (or repo for short)*) in a structured way.
+
+* Two ways to think about `git`:
+
+   + It takes snapshots, catalogs, and assists in the documentation of changes to your files.
+
+   + It is like Microsoft Word's "Track Changes" on steroids.
+
+### Accessing and using `git`
+
+A myriad of ways are available to use `git` in your workflow (assuming `git` is installed on your computer).
+
+The two most common are:
+
+(@) Using a Graphical User Interface (GUI) Client (you must install some of these)
+
+   i) Examples can be found [here](https://git-scm.com/downloads/guis).
+   i) Built in Git window pane in RStudio
+
+(@) Using terminal commands
+
+   i) System terminal
+   i) Rstudio terminal
+    
+#### Example using the built in RStudio `git` GUI.
+
+* Here's an example of the Git window pane in Rstudio.
+
+![](images/99-up-and-running-git/git-tab-rstudio.png)
+
+* Here's an example of the `git` sub-menu in RStudio.
+
+![](images/99-up-and-running-git/git-sub-menu-rstudio.png)
+
+#### Example using `git` in a system terminal
+
+* Here's an example using a system terminal. Terminal is set up with [`oh my zsh`](https://ohmyz.sh/).    
+
+![](images/99-up-and-running-git/git-terminal.png)
+
+#### Example using `git` in RStudio's terminal
+
+* Here's an example of using RStudio's integrated terminal (Windows users might find this useful). 
+* This tab should be near the `Console` tab. If not, you may have to adjust your settings or open a new terminal. 
+
+![](images/99-up-and-running-git/git-terminal-rstudio.png)
+
+## What is [GitHub](https://github.com/)
+
+* [GitHub](https://github.com/) is a hosting service for your projects.
+
+> Think of it as DropBox, but much, much better ~Jenny Bryan, STAT 545 TAs, & Jim Hester (Happy Git and GitHub for the useR)
+
+* It's a collaboration, project management, and social media platform. 
+
+* Provides many tools to improve/work with your project.
+
+![](images/99-up-and-running-git/GitHub-Mark-120px-plus.png)
+
+### Other services like GitHub
+
+* [Bitbucket](https://bitbucket.org/)
+
+![](images/99-up-and-running-git/Bitbucket@2x-blue.png)
+
+* [GitLab](https://about.gitlab.com/)
+
+![](images/99-up-and-running-git/git-lab-logo.png)
+
+* Although these services are different, the fundamentals are still the same across the platforms. 
+
+## A basic workflow visualized
+
+There are many tools that `git` and GitHub provides. Just check out the [Pro Git book](https://git-scm.com/book/en/v2). Let's just look at a basic, common workflow: tracking and documenting changes to our project. 
+
+### Personal repo workflow step-by-step
+
+* Here's a step-by-step visualization of the workflow. 
+        
+  + These are the common steps and there are many approaches to do what is explained here. 
+
+  + Using these commands in the same steps might not matter. You will find yourself using similar patterns over and over. 
+    
+      - **Pull, make changes, add, commit, push**
+
+  + The commands you use and in what order you use them is based on the current state of the project. 
+
+![](images/99-up-and-running-git/git-workflow-step-by-step.png)
+
+### Personal repo workflow
+
+* Here's the same workflow. It is just visualized a different way. 
+
+![](images/99-up-and-running-git/git-basic-workflow.png)
+
+### Fork, clone, push, and pull workflow (collaboration)
+
+* This diagram is from the [Happy Git and GitHub for the useR book](https://happygitwithr.com/). 
+
+* It overviews the workflow when working with a forked repository.
+
+* We will come back to this at a later time, once we start developing the app. 
+
+![](images/99-up-and-running-git/fork-triangle-happy.png)
+
+### Quick notes about these workflows
+* They will not always run smoothly
+   + Errors and issues are inevitable (merge conflicts...ugh)
+   + Read the prompts and try to solve the issue
+   
+* Git can be frustrating at times
+   + Don't worry about being perfect
+   + Getting good takes practice
+
+## Workflow commands
+
+* The following are common commands to perform the previously discussed workflow. 
+
+* `git` has many commands, each having multiple options to modify behavior. 
+
+    + Want to know more, check out the [Pro Git book](https://git-scm.com/book/en/v2).   
+
+### Get Remote Repo/Update Local Repo
+    
+  * `git clone <repo url>` (only needs to be run once*): pulls files into a directory (file)
+  * `git pull`: retrieves changes from the remote repo
+
+### View info about local files
+
+  * `git branch`: see what branch you are on locally.
+  * `git status`: see what files have changed locally.
+  * `git diff`: see specific changes in the files.
+    
+### Stage and document changes
+
+  * `git checkout <branch name>`: change your branch if needed.
+  * `git add <file name>`: stage the file for documentation.
+  * `git add -i`: interactive module for staging. Great for when you have lots of files to commit.
+  * `git commit`: opens text editor to document changes.
+     + If `vim` opens: Press `i` (insert) >> add your subject line >> draft your message >> `Esc` >> `:+x` >> `Enter`.
+  * `git commit -m <message>`: Short version for drafting commit messages. 
+    
+### Push changes to remote repository    
+    
+  * `git push`: push changes to remote repo (GitHub)
+
+## Demo of the workflow
+
+1. Workflow using the GUI
+
+2. Workflow using the terminal
+
+## Other resources to learn more about `git`
+
+1. Keep coming to this group, we will discuss more advanced topics surrounding the use of `git` 
+
+2. [Happy Git and GitHub for the useR](https://git-scm.com/book/en/v2)
+
+3. [Pro Git (free and available online)](https://git-scm.com/book/en/v2)
+
+4. [Learn git branching, the game](https://learngitbranching.js.org/)
+
+5. [How Does Git Work? (A more in-depth blog on git internals)](https://www.honeybadger.io/blog/how-does-git-work/)
+
+6. `@Tan` in the R4DS Slack put together some [videos](https://www.youtube.com/playlist?list=PL3x6DOfs2NGhS_PhklqT6PwK1Fh7blgP2).
