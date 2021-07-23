@@ -1,0 +1,12 @@
+# Security
+
+> Who deploys the app is responsible for security between apps, and within your app
+
+## The security within your app
+
+
+### Working in team:
+
+- authentication
+Kerberos (/ˈkɜːrbərɒs/) is a computer-network authentication protocol
+- client-side validation
