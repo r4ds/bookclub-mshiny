@@ -39,8 +39,8 @@ If you would like to present, please add your name next to a chapter using the [
   - 2021-06-29: Chapter 18: _Functions_: Layla Bouzoubaa
   - 2021-07-06: Chapter 19: _Shiny modules_: Andrew MacDonald
   - 2021-07-13: Chapter 20: _Packages_: Presenter TBA
-  - 2021-07-20: Chapter 21: _Testing_: Presenter TBA
-  - 2021-07-27: Chapter 22: _Security_: Presenter TBA
+  - 2021-07-20: Chapter 21: _Testing_: Russ Hyde
+  - 2021-07-27: Chapter 22: _Security_: Federica Gazzelloni
   - 2021-08-03: Chapter 23: _Performance_: Presenter TBA
   - 2021-08-10: Roundup
 
