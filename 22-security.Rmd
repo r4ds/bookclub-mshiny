@@ -61,9 +61,9 @@ height = '100%', width = '100%')
 
 Sensitive data and passwords are the most targeted objectives of the attackers, for this reason is recommended to:
 
-- do not storage password in the source code of your app, but eventually, in a variable in the environment
+- do not store password in the source code of your app, but eventually, in a variable in the environment
 
-- use a **.yml** file to storage login credentials
+- use a **.yml** file to store login credentials
 
 - use `.gitignore` to include the appropriate files containing your authentication credentials
 
@@ -73,7 +73,7 @@ Sensitive data and passwords are the most targeted objectives of the attackers, 
 **Authentication** and **client-side validation**
 
 
-There is more than one alternative to authenticate, first thing is that you need to **add some kind of layer between the user interface and the Shiny server**, i.e. a **proxi**
+There is more than one alternative to authenticate, first thing is that you need to **add some kind of layer between the user interface and the Shiny server**, i.e. a **proxy**
 ```{r echo=FALSE, fig.align='center', fig.cap='proxy', out.width='50%'}
 knitr::include_graphics('images/22-security/proxi.png')
 ```
@@ -99,9 +99,9 @@ How to install **config** and all the other packages (substituting the package's
     install.packages("config")
     library(config)
 
-How to storage the password in a file with [config in practice](https://db.rstudio.com/best-practices/managing-credentials/) ? 
+How to store the password in a file with [config in practice](https://db.rstudio.com/best-practices/managing-credentials/) ? 
 
-The package makes easier to deploy content, and in this contest is used to keep the credentials outside of the R script by saving them in the **config.yml** file while keeping it in the current working directory.
+The package makes easier to deploy content, and in this context is used to keep the credentials outside of the R script by saving them in the **config.yml** file while keeping it in the current working directory.
 
 [YAML(tm)](https://yaml.org/about.html) are type of files made for making easier international collaboration with a language which is both human readable and computationally powerful.
 
@@ -128,7 +128,7 @@ And to recall the information back from its directory:
 knitr::include_graphics('images/22-security/auth0.png')
 ```
 
-It is an identity provider, it offers a server where to storage shiny apps as well as procedures for setting credentials at access. You need an account where to load your app and set up the credentials.
+It is an identity provider, it offers a server where to store shiny apps as well as procedures for setting credentials at access. You need an account where to load your app and set up the credentials.
 
 `_auth0.yml` files can be created with the command `use_auth0()` which can be automatically positioned in the app.R directory and it is already filled with basic information:
 
@@ -226,7 +226,7 @@ Generally used in this contest to encrypt passwords with simple commands such as
     user_name = "user_authr_1",
     password  = sodium::password_store("pass_authr_1")
     
-which releases the passowrd in this format:
+which releases the password in this format:
 
 ```{r}
 password = "pass_authr_1"
@@ -465,7 +465,7 @@ and suggests to substitute with `glue_safe()` which instead releases an error/wa
 knitr::include_graphics('images/22-security/xkcd.png')
 ```
 
-The code to construct a SQL query with `paste()` could lead to *flexibilities* in code costruction that would allow the addition of extra characters not warned or advised by any friendly error messages
+The code to construct a SQL query with `paste()` could lead to *flexibilities* in code construction that would allow the addition of extra characters not warned or advised by any friendly error messages
 
 ```{r}
 find_student <- function(name) {
