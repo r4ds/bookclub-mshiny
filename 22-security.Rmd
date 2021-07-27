@@ -84,7 +84,7 @@ It will redirect the user to an authentication page, as in a login page, and onc
 
 ---------------------------
 
-The following section lists six packages for configuration, authentication, and storage of login credentials. There are several options to choose from based on your need and design of the app.
+The following section lists five packages for configuration, authentication, and storage of login credentials. There are several options to choose from based on your need and design of the app.
 
 
 **Packages:**
@@ -164,7 +164,7 @@ This method is not exclusive of `auth0`package but is a recommended approach to 
 ---------------------------------
 
 
-3 - A simple and secure authentication mechanism for single ‘Shiny’ applications is **[{shinymanager}](https://datastorm-open.github.io/shinymanager/)**
+3 - A simple and secure authentication mechanism for single ‘Shiny’ applications is through **[{shinymanager}](https://datastorm-open.github.io/shinymanager/)** package.
 
 
 
@@ -173,12 +173,12 @@ knitr::include_graphics('images/22-security/shinymanager.png')
 ```
 
 
-A live demonstration of the potentiality of this package:
+Here is a live demonstration of the potentiality of this package:
 
 - [Shiny-server](http://shinyapps.dreamrs.fr/shinymanager-demo/)
 - [shinyapps.io](https://dreamrs.shinyapps.io/shinymanager-demo/)
 
-follows with these authentication credentials:
+it follows with these authentication credentials:
 
     user: shiny / password: shiny
     user: shinymanager / password: shinymanager (Admin)
@@ -197,26 +197,26 @@ As well as in the `server()` with the following commands:
 -----------------------------
 
 
-4 - **[{shinyauthr}](https://paulc91.github.io/shinyauthr/)** This package is very useful for providing key function to use. 
+4 - The **[{shinyauthr}](https://paulc91.github.io/shinyauthr/)** package is very useful for providing key function to use. 
 ```{r echo=FALSE, fig.align='center', fig.cap='shinyauthr package', out.width='25%'} 
 knitr::include_graphics('images/22-security/shinyauthr.png')
 ```
 
-These are the main functions to use which invisibly call JavaScript with `shinyjs::useShinyjs()` internally:
+These are the main functions which invisibly call JavaScript with the command `shinyjs::useShinyjs()` internally:
 
     loginUI()
     loginServer()
     logoutUI()
     logoutServer()
 
-Also it provides a method for **cookie-based automatic login**, which means that the system can store the credentials for some time established by the creator of the app. 
+It also provides a method for **cookie-based automatic login**, which means that the system can store the credentials for some time as established by the creator of the app. 
 
 
 --------------------------------
 
 
 
-5 - **[{sodium}](https://github.com/jeroen/sodium)** It is software library for encryption, decryption, signatures, password hashing and more.
+5 - **[{sodium}](https://github.com/jeroen/sodium)** package is software library for encryption, decryption, signatures, password hashing and more.
 ```{r echo=FALSE, fig.align='center', fig.cap='sodium package', out.width='25%'} 
 knitr::include_graphics('images/22-security/sodium.png')
 ```
@@ -244,7 +244,7 @@ sodium::password_verify(hash, password)
 
 
 
-Another suggestion by the [book](https://mastering-shiny.org/scaling-security.html) is to use
+Another suggestion by the [book](https://mastering-shiny.org/scaling-security.html) is to use:
 
 ```{r echo=FALSE, fig.align='center', fig.cap='Kerberos', out.width='25%'}
 knitr::include_graphics('images/22-security/kerberos.png')
@@ -259,7 +259,7 @@ Kerberos is available with RStudio Pro Products.
 ----------------------------
 
 
-In general what happens in an app when setting up a login credentials is described below.
+In general what happens in an app when setting up login credentials is described below.
 
 In the `ui` you can use these commands for wrapping your code and build a module, while in the `server()` you should mind not to storage any form of credentials, but as said, storage them in a separate file (.xlm , .yml , .rds, .Renviron, ...). 
 
@@ -272,13 +272,12 @@ The `server()` should include the `eventReactive()` function to check whether th
     }
 
 
-Shiny inputs use **client-side validation** when accessing an API or database in R. It is often necessary to [provide credentials](https://www.r-bloggers.com/2019/03/how-to-avoid-publishing-credentials-in-your-code/) such as a login name and password. 
-
-
 ---------------------------------
 
 
-In this example is shown for simplicity an application of the {shinyauthr}; the credentials are located inside the `server()`, they should be in a `config.yml` file and then retrieved for use.
+**Examples:**
+
+1 - In this example is shown for simplicity an application of the **{shinyauthr}**: the credentials are located inside the `server()`, they should be in a `config.yml` file and then retrieved for use.
 
 You may find yourself being prompted with something like this:
 
@@ -339,7 +338,11 @@ server <- function(input, output, session) {
 ```
 
 
-Examples of Shiny inputs using **client-side validation** (input performed by JavaScript in the browser) where is possible for an attacker to send unexpected values:
+
+When accessing an API or database in R, Shiny inputs use **client-side validation**  and often requires to [provide credentials](https://www.r-bloggers.com/2019/03/how-to-avoid-publishing-credentials-in-your-code/) such as a login name and password. 
+
+
+2 - Another example of Shiny inputs using **client-side validation** (input performed by JavaScript in the browser) where is possible for an attacker to send unexpected values is:
 
 ```{r}
 secrets <- list(
@@ -390,7 +393,7 @@ Finally, in case you want to skip the authentication step when testing the app:
 ## Compute resources
 
 
-What about errors, holes, dangerous function combinations, selective characters such as special characters that are not recognizable by the system language so that it can be filled with strange values?
+What about errors, holes, dangerous function combinations, selective characters such as special characters that are not recognizable by the system language? What can be done to prevent unexpected values from being used?
 
 
 Malicious attackers can:
@@ -437,7 +440,7 @@ Below are some examples of dangerous app chunks:
 
 
 
-2 - Other kind of possibilities for error chain generator are given by the **model formula**, the formula can executes an extra command `print()`
+2 - Other kinds of possibilities for error chain generators are given by the **model formula**, the formula can executes an extra command `print()`
 
     lm(y ~ {print("Hi!"); x}, data = df)
 
@@ -445,24 +448,24 @@ Below are some examples of dangerous app chunks:
     
     
     
-3 - Third warning comes from the {glue} package where the book in this case suggest to pay attention to: 
+3 - Third warning comes from the **{glue}** package, the book in this case suggests to pay attention to use: 
 
     glue::glue("{title}-{print('Hi'); number}")
     
-and suggest to use `glue_safe()` instead which releases an error
+and suggests to substitute with `glue_safe()` which instead releases an error/warning:
 
     glue::glue_safe("{title}-{print('Hi'); number}")
     
     #> Error in .transformer(expr, env): object 'print('Hi'); number' not found
     
     
-4 - In case of **variable transformation** this is what can happen:    
+4 - In case of **variable transformation**, this is what can happen:    
     
-```{r, out.width='25%', fig.align='center', fig.cap='https://xkcd.com/327/'}
+```{r, echo=FALSE,out.width='25%', fig.align='center', fig.cap='https://xkcd.com/327/'}
 knitr::include_graphics('images/22-security/xkcd.png')
 ```
 
-The code to construct a SQL query with paste() could lead to flexibilities in code costruction that would allow the addition of extra characters not warned or advised by any friendly error messages
+The code to construct a SQL query with `paste()` could lead to *flexibilities* in code costruction that would allow the addition of extra characters not warned or advised by any friendly error messages
 
 ```{r}
 find_student <- function(name) {
@@ -475,7 +478,7 @@ find_student("Robert'); DROP TABLE Students; --")
 
 ```
 
-solution: use `glue::glue_sql()`
+**solution**: use `glue::glue_sql()`
 ```{r}
 con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
 
@@ -498,7 +501,7 @@ find_student("Robert'); DROP TABLE Students; --")
 
 
 Security for your applications running on shinyapps.io:
-all access to the apps is over SSL, and you can configure your app to require authentication prior to anyone accessing it, also every account has its own sub-directory structure.
+all access to the apps is over SSL; you can configure your app to require authentication before anyone accessing it; in addition, every account has its sub-directory structure as a double layer of security.
 
 
 
@@ -507,9 +510,9 @@ all access to the apps is over SSL, and you can configure your app to require au
 
 ## Conclusions:
 
-Securing an **app** might require some extra work around all the information available as well as all the extra available packages and functions that can be used for authenticate and avoid wrongful combination of functions/commands.
+Securing an **app** might require some extra work around all the information available as well as all the extra available packages and functions that can be used for authenticating and avoid the wrongful combination of functions/commands.
 
-This might be the case for apps containing sensitive information or for those one letting the users access to restricted data.
+This might be the case for apps containing sensitive information or for those one letting the users access restricted data.
 
 
 ### Resources:
