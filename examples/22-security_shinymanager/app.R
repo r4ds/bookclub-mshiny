@@ -16,7 +16,7 @@ if (interactive()) {
   )
   
   # Wrap your UI with secure_app
-  ui <- secure_app(ui, choose_language = TRUE)
+  ui <- secure_app(ui, choose_language = FALSE)
   
   # change auth ui background ?
   # ui <- secure_app(ui,

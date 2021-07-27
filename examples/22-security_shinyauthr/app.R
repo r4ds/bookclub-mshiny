@@ -10,9 +10,17 @@ user_base <- dplyr::tibble(
 
 # instead of storing credentials inside the source app, save them in a 
 # .yml file using the config package to retrive them
-#config <- config::get(file = "conf/config.yml")
-#config$user
-#config$password
+config <- config::get(file = "examples/22-security_shinyauthr/conf/config.yml")
+config$user
+config$password
+
+user_base_config <- dplyr::tibble(
+  user = config$user,
+  password = config$password,
+  permissions = "admin",#c("admin", "standard"),
+  name = "User One" #c("User One", "User Two")
+)
+
 
 
 ui <- fluidPage(
@@ -34,11 +42,11 @@ server <- function(input, output, session) {
   # call login module supplying data frame, 
   # user and password cols and reactive trigger
   credentials <- shinyauthr::loginServer(
-    id = "login",
-    data = user_base,
+    id       = "login",
+    data     = user_base_config,
     user_col = user,
-    pwd_col = password,
-    log_out = reactive(logout_init())
+    pwd_col  = password,
+    log_out  = reactive(logout_init())
   )
   
   # call the logout module with reactive trigger to hide/show
