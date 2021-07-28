@@ -44,7 +44,6 @@ library('shiny')
 
 Simplest way - create new directory for your app and add a single `app.r` file
 
-
 ```{r first_app, eval=FALSE}
 library(shiny)
 ui <- fluidPage(
@@ -71,6 +70,10 @@ The basic workflow of shiny app development is...
 3. Play with the app
 4. Write some more code
 5. Repeat...
+
+A simple diagram of the Shiny development process.
+
+![](images/01-your_first_shiny_app/shiny-dev-process-simple.png)
 
 ### Running the app 
 
@@ -112,20 +115,34 @@ ui <- fluidPage(
 ```
 Four new functions: 
 
-1. `fluidPage()` - layout function to set up visual structure of page 
-2. `selectInput()` - input control for user to interact with 
-3. `verbatimTextOutput()` - output control - shows code result
-4. `tableOutput` - output control - displays tables
+1. `fluidPage()` - **layout function** to set up visual structure of page 
+2. `selectInput()` - **input control** for user to interact with 
+3. `verbatimTextOutput()` - **output control** - shows code result
+4. `tableOutput()` - **output control** - displays tables
 
 **These are all just ways to generate HTML**
 
+Run the following in the console to see the outputted html:
+
+```{r html output, eval=FALSE}
+selectInput("dataset", label = "Dataset", choices = ls("package:datasets"))
+```
+
+Open the app in the browser, `right click on page` >> `select inspect` to see the html.
+
 **Note:** `fluidPage()` is just one option available for page setup. `navBarPage()` is a nice example for creating an app with page tabs.
+
+You can see an example of the use of `navBarPage()` [here](https://shiny.rstudio.com/gallery/navbar-example.html).
 
 ## Adding behaviour 
 
 Need server function to bring the outputs to life 
 
 Reactive programming tells Shiny **how** to perform a function.
+
+> It's the difference between giving someone a recipe versus demanding that they go make you a sandwich. ~ Hadley Wickham (Author of Mastering Shiny)
+
+Your coding the range of app behaviors, but the user of your app demands the output based on their selection of input(s). 
 
 This code tells shiny how to fill in the `summary` and `table` outputs we defined in the UI. 
 
@@ -153,10 +170,9 @@ There are specific render functions `render{Type}` for different outputs:
 - images
 - new ui components 
 
-
 ## Reactive expressions 
 
-Key part of reducing duplication and ensuring you D-R-Y 
+Key part of reducing duplication and ensuring you [D-R-Y (Don't-Repeat-Yourself)](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)
 
 **Duplicated code is particularly bad for Shiny apps which can get cumbersome and more difficult to maintain and debug as they grow**
 (Although the latest release of shiny does have some improved debugging tools)
@@ -165,7 +181,7 @@ Reactive expressions combines some of the same logic as variables and functions,
 
 Create a reactive expression by wrapping a block of code in `reactive({...})` and assigning it to a variable. 
 
-You can use the reactive expression like a standard function with **one important difference** - it only runs once and caches the result until input changed. So once it is initialised it will return some form of constant until it's updated again. 
+You can use the reactive expression like a standard function with **one important difference** - it only runs once and caches the result until the input is changed. So once it is initialised it will return some form of constant until it's updated again. 
 
 The below code retrieves the dataset once, not twice 
 
@@ -200,13 +216,21 @@ Using our 'first app' as an example:
 
 ![](images/01-your_first_shiny_app/reactive_ui_server_example.png)
 
+A good way to see this in action is to use Shiny's showcase mode:
+
+```{r showcase-example, eval=FALSE}
+runApp("examples/01-your_first_shiny_app/app-data-example-final.R", display.mode = "showcase")
+```
+
+You can read more about the different Shiny display modes [here](https://shiny.rstudio.com/articles/display-modes.html).
+
 ## Shiny resources 
 
 Shiny cheatsheet
 
 https://www.rstudio.com/resources/cheatsheets/ 
 
-![](01_first_app/shiny.pdf){width=100%}
+![](images/01-your_first_shiny_app/shiny-cheatsheet.pdf){width=150%}
 
 ### Other resources
 
@@ -221,6 +245,17 @@ https://www.rstudio.com/resources/cheatsheets/
 ## Meeting Videos
 
 ### Cohort 1
+
+`r knitr::include_url("")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+```
+</details>
+
+### Cohort 2
 
 `r knitr::include_url("")`
 
