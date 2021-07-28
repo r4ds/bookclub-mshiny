@@ -32,6 +32,8 @@ server <- function(input, output, session) {
     hist(data(), breaks = input$bins, main = input$var)
   }, res = 96)
 }
+
+shinyApp(ui = ui, server = server)
 ```
 
 to this:
@@ -62,7 +64,7 @@ histogramApp <- function() {
     histogramUI("hist1")
   )
   server <- function(input, output, session) {
-    histogramServer("hist1")
+    histogramServer("hist99")
   }
   shinyApp(ui, server)  
 }
@@ -141,7 +143,7 @@ histogramOutput <- function(id) {
   )
 }
 
-histogramOutput("ff")
+histogramOutput("foobar")
 # you can see where the input id is definied! 
 ```
 
@@ -208,3 +210,8 @@ histogramApp <- function() {
 histogramApp()
 ```
 
+## Links to examples
+
+Two versions of a simple app based on Tidy Tuesday data:
+* [Shiny dashboard](https://github.com/jakelawlor/Volcano_Shiny_App)
+* [golem with modules](https://github.com/bios2/shiny_volcano_golem)
