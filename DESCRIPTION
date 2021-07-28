@@ -19,6 +19,12 @@ Imports:
     tibble,
     kableExtra,
     R6,
-    pryr
+    pryr,
+    shinymanager,
+    shinyauthr,
+    auth0,
+    config,
+    sodium,
+    testthat
 Remotes: 
     hadley/emo
