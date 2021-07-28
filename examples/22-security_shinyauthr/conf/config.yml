@@ -1,0 +1,5 @@
+default:
+  user : "user1" #c("user1", "user2")
+  password : "pass1" # c("pass1", "pass2")
+  permissions : "admin"
+  name : "User One"
