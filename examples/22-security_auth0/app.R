@@ -20,10 +20,13 @@ server <- function(input, output, session) {
 
 # shinyApp(ui, server)
 
-# note that here we're using a different version of shinyApp!
-auth0::shinyAppAuth0(ui, server)
 
 # use_auth0() # it creates a ylm file with client&server info
+options(auth0_config_file = "examples/22-security_auth0/_auth0.yml")
+auth0::use_auth0()
+
+# note that here we're using a different version of shinyApp!
+auth0::shinyAppAuth0(ui, server)
 
 
 
@@ -33,7 +36,7 @@ library(auth0)
 
 auth0_ui(fluidPage(logoutButton()))
 
-
+#------------------------------------------
 
 library(shiny)
 library(auth0)
