@@ -1,3 +1,5 @@
+# (PART\*) Other topics {-}
+
 # Up and running with `git`
 
 **Learning objectives**
@@ -25,7 +27,7 @@
 
    + It is like Microsoft Word's "Track Changes" on steroids.
 
-### Accessing and using `git`
+## Accessing and using `git`
 
 A myriad of ways are available to use `git` in your workflow (assuming `git` is installed on your computer).
 
@@ -41,7 +43,7 @@ The two most common are:
    i) System terminal
    i) Rstudio terminal
     
-#### Example using the built in RStudio `git` GUI.
+## Example using the built in RStudio `git` GUI.
 
 * Here's an example of the Git window pane in Rstudio.
 
@@ -51,20 +53,20 @@ The two most common are:
 
 ![](images/99-up-and-running-git/git-sub-menu-rstudio.png)
 
-#### Example using `git` in a system terminal
+## Example using `git` in a system terminal
 
-* Here's an example using a system terminal. Terminal is set up with [`oh my zsh`](https://ohmyz.sh/).    
+* Here's an example using a system terminal. Terminal is set up with [`oh my zsh`](https://ohmyz.sh/) running on a Mac Computer.    
 
 ![](images/99-up-and-running-git/git-terminal.png)
 
-#### Example using `git` in RStudio's terminal
+### Example using `git` in RStudio's terminal
 
 * Here's an example of using RStudio's integrated terminal (Windows users might find this useful). 
 * This tab should be near the `Console` tab. If not, you may have to adjust your settings or open a new terminal. 
 
 ![](images/99-up-and-running-git/git-terminal-rstudio.png)
 
-## What is [GitHub](https://github.com/)
+## What is GitHub?
 
 * [GitHub](https://github.com/) is a hosting service for your projects.
 
@@ -72,7 +74,7 @@ The two most common are:
 
 * It's a collaboration, project management, and social media platform. 
 
-* Provides many tools to improve/work with your project.
+* Provides many tools to improve/work on your project.
 
 ![](images/99-up-and-running-git/GitHub-Mark-120px-plus.png)
 
@@ -88,17 +90,21 @@ The two most common are:
 
 * Although these services are different, the fundamentals are still the same across the platforms. 
 
-## A basic workflow visualized
+## A basic workflow - pull, commit, and push
 
-There are many tools that `git` and GitHub provides. Just check out the [Pro Git book](https://git-scm.com/book/en/v2). Let's just look at a basic, common workflow: tracking and documenting changes to our project. 
+* There are many tools that `git` and GitHub provides. 
+    + Just check out the [Pro Git book](https://git-scm.com/book/en/v2). 
 
-### Personal repo workflow step-by-step
+* Let's look at a basic, common workflow: tracking and documenting changes to our project.
+    + `pull`, `commit`, and `push`
+
+## Personal repo workflow step-by-step
 
 * Here's a step-by-step visualization of the workflow. 
         
   + These are the common steps and there are many approaches to do what is explained here. 
 
-  + Using these commands in the same steps might not matter. You will find yourself using similar patterns over and over. 
+  + Using these commands in the same steps might not matter. You will find yourself using similar patterns over and over, however. 
     
       - **Pull, make changes, add, commit, push**
 
@@ -106,15 +112,17 @@ There are many tools that `git` and GitHub provides. Just check out the [Pro Git
 
 ![](images/99-up-and-running-git/git-workflow-step-by-step.png)
 
-### Personal repo workflow
+## Personal repo workflow alternative view
 
 * Here's the same workflow. It is just visualized a different way. 
 
 ![](images/99-up-and-running-git/git-basic-workflow.png)
 
-### Fork, clone, push, and pull workflow (collaboration)
+## Fork, clone, push, and pull workflow (collaboration)
 
 * This diagram is from the [Happy Git and GitHub for the useR book](https://happygitwithr.com/). 
+
+* **This is how you can make changes to the bookclub's review materials.**
 
 * It overviews the workflow when working with a forked repository.
 
@@ -122,10 +130,10 @@ There are many tools that `git` and GitHub provides. Just check out the [Pro Git
 
 ![](images/99-up-and-running-git/fork-triangle-happy.png)
 
-### Quick notes about these workflows
+### Some notes about these workflows
 * They will not always run smoothly
    + Errors and issues are inevitable (merge conflicts...ugh)
-   + Read the prompts and try to solve the issue
+   + Read the prompts and try to solve the issue, Google is your friend
    
 * Git can be frustrating at times
    + Don't worry about being perfect
@@ -133,7 +141,7 @@ There are many tools that `git` and GitHub provides. Just check out the [Pro Git
 
 ## Workflow commands
 
-* The following are common commands to perform the previously discussed workflow. 
+* The following are common commands to perform the previously discussed workflow in a terminal. 
 
 * `git` has many commands, each having multiple options to modify behavior. 
 
@@ -167,7 +175,11 @@ There are many tools that `git` and GitHub provides. Just check out the [Pro Git
 
 1. Workflow using the GUI
 
+    * Video will be added soon
+
 2. Workflow using the terminal
+
+    * Video will be added soon
 
 ## Other resources to learn more about `git`
 
@@ -182,3 +194,16 @@ There are many tools that `git` and GitHub provides. Just check out the [Pro Git
 5. [How Does Git Work? (A more in-depth blog on git internals)](https://www.honeybadger.io/blog/how-does-git-work/)
 
 6. `@Tan` in the R4DS Slack put together some [videos](https://www.youtube.com/playlist?list=PL3x6DOfs2NGhS_PhklqT6PwK1Fh7blgP2).
+
+## Meeting Videos
+
+### Cohort 2
+
+`r knitr::include_url("")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+```
+</details>
