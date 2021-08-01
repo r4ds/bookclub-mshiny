@@ -199,11 +199,51 @@ The two most common are:
 
 ### Cohort 2
 
-`r knitr::include_url("")`
+#### 2021-07-21: Initial meeting, overview of `git` workflows. {-}
+
+`r knitr::include_url("https://www.youtube.com/embed/beOYuHG9Xng")`
+
+#### 2021-07-28: Demonstration using the RStudio terminal to perform `git` operations (Beginning of session). {-}
+
+`r knitr::include_url("https://www.youtube.com/embed/UfYv0Jp4yIQ")`
 
 <details>
-  <summary> Meeting chat log </summary>
+  <summary> Meeting chat logs </summary>
   
 ```
+# Meeting 2021-07-21
+00:01:07	Zaynaib Giwa, @zaynaib:	Hello Collin
+00:01:24	Collin Berke:	Hello! I will jump in here shortly.
+00:01:35	Ola:	Hello Eileen
+00:10:41	Conor Tompkins:	Indexing the chapters at 0? Brave move lol
+00:31:23	Ola:	git bash for windows if you are a terminal person
+00:32:24	Kevin Gilds:	use both terminal and Rstudio gui-depends
+00:32:41	Conor Tompkins:	I use RStudio + GitHub.com. terminal if I need to delete old branches
+00:34:56	Kevin Gilds:	Linux!
+00:35:07	Ola:	windows has a terminal
+00:35:29	Ola:	https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab
+00:35:37	Ola:	here is the app for windows terminal its awesome
+00:38:01	Ola:	if you are windows and want to run a ubntu on it without dual booting https://docs.microsoft.com/en-us/windows/wsl/install-win10
+00:43:37	Conor Tompkins:	Azure is another one
+01:00:08	Ola:	If you do commit large files use git-lfs
+01:00:33	Ola:	https://git-lfs.github.com/
+01:06:16	Conor Tompkins:	There is this channel in the slack: help-5-github_open_source
+01:06:42	Sandra:	Thanks
+01:07:19	Maria C Ramos:	Thank you!
+
+# Meeting 2021-07-28
+00:15:20	Ola:	you are on mute
+00:30:25	Ola:	it sounds like you need to setup your ssh key
+00:30:27	Ola:	https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+00:31:11	Conor Tompkins:	RStudio sort of combines git add and git commit.
+00:36:19	Ola:	yes
+00:46:54	Conor Tompkins:	It would be interesting to know whether you can use a port number below 1023. Those are reserved for specific uses
+00:48:15	Ola:	You can assign an application a port number. 
+00:48:58	Ola:	There are some default ports for certain applications like postgres I think its like port 5410 … don't quote me on that
+00:49:45	Ryan Metcalf:	Many APIs utilize particular ports when communicating to different servers. Redis, Postgres, SQLServer, etc…
+00:49:52	Ryan Metcalf:	HTML by default is 80 or 8080.
+00:50:17	Ryan Metcalf:	SSH, FTP, SFTP, are 21, 22, 23, etc…
+00:51:35	Eileen:	Shiny:: cheat sheet
+00:54:43	Ola:	Maybe we should have a debugging zoom party one of these days
 ```
 </details>
