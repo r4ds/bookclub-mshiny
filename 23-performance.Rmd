@@ -1,7 +1,5 @@
 # Performance
 
-## Learning Outcomes
-
 ## Restaurant Shiny
 
 - Server =~ Restaurant
@@ -55,14 +53,94 @@ shinyloadtest_report(df, "report.html")
 
 ## Profiling
 
+Where is the app slow / memory-hungry?
+
 ### Tools
 
 - profvis
+
+The call stack and the "Flame graph"
+
+```{r, eval = FALSE}
+library(profvis)
+
+f <- function() {
+    pause(0.2)
+  g()
+    h()
+    10
+}
+g <- function() {
+    pause(0.1)
+  h()
+}
+h <- function() {
+    pause(0.3)
+}
+
+profvis::profvis(f())
+```
+
+Similar for {shiny}, but need explicit call to start the app (and close it with [Ctrl-C])
+
+```{r, eval = FALSE}
+ui <- fluidPage(
+    actionButton("x", "Push me"),
+      textOutput("y")
+    )
+server <- function(input, output, session) {
+    output$y <- eventReactive(input$x, f())
+}
+
+app <- shinyApp(ui, server)
+```
+
+```{r, eval = FALSE}
+profvis::profvis(
+  shiny::runApp(
+    app()
+  )
+)
+```
+
+Note that data downloads may not be tracked.
 
 ## Optimisation
 
 ### Cacheing
 
+- `bindCache`
+  - cacheing of any reactive value or render function
+  - uses 'cache keys'
+    - keep them as simple as possible
+  - date/time-dependent results
+  - cache has fixed size
+  - scope (per session, or per process; in-memory or on-disk)
+
+```{r, eval = FALSE}
+r <- reactive(slow_function(input$x, input$y)) %>%
+  bindCache(input$x, input$y)
+
+output$text <- renderText(slow_function2(input$z)) %>%
+  bindCache(input$z)
+```
+
 ### Other Optimisations
 
+- Do as little as possible
+- Do your prep outside of the server
+- Do your prep outside of shiny
+- Use the fastest import method available
+- Only do the slow stuff if requested
+- Learn async programming
+
 ## Resources
+
+- [https://rstudio.com/resources/rstudioconf-2019/shiny-in-production-principles-practices-and-tools/]()
+- [https://rstudio.github.io/shinyloadtest/articles/analyzing-load-test-logs.html]()
+- [https://queue.acm.org/detail.cfm?id=2927301]()
+- [https://adv-r.hadley.nz/perf-improve.html]()
+- [https://csgillespie.github.io/efficientR/]()
+- [https://rstudio.com/resources/rstudioconf-2018/make-shiny-fast-by-doing-as-little-work-as-possible/]()
+- [https://shiny.rstudio.com/articles/caching.html]()
+- [https://shiny.rstudio.com/app-stories/weather-lookup-caching.html]()
