@@ -50,9 +50,9 @@ If you would like to present, please add your name next to a chapter using the [
   - 2021-07-21: _Git basics_: Collin Berke
 - Part 1 (Getting started)
   - 2021-07-28: Chapter 1: _Your First Shiny App_: Collin Berke
-  - 2021-08-04: Chapter 2: _Basic UI_: Presenter Ola Giwa
+  - 2021-08-04: Chapter 2: _Basic UI_: Ola Giwa
   - 2021-08-11: Chapter 3: _Basic Reactivity_: Presenter TBA
-  - 2021-08-18: Chapter 4: _Case Study: ER injuries_: Presenter TBA
+  - 2021-08-18: Chapter 4: _Case Study: ER injuries_: Ryan S
   - 2021-08-25: Project review
 - Part 2 (Shiny in action)
   - 2021-09-01: Chapter 5: _Workflow_: Presenter TBA
