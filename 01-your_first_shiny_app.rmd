@@ -281,3 +281,14 @@ https://www.rstudio.com/resources/cheatsheets/
 00:54:43	Ola:	Maybe we should have a debugging zoom party one of these days
 ```
 </details>
+
+### Cohort 2
+
+`r knitr::include_url("")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+```
+</details>
