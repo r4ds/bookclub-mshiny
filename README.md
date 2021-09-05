@@ -11,7 +11,7 @@ You can catch up on Book Club recordings on the Mastering Shiny [YouTube Playlis
 
 If you would like to present, please add your name next to a chapter using the [GitHub Web Editor](https://youtu.be/d41oc2OMAuI)!
 
-*Cohort 1: (ended 2021-08-10)
+*Cohort 1: (ended 2021-08-10)*
 
 <details>
 - Part 1 (Getting started)
