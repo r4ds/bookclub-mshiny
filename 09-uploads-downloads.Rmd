@@ -111,3 +111,20 @@ Some tips & tricks:
  rendering.
 - `.Rmd` renders in current R process so consider running in separate session
  with e.g. `callr` package.
+
+## Meeting Videos
+
+### Cohort 1
+
+`r knitr::include_url("https://www.youtube.com/embed/o157ZBd0CUY")`
+
+### Cohort 2
+
+`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+```
+</details>

@@ -463,3 +463,35 @@ data <- reactive({
 Additional tools `reactivePoll` and `reactiveFileReader` are built on invalidateLater
 
 Beware, the accuracy of timing may be affected by other processes
+
+
+## Meeting Videos
+
+### Cohort 1
+
+`r knitr::include_url("https://www.youtube.com/embed/uwawZNrU-5k")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+01:04:02	Andrew MacDonald:	I’m afraid i ahve to duck out early today. Please let me know if we still need somebody for next week!
+01:04:09	Andrew MacDonald:	thanks so much Russ et al! :D
+01:04:18	docksbox@pm.me:	thanks
+01:04:40	docksbox@pm.me:	are there any example apps ?
+01:11:12	Layla Bouzoubaa:	Thanks russ! Need to hop off!
+01:14:19	Anne Hoffrichter:	Thanks Russ! See you next week!
+01:14:34	russ:	Bye
+```
+</details>
+
+### Cohort 2
+
+`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+```
+</details>

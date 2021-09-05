@@ -537,3 +537,51 @@ ui <- fluidPage(
 )
 ```
 
+
+## Meeting Videos
+
+### Cohort 1
+
+`r knitr::include_url("https://www.youtube.com/embed/I3Bn03_9Ogk")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:04:01	Russ Hyde:	Hi Everyone. Welcome to this weeks bookclub meeting.
+00:05:43	Diamantis Sellis:	Hi, thanks for organizing!
+00:05:52	docksbox@pm.me:	Hello!
+00:07:45	Russ Hyde:	So. Shamsudeen should be presenting today.
+00:12:21	Russ Hyde:	Hi everyone. Are you able to hear Shamsuddeen ok?
+00:12:27	priyanka gagneja:	yes
+00:12:31	Anne Hoffrichter:	yes
+00:12:32	Diamantis Sellis:	yes
+00:15:27	Jessica Mukiri:	Hey have you just stared or the daylight savings taken effect yet?
+00:17:28	Kent J:	DST started on Sunday morning in Boston.
+00:42:35	Russ Hyde:	Is it options(shiny.fullstacktrace = TRUE)?
+00:42:41	Russ Hyde:	https://shiny.rstudio.com/reference/shiny/1.1.0/shiny-options.html
+00:43:48	Russ Hyde:	There's an example herer: https://shiny.rstudio.com/articles/debugging.html
+01:08:13	Jessica Mukiri:	Thanks everyone, have a good week.
+```
+</details>
+
+### Cohort 2
+
+`r knitr::include_url("https://www.youtube.com/embed/PPxi-IoAf7A")`
+
+`r knitr::include_url("https://www.youtube.com/embed/OdTG862TChM")`
+
+<details>
+  <summary> Meeting chat logs </summary>
+  
+```
+# 2021-08-25
+01:06:57	Kevin:	pointblank pkg
+
+#2021-09-01
+00:12:41	Conor Tompkins:	Is Kevin’s volume low for anyone else?
+00:12:43	shane:	Kevin are you able to bring your mic volume up a little?
+00:12:45	shane:	yeah
+01:05:45	Kevin Gilds:	https://twitter.com/EmilyRiederer/status/1430882791806410753?s=20
+```
+</details>

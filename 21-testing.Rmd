@@ -441,3 +441,21 @@ What structural changes might be needed to use ShinyDriver-based end-to-end test
   on testing in shiny
 - chapter-section on testing in
   ["Engineering Production-Grade Shiny Apps"](https://engineering-shiny.org/build-yourself-safety-net.html#testing-your-app)
+
+
+## Meeting Videos
+
+### Cohort 1
+
+`r knitr::include_url("https://www.youtube.com/embed/8ZTGDbH1MaE")`
+
+### Cohort 2
+
+`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+```
+</details>

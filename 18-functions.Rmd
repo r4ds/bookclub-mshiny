@@ -228,3 +228,34 @@ server <- function(input, output, session) {
 
 
 -------------------------------------------
+
+
+## Meeting Videos
+
+### Cohort 1
+
+`r knitr::include_url("https://www.youtube.com/embed/g927N1YRjAA")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:02:16	Federica Gazzelloni:	hello
+00:02:32	russ:	Hi everyone
+00:06:20	russ:	A couple of the regulars apologised that they couldn't make it this week
+00:30:10	Federica:	https://shiny.rstudio.com/reference/shiny/1.6.0/radioButtons.html
+00:34:44	Federica:	2.2.5 Limited choices
+There are two different approaches to allow the user to choose from a prespecified set of options: selectInput() and radioButtons().
+```
+</details>
+
+### Cohort 2
+
+`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+```
+</details>

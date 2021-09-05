@@ -393,10 +393,32 @@ More like waiting some time before acually performing the task and giving the us
 --> example app
 
 
+## Meeting Videos
 
+### Cohort 1
 
+`r knitr::include_url("https://www.youtube.com/embed/JI5serY_3nE")`
 
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:07:05	Russ Hyde:	Hello everyone. Welcome to the Mastering Shiny Bookclub for Chapter 7: Graphics
+00:08:22	Andrew Bates:	https://engineering-shiny.org/
+00:35:25	Russ Hyde:	For zooming into a ggplot in shiny: https://shiny.rstudio.com/gallery/plot-interaction-zoom.html
+00:41:16	Layla Bouzoubaa:	It works better in my opinion than basic ggplot
+00:41:20	Layla Bouzoubaa:	Since its interactive
+00:41:49	Jessica Mukiri:	https://plotly-r.com/
+```
+</details>
 
+### Cohort 2
 
+`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
 
-
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+```
+</details>

@@ -269,17 +269,19 @@ More readings:
 - [mermaid](https://mermaid-js.github.io/mermaid/#/flowchart?id=node-shapes)
 
 
+## Meeting Videos
 
+### Cohort 1
 
+`r knitr::include_url("https://www.youtube.com/embed/M4cOIFbBNfQ")`
 
+### Cohort 2
 
+`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
 
-
-
-
-
-
-
-
-
-
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+```
+</details>
