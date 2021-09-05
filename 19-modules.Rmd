@@ -215,3 +215,34 @@ histogramApp()
 Two versions of a simple app based on Tidy Tuesday data:
 * [Shiny dashboard](https://github.com/jakelawlor/Volcano_Shiny_App)
 * [golem with modules](https://github.com/bios2/shiny_volcano_golem)
+
+
+## Meeting Videos
+
+### Cohort 1
+
+`r knitr::include_url("https://www.youtube.com/embed/KrBuLk4VfsU")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:03:51	Federica Gazzelloni:	hello!
+00:13:14	Andrew MacDonald (he/him):	https://github.com/jakelawlor/Volcano_Shiny_App
+00:13:30	Andrew MacDonald (he/him):	https://github.com/bios2/shiny_volcano_golem
+01:03:04	Layla Bouzoubaa:	Everyone, I need to hop off for a 1pm!! Thanks Andrew <- NS(MacDonald)!!
+01:03:18	Andrew MacDonald (he/him):	yw!
+01:03:47	Federica Gazzelloni:	great!
+```
+</details>
+
+### Cohort 2
+
+`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+```
+</details>

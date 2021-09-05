@@ -277,9 +277,63 @@ Chapter 3: *Basic UI* introduces the 3 components of user interface for Shiny
 3. **Layout functions**; 
     + Pages with sidebar(s) & mainPanel(s), Bootstrap, Tabsets, Themes, CSS
 
+## Meeting Videos
 
-## Thank you
+### Cohort 1
 
-Questions, Utterances, Repartee & Small Talk
+`r knitr::include_url("https://www.youtube.com/embed/ytbhB3-SOBc")`
 
-Contact: matt . curcio . ri @ gmail . com
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:05:13	mattc:	Greetings all.
+00:08:43	Robert Overman:	So this is a cameras on meeting then
+00:08:51	Russ Hyde:	Hi
+00:09:20	matt curcio:	Greetings all
+00:09:32	Anne Hoffrichter:	Hello :)
+00:11:25	Jessica Mukiri:	Hi everyone :-)
+00:11:34	priyanka gagneja:	hello 
+00:18:16	Robert Overman:	Just so I'm not missing it, we can't see Chapter 3 in the Mastering Shiny Book Club site (that Matt is currently going over), correct?
+00:19:05	Russ Hyde:	Robert. Matt's file hasn't been uploaded to the book club site yet
+00:19:20	Robert Overman:	Thanks
+00:19:20	Russ Hyde:	We'll get it up within the next couple of days
+00:36:51	shamsuddeen:	Thanks for answering the question
+00:40:00	Scott Nestler:	BTW, rainbow parenthesis are now available in RStudio 1.4 without a separate package.  But you have to go to Tools, Global Options, Code, Display to turn them on.  They are off by default.
+00:43:47	DJpoTECeV47CcLoYwgAAEAAAAMwJjIDW/OiBd3S3j4ddb9SWUdUic/CK8oEvNdSPXXiO:	Shiny dashboard uses fluidRow and has a good explainer that was helpful for me https://rstudio.github.io/shinydashboard/structure.html#layouts
+00:45:33	Jessica Mukiri:	sorry have to leave now, will finish watching this from the recording. Thanks for the presentation. See you next week
+00:46:33	Russ Hyde:	Thanks for coming Jessica
+00:47:32	Anne Hoffrichter:	I also have to run. Thanks! Have a nice evening!
+00:52:17	Arnab Dey (he/him):	New to Shiny
+00:53:57	Robert Overman:	I've been using it for the past 4 years
+01:00:12	Russ Hyde:	Matt's asking about everyone's background / business
+01:00:22	Arnab Dey (he/him):	Research / Public Health
+01:00:27	Sarah Rathwell:	Math, healthcare
+01:00:27	Scott Nestler:	Operations Research / Statistics / Business Analytics / Government / Higher Education
+01:00:37	Russ Hyde:	Bioinformatics (hopefully datascience soon)
+01:00:46	Dave:	Life Insurance
+01:01:19	Morgan Grovenburg:	Institutional Research
+01:08:00	Scott Nestler:	That's where it get really interesting.  (with reactivity)
+01:08:23	Russ Hyde:	Bye
+```
+</details>
+
+### Cohort 2
+
+`r knitr::include_url("https://www.youtube.com/embed/6asgHqYg8WQ")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:37:21	Conor Tompkins:	It is the “sep” argument in sliderInput
+00:37:37	Conor Tompkins:	sep = “”
+00:37:46	Collin Berke:	Thanks @Conor Tompkins
+00:44:36	Ryan Metcalf:	Timevis
+00:50:16	Zaynaib Giwa, @zaynaib:	MVC
+00:50:23	Zaynaib Giwa, @zaynaib:	Model, View Controller
+00:50:58	Zaynaib Giwa, @zaynaib:	Its an old school developer pattern. I don't know if its still used in the industry anymore
+00:58:25	Zaynaib Giwa, @zaynaib:	good to know
+00:59:03	Collin Berke:	Thanks, Ola
+```
+</details>

@@ -80,3 +80,32 @@ You can run a demo survey with the function `shinysurveys::demo_survey()`.
 ### Let's take a look!
 
 * Live walk-through of creating an app with shinysurveys, how everything is packaged together, and more!
+
+
+## Meeting Videos
+
+### Cohort 1
+
+`r knitr::include_url("https://www.youtube.com/embed/IRkgCUvvFQ4")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:16:10	Russ Hyde:	Hi everyone
+00:25:15	Robert Overman:	In the past the app itself had to be put into the inst folder of the package
+00:27:41	Robert Overman:	So now being able to put it into the R folder makes things a lot easier, than having to do the odd reference back to runapp having it find the source file location to pull the server and ui
+00:37:53	Jonathan Trattner:	https://github.com/jdtrat/shinysurveys
+```
+</details>
+
+### Cohort 2
+
+`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+```
+</details>

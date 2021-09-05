@@ -1,0 +1,32 @@
+# Wrap up session
+
+## Meeting Videos
+
+### Cohort 1
+
+`r knitr::include_url("https://www.youtube.com/embed/rM5zPN5mLkE")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:17:47	Russ Hyde:	my_input <- function(label) {
+00:18:06	Russ Hyde:	fileInput(label, NULL, buttonLabel = "Upload...")}
+00:18:40	Russ Hyde:	fludiPage(my_input("a1"), my_input("a2"))
+00:32:10	Federica Gazzelloni:	https://themes.getbootstrap.com/
+00:52:28	Federica Gazzelloni:	eparker12 app: https://github.com/eparker12/nCoV_tracker/blob/master/app.R
+00:56:10	Russ Hyde:	https://github.com/nz-stefan/commute-explorer-2
+00:58:51	Federica Gazzelloni:	https://github.com/Fgazzelloni/shiny_apps/blob/master/App-Covid19_Italy_map/app.R
+```
+</details>
+
+### Cohort 2
+
+`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+```
+</details>

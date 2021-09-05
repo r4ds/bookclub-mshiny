@@ -126,3 +126,35 @@ Who should review who?
 Code review antipatterns?
 
 Alternatives / complements? pair programming
+
+
+## Meeting Videos
+
+### Cohort 1
+
+`r knitr::include_url("https://www.youtube.com/embed/stfuGTNJD2M")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:06:04	russ:	Hi everyone
+00:06:14	russ:	Hopefully we can have a discussion today
+00:06:35	russ:	I've put some notes into the bookclub book, but haven'thad them merged yet
+00:12:38	andrew bates:	https://blog.rstudio.com/2021/03/11/time-to-shiny/
+00:53:28	russ:	cache?
+00:53:52	andrew bates:	https://shiny.rstudio.com/app-stories/weather-lookup-caching.html
+01:04:33	Federica:	thanks
+```
+</details>
+
+### Cohort 2
+
+`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+```
+</details>

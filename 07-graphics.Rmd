@@ -5,3 +5,33 @@ Follow this link to the presentation for this chapter:
 ```{r test, echo=FALSE}
 knitr::include_url("https://masteringshinych7.netlify.app/#1")
 ```
+
+## Meeting Videos
+
+### Cohort 1
+
+`r knitr::include_url("https://www.youtube.com/embed/UsE8-qBciDo")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:09:09	Russ Hyde:	Hi everyone.
+00:09:19	Layla Bouzoubaa:	👋🏼
+00:36:50	priyanka gagneja:	thanks this is awesome .. i had been looking to make this kind of progress bar .. I tired a few things but they were not so pretty 
+00:37:28	Russ Hyde:	The website for waiter is really sweet: https://waiter.john-coene.com/#/
+00:48:16	Andrew Bates:	https://stackoverflow.com/questions/44112000/move-r-shiny-shownotification-to-center-of-screen
+00:50:27	Russ Hyde:	There might be other notification approaches: https://github.com/dreamRs/shinypop
+```
+</details>
+
+### Cohort 2
+
+`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+```
+</details>
