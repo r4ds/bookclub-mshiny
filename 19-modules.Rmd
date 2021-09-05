@@ -157,7 +157,7 @@ I find it interesting to see how the module id is added to each component id in 
 <div id="ff-hist" class="shiny-plot-output" style="width:100%;height:400px;"></div>
 ```
 
-```{r }
+```{r eval = FALSE}
 histogramServer <- function(id, x, title = reactive("Histogram")) {
   # we like these checks at the beginning because they make better error messages
   stopifnot(is.reactive(x))
@@ -182,7 +182,7 @@ histogramServer <- function(id, x, title = reactive("Histogram")) {
 
 ```
 
-```{r}
+```{r eval = FALSE}
 # note that there is nothing in the code YET that makes these two things go together! except the name!
 
 histogramApp <- function() {
