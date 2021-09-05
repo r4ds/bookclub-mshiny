@@ -1,0 +1,217 @@
+# Modules
+
+Modules are a kind of miniature app within a larger app. They isolate a particular group of inputs and outputs. Just like fully Shiny apps they have a UI and a server part. Modules help you break your big, complex app into smaller parts. This makes your Shiny code more readable, easier to debug, and reuseable. This last is particularly interesting, since you can use the same module among many different projects. 
+
+This goes well after the previous chapter: most of the rationale for modules is the same as that for functions: break up your code, avoid repetition.
+
+### note about golem
+
+golem works hard to encourage you to use modules in all your apps. 
+The Think-R team offers a slightly different set of conventions than the ones Hadley advocates. 
+
+* Mastering Shiny approach: `histogramUI` and `histogramServer`
+* `golem` approach: `mod_histogram_ui` and `mod_histogram_server`
+
+```{r golem-demo, eval=FALSE}
+golem::module_template("test", "test.R", export = TRUE)
+```
+
+## Case study -- modules to make a histogram
+
+the first exercise transforms this: 
+
+```{r eval = FALSE}
+ui <- fluidPage(
+  selectInput("var", "Variable", names(mtcars)),
+  numericInput("bins", "bins", 10, min = 1),
+  plotOutput("hist")
+)
+server <- function(input, output, session) {
+  data <- reactive(mtcars[[input$var]])
+  output$hist <- renderPlot({
+    hist(data(), breaks = input$bins, main = input$var)
+  }, res = 96)
+}
+
+shinyApp(ui = ui, server = server)
+```
+
+to this:
+
+```{r eval=FALSE}
+histogramUI <- function(id) {
+  tagList(
+    selectInput(NS(id, "var"), "Variable", choices = names(mtcars)),
+    numericInput(NS(id, "bins"), "bins", value = 10, min = 1),
+    plotOutput(NS(id, "hist"))
+  )
+}
+
+histogramServer <- function(id) {
+  moduleServer(id, function(input, output, session) {
+    data <- reactive(mtcars[[input$var]])
+    output$hist <- renderPlot({
+      hist(data(), breaks = input$bins, main = input$var)
+    }, res = 96)
+  })
+}
+```
+
+
+```{r eval=FALSE}
+histogramApp <- function() {
+  ui <- fluidPage(
+    histogramUI("hist1")
+  )
+  server <- function(input, output, session) {
+    histogramServer("hist99")
+  }
+  shinyApp(ui, server)  
+}
+```
+
+
+## Case study: histogram with two modules
+
+```{r eval = FALSE}
+library(shiny)
+
+# define the dataset input ----------------
+# This is interesting, the function takes one id variable and works with that at the end
+datasetInput <- function(id, filter = NULL) {
+  names <- ls("package:datasets")
+  if (!is.null(filter)) {
+    data <- lapply(names, get, "package:datasets")
+    names <- names[vapply(data, filter, logical(1))]
+  }
+  
+  selectInput(NS(id, "dataset"), "Pick a dataset", choices = names)
+}
+
+# server function returns a reactive
+datasetServer <- function(id) {
+  moduleServer(id, function(input, output, session) {
+    # last thing returned
+    reactive(get(input$dataset, "package:datasets")) # gotta be a reactive
+  })
+}
+
+# selectVar module --------------------
+
+find_vars <- function(data, filter) {
+  names(data)[vapply(data, filter, logical(1))]
+}
+
+
+# id is the only thing linking the two parts, Input and Server
+# This module creates, within namespace `id`, the reactive input var_they_wants
+selectVarInput <- function(id) {
+  selectInput(NS(id, "var_they_wants"), "Variable", choices = NULL) 
+}
+
+
+selectVarServer <- function(id, data_chosen, filter = is.numeric) {
+  moduleServer(id, function(input, output, session) {
+    # WHEN the data changes -- that is, when the reactive value data() changes here...
+    observeEvent(data_chosen(), {
+      # ... THEN you should update Select Input with the numeric columns of the new dataframe
+      updateSelectInput(session, "var_they_wants", choices = find_vars(data_chosen(), filter))
+      ## NOTE this updating happens WIHTIN the namespace `id`.
+      #### var_they_wants is updated with the LIST OF VARS THEY MIGHT WANT
+    })
+    # input$var_they_wants -- 
+    # note that in the server function selectVarServer is called with the namespace id
+    # once again returning the last thing and its reactive
+    
+    list(
+      name = reactive(input$var_they_wants),
+      value = reactive(data_chosen()[[input$var_they_wants]])
+    )
+  })
+}
+
+
+```
+
+Finally a third module to generate the histogram:
+
+```{r eval = FALSE}
+histogramOutput <- function(id) {
+  tagList(
+    numericInput(NS(id, "bins"), "bins", 10, min = 1, step = 1),
+    plotOutput(NS(id, "hist"))
+  )
+}
+
+histogramOutput("foobar")
+# you can see where the input id is definied! 
+```
+
+I find it interesting to see how the module id is added to each component id in the HTML:
+
+```html
+<div class="form-group shiny-input-container">
+  <label class="control-label" id="ff-bins-label" for="ff-bins">bins</label>
+  <input id="ff-bins" type="number" class="form-control" value="10" min="1" step="1"/>
+</div>
+<div id="ff-hist" class="shiny-plot-output" style="width:100%;height:400px;"></div>
+```
+
+```{r eval = FALSE}
+histogramServer <- function(id, x, title = reactive("Histogram")) {
+  # we like these checks at the beginning because they make better error messages
+  stopifnot(is.reactive(x))
+  stopifnot(is.reactive(title))
+  
+  moduleServer(id, function(input, output, session) {   
+    # browser()
+    output$hist <- renderPlot({
+      # whoa req is interesting.. checks for "truthiness". but why the is.numeric first???
+      req(is.numeric(x()))
+      # generate a req error just to see
+      # req(is.character(x()))
+      # input bins is assumed to be in the same namespace???
+      main <- paste0(title(), " [", input$bins, "]")
+      
+      hist(x(), breaks = input$bins, main = main)
+    },
+    # neat little point to control res of plot!
+    res = 96)
+  })
+}
+
+```
+
+```{r eval = FALSE}
+# note that there is nothing in the code YET that makes these two things go together! except the name!
+
+histogramApp <- function() {
+  ui <- fluidPage(
+    sidebarLayout(
+      sidebarPanel(
+        datasetInput("data", is.data.frame),
+        selectVarInput("var"),
+      ),
+      mainPanel(
+        histogramOutput("hist")    
+      )
+    )
+  )
+  
+  server <- function(input, output, session) {
+    data <- datasetServer("data")
+    # reactive output captured here!! 
+    x <- selectVarServer("var", data)
+
+    histogramServer("hist", x = x$value, title = x$name)
+  }
+  shinyApp(ui, server)
+} 
+histogramApp()
+```
+
+## Links to examples
+
+Two versions of a simple app based on Tidy Tuesday data:
+* [Shiny dashboard](https://github.com/jakelawlor/Volcano_Shiny_App)
+* [golem with modules](https://github.com/bios2/shiny_volcano_golem)
