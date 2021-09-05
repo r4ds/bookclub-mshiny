@@ -11,8 +11,9 @@ You can catch up on Book Club recordings on the Mastering Shiny [YouTube Playlis
 
 If you would like to present, please add your name next to a chapter using the [GitHub Web Editor](https://youtu.be/d41oc2OMAuI)!
 
-*Cohort 1: (starts 2021-02-16) - Tuesdays, 12pm EST/EDT*
+*Cohort 1: (ended 2021-08-10)
 
+<details>
 - Part 1 (Getting started)
   - 2021-02-16: Chapter 1: _Your First Shiny App_: Jerome Ahye
   - 2021-02-23: Chapter 2: _Basic UI_: Matt Curcio
@@ -43,8 +44,10 @@ If you would like to present, please add your name next to a chapter using the [
   - 2021-07-27: Chapter 22: _Security_: Federica Gazzelloni
   - 2021-08-03: Chapter 23: _Performance_: Presenter TBA
   - 2021-08-10: Roundup
+</details>
 
-*Cohort 2: (starts 2021-07-21) - Wednesdays, 6pm CST/CDT*
+
+*Cohort 2: (started 2021-07-21) - Wednesdays, 6pm CST/CDT*
 
 - Part 0 (Getting up and running with `git`)
   - 2021-07-21: _Git basics_: Collin Berke
@@ -55,8 +58,8 @@ If you would like to present, please add your name next to a chapter using the [
   - 2021-08-18: Chapter 4: _Case Study: ER injuries_: Ryan S
   - 2021-08-25: Project review: Collin Berke
 - Part 2 (Shiny in action)
-  - 2021-09-01: Chapter 5: _Workflow_: Collin Berke
-  - 2021-09-08: Chapter 6: _Layout, themes, HTML_: Presenter TBA
+  - 2021-09-01: Chapter 5: _Workflow_: Kevin Gilds
+  - 2021-09-08: Chapter 6: _Layout, themes, HTML_: Ryan Metcalf
   - 2021-09-15: Chapter 7: _Graphics_: Presenter TBA
   - 2021-09-22: Chapter 8: _User Feedback_: Presenter TBA
   - 2021-09-29: Project review
@@ -81,6 +84,7 @@ If you would like to present, please add your name next to a chapter using the [
   - 2022-01-26: Chapter 22: _Security_: Presenter TBA
   - 2022-02-02: Chapter 23: _Performance_: Presenter TBA
   - 2022-02-09: Roundup
+
 
 ## How to Present
 
