@@ -353,3 +353,54 @@ an open SO page.
 ```{r, code=readLines("examples/06-layout_themes_html-single_to_multipage_app/app-01.R"), eval = FALSE}
 ```
 
+
+## Meeting Videos
+
+### Cohort 1
+
+`r knitr::include_url("https://www.youtube.com/embed/hriFSGeBa_Q")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:05:16	Maya Longhi:	Hello
+00:12:32	Russ Hyde:	Hi
+00:13:03	Russ Hyde:	I'm just checking my screen share looks OK. Could you tell me if you can read the text on my rstudio instance
+00:14:30	Russ Hyde:	Is the text too pale?
+00:14:46	Morgan Grovenburg:	No, I can read it
+00:14:53	Russ Hyde:	Thanks
+00:16:45	Morgan Grovenburg:	I couldn't figure out how to use `bslib::bs_theme_preview()`, will you be showing that today?
+00:17:50	Russ Hyde:	I can do if you like
+00:19:48	Morgan Grovenburg:	Yes, please! Really, I just need see code that runs it
+00:30:02	Layla Bouzoubaa:	@sham, There’s a JavaScript for R book!
+00:30:21	shamsuddeen:	Oh, yah Layla
+00:30:24	shamsuddeen:	Thanks
+00:30:31	Layla Bouzoubaa:	https://book.javascript-for-r.com/
+00:30:32	Morgan Grovenburg:	https://book.javascript-for-r.com/
+00:38:15	Federica G:	line has gone ?!
+00:38:26	Diamantis:	lost the sound but still can see the shared screen
+01:05:55	Layla Bouzoubaa:	Sham, Bootstrap is a framework that combines html/js/css that can customized
+01:06:06	shamsuddeen:	ok
+01:06:11	shamsuddeen:	Thanks Layla
+01:07:00	Layla Bouzoubaa:	Like the buttons and stuff in shiny are following bootstrap guidelines (ie the shape, look etc) but you can customize them
+01:07:12	shamsuddeen:	ok
+01:08:39	Layla Bouzoubaa:	I just discovered this book btw: https://engineering-shiny.org/ . Ch.18.3.3 talks about external css files that may clarify your question on adding “www/“, sham
+01:17:51	shamsuddeen:	Oh, Thanks Layla. I got it
+01:21:47	Federica G:	Thanks !
+01:22:27	shamsuddeen:	Thanks
+01:22:38	Morgan Grovenburg:	Thank you Russ!
+01:24:22	Anne Hoffrichter:	Thanks Russ!
+```
+</details>
+
+### Cohort 2
+
+`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+```
+</details>

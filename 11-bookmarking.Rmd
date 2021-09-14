@@ -161,17 +161,40 @@ The parameter in this instance is the `state_id` which corresponds to a director
 ----------------------------------------------------------------------
 
 
+## Meeting Videos
 
+### Cohort 1
 
+`r knitr::include_url("https://www.youtube.com/embed/OjLvTchubBY")`
 
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:05:44	Russ Hyde:	Hi everyone
+00:05:52	Federica Gazzelloni:	hello!
+00:05:55	Russ Hyde:	Welcome to another week of Mastering Shiny
+00:06:19	Anne:	Hello ;)
+00:06:46	Russ Hyde:	Is anyone interested in taking over looking after Maya Gans' Mastering Shiny solutions manual?
+00:06:56	Russ Hyde:	https://rfordatascience.slack.com/archives/C012R356GLC/p1619539252081100
+00:14:14	Robert Overman:	SAS still is great when you need to plug and chug through a ton of data
+00:22:54	Federica Gazzelloni:	we cannot hear
+00:23:03	Federica Gazzelloni:	it is metallic
+00:23:07	Federica Gazzelloni:	to me still
+00:28:35	Anne:	could it be, that it has sth to do with the bookmark button?
+00:31:44	Robert Overman:	I could see this being really useful when you are testing an app, bc then you don't have to check all of your options every time you run it to check for errors
+00:47:45	Federica Gazzelloni:	Q -  have some questions!!!
+01:03:56	Federica Gazzelloni:	thanks
+```
+</details>
 
+### Cohort 2
 
+`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
 
-
-
-
-
-
-
-
-
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+```
+</details>

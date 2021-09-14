@@ -1,0 +1,109 @@
+# Your first Shiny app
+
+**Learning objectives:**
+
+TBD
+
+## Slide Title 
+
+Slide contents
+
+## Meeting Videos
+
+### Cohort 1
+
+`r knitr::include_url("https://www.youtube.com/embed/Z3byy6Z73P4")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:01:39	Russ Hyde:	Hi, am I audible?
+00:09:57	Russ Hyde:	Is the connection OK for everyone?
+00:09:59	priyanka gagneja:	I am not hearing you so well right now Robert
+00:10:03	Andrew MacDonald:	I might be losing sound?
+00:10:08	Diamantis:	I have sound issues, can't hear clearly
+00:10:14	Andrew MacDonald:	ah seems to be just on Rob?
+00:10:35	andrew bates:	I didn’t have sound. Had to call in.
+00:11:00	Andrew MacDonald:	In the meantime I’d just like to say hello!
+00:11:09	Andrew MacDonald:	This is my first time attending!
+00:11:13	Russ Hyde:	Hello Andrews
+00:11:16	andrew bates:	Welcome!
+00:11:23	Andrew MacDonald:	we have an abundance of Andrews :)
+00:11:43	andrew bates:	yeah!
+00:12:01	Andrew MacDonald:	I’m an ecologist who develops some shiny apps on a contract — a complete convert to the Way of Golem & v excited for Colin’s appearance next week
+00:12:48	Russ Hyde:	Cool. I'm really pleased we were able to get him to talk
+00:13:07	priyanka gagneja:	Nice to have you Andrew
+00:14:00	Russ Hyde:	Have any of you been attending the other bookclubs?
+00:14:17	Andrew MacDonald:	(there are other book clubs?)
+00:14:18	priyanka gagneja:	I do if my schedule allows
+00:14:33	Anne Hoffrichter:	I was in Advanced R bc
+00:14:38	priyanka gagneja:	Yes there are… and they are now increasing at crazy pace
+00:14:41	andrew bates:	Shameless self advocacy: if they’re looking for more Shiny devs, I’m looking :)
+00:15:00	Russ Hyde:	(ooo that was pretty neat)
+00:15:46	Anne Hoffrichter:	nice, i didn’t know you can run a shiny app from an rmd chunk!
+00:16:23	Andrew MacDonald:	that is a cool way to show this! I thought maybe that was the default from the group
+00:17:00	Andrew MacDonald:	could I ask what is the typical format here? do we begin with a summary and then discuss, or do we ask questions during Rob’s description?
+00:17:42	Russ Hyde:	Feel free to ask questions whenever.
+00:19:55	Andrew MacDonald:	"foo" > 42
+00:20:41	priyanka gagneja:	@anne - Yeah you can add shiny code inside a Rmd. When you add shiny code and save it , it shows a ‘Run Document’ option instead of Run App.
+00:28:42	Andrew MacDonald:	okay I’ll be honest i’m just scared of <<-
+00:29:06	priyanka gagneja:	Less than
+00:29:13	Andrew MacDonald:	+ 1 :)
+00:31:51	Russ Hyde:	I try to avoid <<- as well.
+00:32:08	docksbox@pm.me:	Yes
+00:32:14	priyanka gagneja:	Good point. So you mean as a crux of it , it would help the most for debugging ?
+00:32:54	priyanka gagneja:	If so, I am ready to start using it then
+00:33:11	Russ Hyde:	f <- function(){counts= 0; function(){counts <<- counts + 1; message(counts)}}
+00:33:22	Russ Hyde:	g <- f(); g(); g()
+00:33:45	Russ Hyde:	That should print 1 then 2
+00:35:49	Russ Hyde:	This is a really neat way to debug
+00:36:17	Russ Hyde:	(I meant Robert's example; not the hack I just posted)
+00:37:01	Andrew MacDonald:	laptop battery died! I’m back :)
+00:41:28	Andrew MacDonald:	tbh I strongly dislike the user-supplied data example! the word “data” is in there but i think it means.. three things? the input, the reactive expression, and the .data thing
+00:42:18	Russ Hyde:	Haha, I just wrote a chapter about good-names in R programming. Calling your data 'data' is really not a good idea ...
+00:42:42	Andrew MacDonald:	exactly!!!
+00:47:10	priyanka gagneja:	Reminds me of days when I did parse eval :’(
+00:51:13	Robert Overman:	https://adv-r.hadley.nz/quasiquotation.html
+00:52:15	Robert Overman:	https://cran.r-project.org/web/packages/lazyeval/vignettes/lazyeval.html
+00:57:39	Andrew MacDonald:	very slick!!!
+00:57:44	Andrew MacDonald:	(get it)
+00:59:38	Russ Hyde:	select(df, A, B, C) vs d <- c("A", "B", "C"); select(df, !!!d)
+00:59:41	Russ Hyde:	?
+01:00:28	priyanka gagneja:	aah
+01:00:37	priyanka gagneja:	Yeah .. I think so .. named df
+01:00:43	priyanka gagneja:	Named vector sorry
+01:01:04	Anne Hoffrichter:	I gotta run, thanks Robert. See you all next week.
+01:01:09	Robert Overman:	final_colnames <- data.frame(
+  stringsAsFactors = FALSE,
+  new_nm = c(
+    "A","B","C"
+  ),
+  old_nm = c(
+    "X","Y","Z"
+  )
+)
+new_nm <- final_colnames$new_nm %>% unlist()
+old_nm <- final_colnames$old_nm %>% unlist()
+names(old_nm) <- new_nm
+
+old_data <- data.frame(X = 1, Y = 1, Z = 1)
+old_data %>% select(!!!old_nm)
+01:01:25	priyanka gagneja:	gotcha
+01:01:35	Andrew MacDonald:	I must go as well — thank you everyone! nice to join this effort!
+01:01:48	priyanka gagneja:	I recall I did this recently .. n I wasn’t sure why one worked n not other one.
+01:05:34	shamsuddeen:	Thanks Robert
+01:05:43	Andrew MacDonald:	yeah thanks Rob!
+```
+</details>
+
+### Cohort 2
+
+`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+```
+</details>

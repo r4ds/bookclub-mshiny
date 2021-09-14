@@ -109,3 +109,38 @@ doesn't quite fit).
 ### The R Community
 
 - Who do you recommend following in the Shiny community?
+
+## Meeting Videos
+
+### Cohort 1
+
+`r knitr::include_url("https://www.youtube.com/embed/Vq2GKCbfpTI")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:06:03	Layla Bouzoubaa:	The book: https://engineering-shiny.org/
+00:09:13	Russ Hyde:	Hi Everyone
+00:13:45	Andrew MacDonald (he/him):	whoo GOLEM
+00:39:14	Russ Hyde:	whoo tests!
+00:46:11	Russ Hyde:	Andrew would you like to ask about tooling?
+00:46:24	andrew bates:	yes
+00:47:51	Russ Hyde:	Would anyone else like to ask something?
+00:48:25	Russ Hyde:	Priyanka? You were asking about preferred ways to debug / trouble shoot
+00:50:04	Andrew MacDonald (he/him):	I didn’t get a chance to contribute to the Q&A document, so let those Qs take precedence! But I always have a few questions if we have space!
+00:51:03	Russ Hyde:	You can ask next
+00:53:52	Mike Thomas:	I'd like to ask Colin if he has any tips for reducing the size of the docker image in your dockerfile
+00:54:05	Layla Bouzoubaa:	+1
+00:54:26	Russ Hyde:	OK Mike. Jump in after Andrew
+00:54:42	Andrew MacDonald (he/him):	yup that was my question :) good now
+00:56:45	Russ Hyde:	Would anyone like to ask something?
+00:59:14	Andrew MacDonald (he/him):	@mike good question about renv
+01:02:24	Mike Thomas:	I have to hop off -- thank you so much Colin!
+01:03:44	Layla Bouzoubaa:	Same, thank you Colin!! :)
+01:05:00	Andrew MacDonald (he/him):	yes! merci!!
+01:05:08	Andrew MacDonald (he/him):	ohh I want a hex sticker!
+01:05:17	...:	thanks for this interesting presentation
+01:05:31	Russ Hyde:	Bye everyone
+```
+</details>

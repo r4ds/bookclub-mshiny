@@ -179,3 +179,32 @@ graph LR
 A[A arr_text] --- B>A arrowtext]
 ")
 ```
+
+## Meeting Videos
+
+### Cohort 1
+
+`r knitr::include_url("https://www.youtube.com/embed/7MGCPxPo0m8")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:08:22	Russ Hyde:	Hi Everyone
+00:14:31	Russ Hyde:	The chapter numbers have actually changed; so this week is chapter 3 (according to the current website). The preface is now unnumbered
+00:23:13	Russ Hyde:	Discussion of persistence of user sessions.
+00:23:18	Robert Overman:	https://shiny.rstudio.com/articles/reconnecting.html this says something about it
+00:25:21	shamsuddeen:	In the past, users of Shiny applications would get disconnected from the server and see the browser window “gray out” if the network connection was interrupted, even if it was just briefly. This could frustrate and confuse users, and it could lead to the impression that the application was unstable, when in fact the problem was the network connection.
+
+To improve the user experience, we’ve made changes in Shiny Server (Pro and Open Source) 1.4.7, RStudio Connect 1.5.10, and in Shiny 0.14 to allow a Shiny client to seamlessly reconnect to the server even when there is disruption of network service.
+00:31:30	shamsuddeen:	Imperative code is assertive; declarative code is passive-aggressive.
+00:42:13	Russ Hyde:	https://cran.r-project.org/web/packages/DiagrammeR/index.html
+00:44:15	Russ Hyde:	https://cran.r-project.org/web/packages/reactlog/index.html
+01:03:19	Russ Hyde:	Great. Thanks for covering such a lot of content
+01:07:56	shamsuddeen:	Ok, thank you all. I had to attend another meeting now. See you next.
+```
+</details>
+
+### Cohort 2
+
+`r knitr::include_url("https://www.youtube.com/embed/br0RE1uORgk")`

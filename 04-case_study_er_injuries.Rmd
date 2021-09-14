@@ -321,3 +321,47 @@ server <- function(input, output, session) {
 ```
 
 The resulting version of the app is available at https://hadley.shinyapps.io/ms-prototype/.
+
+## Meeting Videos
+
+### Cohort 1
+
+`r knitr::include_url("https://www.youtube.com/embed/K1GMxASFaLc")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:13:23	Russ Hyde:	Hi all. Welcome to this week's Mastering Shiny talk
+00:20:33	Matt C:	What is the correlation between head injuries and toilets? Hm...
+00:36:58	Morgan Grovenburg:	Very cool Dave!
+00:37:07	priyanka gagneja:	awesome 
+00:37:15	Federica Gazzelloni:	great
+00:38:44	Robert Overman:	https://www.jdtrat.com/packages/shinysurveys/
+00:39:17	priyanka gagneja:	lol what a coincidence.. I have recently played with this pkg 
+00:39:55	priyanka gagneja:	it's neat one .. so low cost to create a survey and then you can save the results in a Google sheet .. using googlsheets4 pkg 
+00:43:44	priyanka gagneja:	rhandsontable
+00:43:49	Federica Gazzelloni:	thanks
+00:46:12	priyanka gagneja:	if you only looking to change the look of the table only russ, gt and kable could be useful 
+00:46:25	priyanka gagneja:	and even reactable,  DT would be others 
+00:46:36	shamsuddeen:	KableExtra is also cool
+00:47:31	shamsuddeen:	https://github.com/haozhu233/kableExtra
+00:49:58	priyanka gagneja:	https://rstudio.github.io/reactlog/articles/reactlog.html
+00:57:03	Russ Hyde:	mutate(df, {{var}} := f({{var}}))
+00:57:38	priyanka gagneja:	uhh noo
+00:58:21	Robert Overman:	I mean I have enough trouble remembering !!rlang::sym(x) remembering that this now works as {{x}} is going to make my head hurt
+00:58:36	Arnab Dey (he/him):	Thank you Dave, for an excellent presentation!!
+```
+</details>
+
+### Cohort 2
+
+`r knitr::include_url("https://www.youtube.com/embed/tQW3E6POwLw")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:11:36	Ryan Metcalf:	https://www.infoworld.com/article/3516150/create-a-shiny-app-to-search-twitter-with-rtweet-and-r.amp.html
+```
+</details>

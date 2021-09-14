@@ -344,18 +344,19 @@ The dynamic of the UI can be appreciated by modification of the Server. Many com
 ----------------------------------------------------------------------
 
 
+## Meeting Videos
 
+### Cohort 1
 
+`r knitr::include_url("https://www.youtube.com/embed/U0gLzdGCEOs")`
 
+### Cohort 2
 
+`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
 
-
-
-
-
-
-
-
-
-
-
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+```
+</details>

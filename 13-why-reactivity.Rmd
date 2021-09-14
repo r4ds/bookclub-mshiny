@@ -185,3 +185,50 @@ temp_f()
   - now: React, Vue, Angular
 - "reactive programming" is a general term. a lot of variablility in 
  implementations and terminology
+
+
+## Meeting Videos
+
+### Cohort 1
+
+`r knitr::include_url("https://www.youtube.com/embed/tXShS1PVKlY")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:01:19	Russ Hyde:	Hi Everyone4
+00:05:22	Russ Hyde:	There are lots of chapters available if anyone would like to do a talk over the next few weeks.
+00:05:37	Russ Hyde:	Myself and Diamantis have the next couple of weeks planned.
+00:06:16	Russ Hyde:	But there's another chapter in the Reactivity section and all-but-one of the best-practices chapters available
+00:06:50	Andrew MacDonald (he/him):	hello everyone! :
+00:06:53	Andrew MacDonald (he/him):	:D
+00:06:57	Russ Hyde:	Those chapters take us up to mid-august.
+00:07:13	Russ Hyde:	And hopefully we'll all be expert shiny devs by then ...
+00:09:14	Layla Bouzoubaa:	I think I can do functions
+00:09:19	Layla Bouzoubaa:	*think*
+00:10:44	Andrew MacDonald (he/him):	I could be an understudy for ch16 :)
+00:12:03	Russ Hyde:	Layla, if you'd like to do functions that would be great
+00:12:33	Layla Bouzoubaa:	Ok, I’ll go ahead and put it in the books
+00:12:39	Layla Bouzoubaa:	6/29
+00:12:55	Russ Hyde:	:)
+00:31:55	priyanka gagneja:	Yeah {react log}
+00:41:21	priyanka gagneja:	@Layla - you might like this https://www.youtube.com/watch?v=8VjkatOf7Bs
+00:48:49	Layla Bouzoubaa:	Sorry everyone, I need to hop off. See you next week!!
+00:49:31	priyanka gagneja:	By Maya Gans :P
+00:50:09	priyanka gagneja:	Well .. I meant author of the book ‘javascript for R’ that AB brought up
+00:52:08	Andrew MacDonald (he/him):	this was a lighter chapter! touches on a lot of topics though
+00:52:20	Andrew MacDonald (he/him):	yeah thanks Andrew B., great summary
+```
+</details>
+
+### Cohort 2
+
+`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+```
+</details>

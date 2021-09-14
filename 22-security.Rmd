@@ -546,3 +546,30 @@ Extra Packages:
 
 ------------------------------
 
+
+## Meeting Videos
+
+### Cohort 1
+
+`r knitr::include_url("https://www.youtube.com/embed/vGYmh08GZho")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:05:12	Russ Hyde:	Hi everyone
+00:13:52	Russ Hyde:	Federica is taking us through the security chapter of Mastering Shiny
+00:48:57	Russ Hyde:	So who is using authentication on their apps?
+```
+</details>
+
+### Cohort 2
+
+`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+```
+</details>

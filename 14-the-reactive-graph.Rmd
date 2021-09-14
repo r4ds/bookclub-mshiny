@@ -96,3 +96,21 @@ Key concepts that were covered in the chapter:
 - How the reactive graph operates
 - Invalidation cycle
 - reactlog package
+
+
+## Meeting Videos
+
+### Cohort 1
+
+`r knitr::include_url("https://www.youtube.com/embed/kUMRnS-APlc")`
+
+### Cohort 2
+
+`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+```
+</details>
