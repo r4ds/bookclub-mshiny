@@ -1,8 +1,10 @@
+# (PART\*) Shiny in action {-}
+
 # Workflow 
 
 ## Why workflow? 
 
-> "I think of workflow as one of my "secret" powers: one of the reasons that I've been able to accomplish so much is that I devote time to analysing and improving my workflow. I highly encourage you to do the same!".....Hadley Wikham
+> "I think of workflow as one of my "secret" powers: one of the reasons that I've been able to accomplish so much is that I devote time to analysing and improving my workflow. I highly encourage you to do the same!" -Hadley Wickham (author)
 
 -   Workflow makes the process of writing Shiny apps more enjoyable, and helps your skills improve more quickly.
 
@@ -15,27 +17,9 @@
 
     -   Learn how to **debug** Shiny apps
     
-<!-- your comment 
-    
-    Debugging, the workflow where you figure out what's gone wrong with your code and then brainstorm solutions to fix it.
--->
-    
     -   Learn how to write **self-contained reprexes**
 
-    
-<!-- your comment 
-Writing reprexes, self-contained chunks of code that illustrate a problem. Reprexes are a powerful debugging technique, and they are essential if you want to get help from someone else.
- --> 
-
-       
-       
   ![](images/05-workflow/workflow.png)
-
-
- 
-
-  
-
 
 ## Development workflow 
 
@@ -43,29 +27,52 @@ Writing reprexes, self-contained chunks of code that illustrate a problem. Repre
 
     - Allows you to reduce the time between making a change and seeing the outcome
 
-    - The faster you can iterate, the faster you can experiment, and the faster you can become a better Shiny developer.
+    - The faster you can iterate and experiment, the faster you will become a better Shiny developer.
  
-- Two main workflows to optimise here:
+- Two main workflows to optimize here:
 
     -   creating apps (for first time),
 
     -   making changes and experimenting with the results faster (speeding up the iterative cycle).
 
-### Creating apps 
+## Creating apps 
 
--  Type `shinyapp` in `app.R` and you will see prompt to insert snippet(Shift + Tab)
+- Every shiny app has the same six lines of code.
 
--   If you are using RStudio, you can create Shiny Web Application project easily
+```{r eval=FALSE}
+library(shiny)
+ui <- fluidPage(
+)
+server <- function(input, output, session) {
+}
+shinyApp(ui, server)
+```
 
-### Seeing your changes faster 
+- Type `shinyapp` in `app.R` and you will see prompt to insert snippet (Shift + Tab).
 
-- Avoid clicking "Run App" button
+- If you are using RStudio, you can create Shiny Web Application project easily via the file menu.
+
+    - `File` >> `New Project` >> `New Directory` >> `Shiny Web Application`
+
+## Seeing your changes faster 
+
+> At most, you'll *create* a few apps a day, but you'll **run** apps hundreds of times, so mastering the development workflow is particularly important. - Hadley Wickham (author)
+
+- Avoid clicking the "Run App" button
+
 - Use keyboard shortcut: `Cmd/Ctrl + Shift + Enter`
+
 - Turn auto reload on and run the app in the background as described [here](https://github.com/sol-eng/background-jobs/tree/master/shiny-job).
-    - gives faster workflow: write some code, `Cmd/Ctrl + S` to save the file and experiment interactively.
-    - **disadvantage:** harder to debug because the app is running in a separate process.
+
+    - Gives faster workflow: write some code, `Cmd/Ctrl + S` to save the file and experiment interactively.
     
-### Controlling the view 
+    - **Disadvantage:** harder to debug because the app is running in a separate process.
+    
+    - Bigger apps: interactive testing >> automated testing (Chapter 21).
+    
+    - Demo starting an app as a local job.
+    
+## Controlling the view 
 
 -   Run in Viewer Pane: opens the app in the viewer pane . for smaller apps
 
@@ -73,10 +80,17 @@ Writing reprexes, self-contained chunks of code that illustrate a problem. Repre
  
      - useful for larger apps
 
+**Submenu used to change the view (click the drop-down)**
 
+<center>     
+![](images/05-workflow/05-change-view-example.png)     
+</center>
 
 ##  Debugging 
 
+> It's an eight line app, what could possibly go wrong? -Hadley Wickham (author)
+
+> The process of systematically comparing your expectations to reality until you find the mismatch. -Hadley Wickham (author)
 
 - something will go wrong definitely. 
 
@@ -84,12 +98,7 @@ Writing reprexes, self-contained chunks of code that illustrate a problem. Repre
 
 - Specific focus to three debugging challenges to Shiny apps
 
-  
-
-### Three dubugging Challenges(What goes wrong) 
-
-
-
+## Three dubugging Challenges
 
 <!-- A grammatically correct program may give you incorrect results due to logic errors. In case such errors (i.e. bugs) occur, you need to find out why and where they occur so that you can fix them. The procedure to identify and fix bugs is called “debugging”. -->
 
@@ -97,33 +106,31 @@ Writing reprexes, self-contained chunks of code that illustrate a problem. Repre
 
 <!-- - it takes years of experience in any language before you can reliably write code that works the first time. -->
 
-<!-- - So,bugs do happens. -->
+<!-- - So, bugs happen. -->
 
 <!-- - Three main cases of problems: -->
 
 
   ![](images/05-workflow/debugging_challenges.png)
   
+### You get an unexpected error (easiest case). 
 
-- You get an unexpected error (easiest case). 
+- **Solution:  A traceback is returned**
+  - Info that points to where the error occurred
+  - The interactive debugger is a powerful assistant for this process.
 
-Solution : 
+### You don’t get any errors
 
-- You will get a traceback which allows you to figure out exactly where the error occurred
+- **Solution: Use the interactive debugger**
+  - A tool to investigative and track down the root cause.
 
-- The interactive debugger is a powerful assistant for this process.
+### All the values are correct, but they’re not updated when you expect
 
-> You don’t get any errors,
+- **Solution: Most challenging problem** 
+  - It’s unique to Shiny
+  - You can’t take advantage of your existing R debugging skills.
 
-- Solution: use the interactive debugger, along with your investigative skills to track down the root cause.
-
-> All the values are correct, but they’re not updated when you expect
-
-- Most challenging problem because it’s unique to Shiny, so you can’t take advantage of your existing R debugging skills.
-
-
-
-### How to fix errors (using tracebacks) 
+## Fixing errors: Tracebacks 
 
 - In R, every error is accompanied by a traceback, or call stack, which literally traces back through the sequence of calls that lead to the error
 
@@ -131,10 +138,9 @@ Solution :
 
 - The traceback tool pinpoints the location of an error.
  
-
-
   ![](images/05-workflow//call_stack.png)
-- Example of reading traceback
+
+### Example of reading traceback
 
 ```{r}
 f <- function(x) g(x)
@@ -143,7 +149,6 @@ h <- function(x) 2 * 2
 
 f(3)
 ```
-
 
 ```{r, eval=FALSE}
 
@@ -163,7 +168,7 @@ f("a")
 ```
 
 - The traceback is shown below: 
-- Top of the stack point to an error 
+- Top of the stack points to an error 
 
 ```{r, eval=FALSE}
 
@@ -174,9 +179,9 @@ traceback()
 #> 1: f("a")
 ```
 
-- Flipping the traceback shows the better sequence(the top of the stack poins to an error location)
+- Flipping the traceback shows the better sequence(the top of the stack points to an error location)
 
--  shows sequence of calls that lead to the error — f() called g() called h() (which errors)
+- shows sequence of calls that lead to the error — f() called g() called h() (which errors)
 
 ```{r, eval=FALSE}
 
@@ -185,14 +190,11 @@ traceback()
 3: h(x)
 ```
 
-
-- 
-###  Tracebacks in Shiny 
+## Tracebacks in Shiny 
  
-- You can’t use traceback() in Shiny because you can’t run code while an app is running. 
+- You can’t use `traceback()` in Shiny because you can’t run code while an app is running. 
  
--  Shiny automatically print the traceback for you.
- 
+- Shiny automatically prints the traceback for you.
  
 ```{r eval=FALSE, error= TRUE}
 library(shiny)
@@ -216,7 +218,6 @@ shinyApp(ui, server)
  
 - We will see an error below 
  
- 
 ```{r, eval=FALSE}
 Error in *: non-numeric argument to binary operator
   169: g [app.R#4]
@@ -231,9 +232,7 @@ Error in *: non-numeric argument to binary operator
     1: runApp
 ```
  
- 
 - We can also flip the error
-
 
 ```{r, eval=FALSE}
 Error in *: non-numeric argument to binary operator
@@ -249,12 +248,11 @@ Error in *: non-numeric argument to binary operator
  169: g [app.R#4]
 ```
 
-### Three part of Shiny error stack
+## Three components to a Shiny error stack
 
 - **First**: few calls start the app. Ignore anything before the first runApp(); this is just the setup code to get the app running.
 
 ```{r, eval=FALSE}
- 
 1: runApp
 
 #Sometimes, you may see other things before runAPP ignore them
@@ -262,8 +260,6 @@ Error in *: non-numeric argument to binary operator
 #3: print.shiny.appobj
 #5: runApp
 ```
-
-
 
 - **Second:** some internal Shiny code in charge of calling the reactive expression(output$plot is where the problem is) :
 
@@ -282,19 +278,23 @@ Error in *: non-numeric argument to binary operator
 167: renderPlot [app.R#13]
 168: f [app.R#3]
 169: g [app.R#4]
-
 ```
 
-### How to fix errors (using interactive debugger) 
+## Fixing errors: Interactive debugger
 
-- You have identified the error using `traceback` and want to figure out what’s causing it,
+- When do we use? 
+    
+    - You have identified the error using `traceback` and want to figure out what’s causing it.
+    
 
-- Use the interactive debugger to debugg your code
+- Use the interactive debugger to debug your code
 
 - Two ways to launch the debugger:
 
 - Add a call to `browser()` in your source code
-    
+
+- This can also be done using a conditional statement
+
 ```{r, eval=FALSE}
 if (input$value == "a") {
   browser()
@@ -307,10 +307,27 @@ if (my_reactive() < 0) {
     
 - Add an RStudio breakpoint by clicking to the left of the line number
 
+### Useful interactive debugger commands
+
+Use these when you the debugger is up and running:
+
+`n` - next step in the function
+
+`c` - leaves debugger, continues the regular execution of the function
+
+`Q` - stops debugging, terminates the function, and returns to global workspace
+
+## Debugging reactivity
+
+- Hardest problem to debug.
+
+- We need other tools, which are not introduced in this chapter. 
+
+- Use "print" debugging to show your values.
+
+    - Use `message()` here: "standard output" vs "standard error"
 
 ## Getting help (using Reprex) 
-
-
 
   ![](images/05-workflow//workflow.png)
   
@@ -324,14 +341,13 @@ if (my_reactive() < 0) {
 
 ###  How to make a reprex  
 
-
 - Create a single self-contained file that contains everything needed to run your code (e.g load all packages)
 
 - Test it by restarting fresh R session and then running the code
 
 - Potential problem is sharing your data
     
-    - Use buil-in datasets(mpg), 
+    - Use built-in datasets(mpg), 
     - create sample datasets and illustrate the problem, 
     - use subset of the data with `dput()`
 
