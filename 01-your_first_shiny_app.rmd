@@ -1,27 +1,29 @@
+# (PART\*) Getting started {.unnumbered}
+
 # Your first Shiny app
 
 **Learning objectives:**
 
-- Learn how to **create a simple Shiny app**
-- Define the **leanest version** of an app you can build 
-- Review different **ways to start and stop** the app 
-- Identify the **two key components** of every Shiny app 
-- Understand how the two **components are connected**
-- Observe how Shiny apps **react to user input** 
+-   Learn how to **create a simple Shiny app**
+-   Define the **leanest version** of an app you can build
+-   Review different **ways to start and stop** the app
+-   Identify the **two key components** of every Shiny app
+-   Understand how the two **components are connected**
+-   Observe how Shiny apps **react to user input**
 
-## Introduction 
+## Introduction
 
-This chapter is basically a quick demo of the minimum boilerplate needed for a Shiny app. 
+This chapter is basically a quick demo of the minimum boilerplate needed for a Shiny app.
 
 It defines the two key components - the **ui** and the **server**
 
-Then introduces **reactive programming** - which is how shiny automatically updates outputs when inputs change. 
+Then introduces **reactive programming** - which is how shiny automatically updates outputs when inputs change.
 
-Shiny outputs (tables, charts etc.) can automatically **react** (recalculate) when their inputs change.  
+Shiny outputs (tables, charts etc.) can automatically **react** (recalculate) when their inputs change.
 
 ![](images/01-your_first_shiny_app/basic_react.png)
 
-### If you haven't installed Shiny already: 
+### If you haven't installed Shiny already:
 
 ```{r install_shiny, eval=FALSE}
 install.packages('shiny')
@@ -33,14 +35,13 @@ Check you have version 1.5.0 or higher
 packageVersion("shiny")
 ```
 
-Load shiny 
+Load shiny
 
 ```{r load_shiny, warning=FALSE}
 library('shiny')
 ```
 
-
-## Creating an app 
+## Creating an app
 
 Simplest way - create new directory for your app and add a single `app.r` file
 
@@ -56,55 +57,54 @@ shinyApp(ui, server)
 
 Looking closely at the code above, this app.r file does four things:
 
-1. Loads `shiny`
-2. Defines the **ui** - the HTML webpage humans interact with 
-3. Specifies behaviour of the app in the **server** 
-4. Executes `shinyApp(ui, server)` to construct and start the app 
+1.  Loads `shiny`
+2.  Defines the **ui** - the HTML webpage humans interact with
+3.  Specifies behaviour of the app in the **server**
+4.  Executes `shinyApp(ui, server)` to construct and start the app
 
-## Running and stopping the app 
+## Running and stopping the app
 
 The basic workflow of shiny app development is...
 
-1. Write some code
-2. Start the app
-3. Play with the app
-4. Write some more code
-5. Repeat...
+1.  Write some code
+2.  Start the app
+3.  Play with the app
+4.  Write some more code
+5.  Repeat...
 
 A simple diagram of the Shiny development process.
 
 ![](images/01-your_first_shiny_app/shiny-dev-process-simple.png)
 
-### Running the app 
+### Running the app
 
-There are a few ways you can run your app 
+There are a few ways you can run your app
 
-*If using R Studio:* 
+*If using R Studio:*
 
-- Click `Run App` button in document toolbar 
-- Keyboard shortcut is `CMD / CTRL + SHIFT + ENTER` 
+-   Click `Run App` button in document toolbar
+-   Keyboard shortcut is `CMD / CTRL + SHIFT + ENTER`
 
 *If not using R Studio:*
 
-- (source()) the whole document or call shiny::runApp()
+-   (source()) the whole document or call shiny::runApp()
 
-The console message `#> Listening on http://127.0.0.1:3827` identifies your app in any (local) web browser. 
+The console message `#> Listening on http://127.0.0.1:3827` identifies your app in any (local) web browser.
 
-- `127.0.0.1` is a standard address = this computer 
-- last 4 digits = randomly assigned port number 
+-   `127.0.0.1` is a standard address = this computer
+-   last 4 digits = randomly assigned port number
 
-Running a Shiny app keeps R busy and you will not be able to execute other commands in the console at that time. 
+Running a Shiny app keeps R busy and you will not be able to execute other commands in the console at that time.
 
-### Stopping the app: 
+### Stopping the app:
 
-- `STOP` sign on console toolbar
-- `ESC` from within R console (`CTRL + C` is not in R Studio)
-- Close shiny app window 
-
+-   `STOP` sign on console toolbar
+-   `ESC` from within R console (`CTRL + C` is not in R Studio)
+-   Close shiny app window
 
 ## Adding UI controls
 
-Replace the `ui` in your app with this code that shows you all the built-in data frames in the datasets package. 
+Replace the `ui` in your app with this code that shows you all the built-in data frames in the datasets package.
 
 ```{r ui_1, eval=FALSE}
 ui <- fluidPage(
@@ -113,12 +113,13 @@ ui <- fluidPage(
   tableOutput("table")
 )
 ```
-Four new functions: 
 
-1. `fluidPage()` - **layout function** to set up visual structure of page 
-2. `selectInput()` - **input control** for user to interact with 
-3. `verbatimTextOutput()` - **output control** - shows code result
-4. `tableOutput()` - **output control** - displays tables
+Four new functions:
+
+1.  `fluidPage()` - **layout function** to set up visual structure of page
+2.  `selectInput()` - **input control** for user to interact with
+3.  `verbatimTextOutput()` - **output control** - shows code result
+4.  `tableOutput()` - **output control** - displays tables
 
 **These are all just ways to generate HTML**
 
@@ -128,23 +129,23 @@ Run the following in the console to see the outputted html:
 selectInput("dataset", label = "Dataset", choices = ls("package:datasets"))
 ```
 
-Open the app in the browser, `right click on page` >> `select inspect` to see the html.
+Open the app in the browser, `right click on page` \>\> `select inspect` to see the html.
 
 **Note:** `fluidPage()` is just one option available for page setup. `navBarPage()` is a nice example for creating an app with page tabs.
 
 You can see an example of the use of `navBarPage()` [here](https://shiny.rstudio.com/gallery/navbar-example.html).
 
-## Adding behaviour 
+## Adding behaviour
 
-Need server function to bring the outputs to life 
+Need server function to bring the outputs to life
 
 Reactive programming tells Shiny **how** to perform a function.
 
-> It's the difference between giving someone a recipe versus demanding that they go make you a sandwich. ~ Hadley Wickham (Author of Mastering Shiny)
+> It's the difference between giving someone a recipe versus demanding that they go make you a sandwich. \~ Hadley Wickham (Author of Mastering Shiny)
 
-Your coding the range of app behaviors, but the user of your app demands the output based on their selection of input(s). 
+Your coding the range of app behaviors, but the user of your app demands the output based on their selection of input(s).
 
-This code tells shiny how to fill in the `summary` and `table` outputs we defined in the UI. 
+This code tells shiny how to fill in the `summary` and `table` outputs we defined in the UI.
 
 ```{r server_1, eval=FALSE}
 server <- function(input, output, session) {
@@ -160,30 +161,29 @@ server <- function(input, output, session) {
 }
 ```
 
-Each `output$out_id` is a new shiny output to render where the UI defines it 
+Each `output$out_id` is a new shiny output to render where the UI defines it
 
 There are specific render functions `render{Type}` for different outputs:
 
-- text
-- tables
-- plots
-- images
-- new ui components 
+-   text
+-   tables
+-   plots
+-   images
+-   new ui components
 
-## Reactive expressions 
+## Reactive expressions
 
 Key part of reducing duplication and ensuring you [D-R-Y (Don't-Repeat-Yourself)](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself)
 
-**Duplicated code is particularly bad for Shiny apps which can get cumbersome and more difficult to maintain and debug as they grow**
-(Although the latest release of shiny does have some improved debugging tools)
+**Duplicated code is particularly bad for Shiny apps which can get cumbersome and more difficult to maintain and debug as they grow** (Although the latest release of shiny does have some improved debugging tools)
 
-Reactive expressions combines some of the same logic as variables and functions, but is a bit different as these do not work the same in shiny as normal R programming. 
+Reactive expressions combines some of the same logic as variables and functions, but is a bit different as these do not work the same in shiny as normal R programming.
 
-Create a reactive expression by wrapping a block of code in `reactive({...})` and assigning it to a variable. 
+Create a reactive expression by wrapping a block of code in `reactive({...})` and assigning it to a variable.
 
-You can use the reactive expression like a standard function with **one important difference** - it only runs once and caches the result until the input is changed. So once it is initialised it will return some form of constant until it's updated again. 
+You can use the reactive expression like a standard function with **one important difference** - it only runs once and caches the result until the input is changed. So once it is initialised it will return some form of constant until it's updated again.
 
-The below code retrieves the dataset once, not twice 
+The below code retrieves the dataset once, not twice
 
 ```{r server_2, eval=FALSE}
 server <- function(input, output, session) {
@@ -209,8 +209,7 @@ The flow visualised in 2.1 now has a middle layer - a reactive expression.
 
 ![](images/01-your_first_shiny_app/reactive_expression.png)
 
-Which lives in the server function of the app. The ui to server connections can be visualised like this: 
-![](images/01-your_first_shiny_app/reactive_ui_server.png)
+Which lives in the server function of the app. The ui to server connections can be visualised like this: ![](images/01-your_first_shiny_app/reactive_ui_server.png)
 
 Using our 'first app' as an example:
 
@@ -224,23 +223,21 @@ runApp("examples/01-your_first_shiny_app/app-data-example-final.R", display.mode
 
 You can read more about the different Shiny display modes [here](https://shiny.rstudio.com/articles/display-modes.html).
 
-## Shiny resources 
+## Shiny resources
 
 Shiny cheatsheet
 
-https://www.rstudio.com/resources/cheatsheets/ 
+<https://www.rstudio.com/resources/cheatsheets/>
 
-![](images/01-your_first_shiny_app/shiny-cheatsheet.pdf){width=150%}
+![](images/01-your_first_shiny_app/shiny-cheatsheet.pdf){width="150%"}
 
 ### Other resources
 
-**Shiny Gallery** has lots of inspiration and demos of specific ui components and server behaviours. https://shiny.rstudio.com/gallery/ 
+**Shiny Gallery** has lots of inspiration and demos of specific ui components and server behaviours. <https://shiny.rstudio.com/gallery/>
 
-**Shiny Widgets Gallery** is included in above link and introduces the main options for inputs in the ui. https://shiny.rstudio.com/gallery/widget-gallery.html 
+**Shiny Widgets Gallery** is included in above link and introduces the main options for inputs in the ui. <https://shiny.rstudio.com/gallery/widget-gallery.html>
 
-**Shiny Dashboard** is a nice framework for creating good looking and well structured apps with minimal effort. May get limiting as you advance and want more customisation. https://rstudio.github.io/shinydashboard/index.html
-
-
+**Shiny Dashboard** is a nice framework for creating good looking and well structured apps with minimal effort. May get limiting as you advance and want more customisation. <https://rstudio.github.io/shinydashboard/index.html>
 
 ## Meeting Videos
 
@@ -250,10 +247,7 @@ https://www.rstudio.com/resources/cheatsheets/
 
 <details>
   <summary> Meeting chat log </summary>
-  
 ```
-# Meeting 2021-2-16
-
 00:34:30	Tan Ho:	(there are ways to get access to the R console!)
 00:34:43	shamsuddeen:	?
 00:35:13	Tan Ho:	specifically re: Jerome's comment about R console being locked while an app is running
@@ -284,33 +278,21 @@ https://www.rstudio.com/resources/cheatsheets/
 `r knitr::include_url("https://www.youtube.com/embed/UfYv0Jp4yIQ")`
 
 <details>
-  <summary> Meeting chat log </summary>
-  
+  <summary>Meeting chat log</summary>
 ```
-# Meeting 2021-07-28
-00:15:20	Ola:	you are on mute
-00:30:25	Ola:	it sounds like you need to setup your ssh key
-00:30:27	Ola:	https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
-00:31:11	Conor Tompkins:	RStudio sort of combines git add and git commit.
-00:36:19	Ola:	yes
-00:46:54	Conor Tompkins:	It would be interesting to know whether you can use a port number below 1023. Those are reserved for specific uses
-00:48:15	Ola:	You can assign an application a port number. 
-00:48:58	Ola:	There are some default ports for certain applications like postgres I think its like port 5410 … don't quote me on that
-00:49:45	Ryan Metcalf:	Many APIs utilize particular ports when communicating to different servers. Redis, Postgres, SQLServer, etc…
-00:49:52	Ryan Metcalf:	HTML by default is 80 or 8080.
-00:50:17	Ryan Metcalf:	SSH, FTP, SFTP, are 21, 22, 23, etc…
-00:51:35	Eileen:	Shiny:: cheat sheet
-00:54:43	Ola:	Maybe we should have a debugging zoom party one of these days
-```
-</details>
-
-### Cohort 2
-
-`r knitr::include_url("")`
-
-<details>
-  <summary> Meeting chat log </summary>
-  
-```
+    # Meeting 2021-07-28
+    00:15:20    Ola:    you are on mute
+    00:30:25    Ola:    it sounds like you need to setup your ssh key
+    00:30:27    Ola:    https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent
+    00:31:11    Conor Tompkins: RStudio sort of combines git add and git commit.
+    00:36:19    Ola:    yes
+    00:46:54    Conor Tompkins: It would be interesting to know whether you can use a port number below 1023. Those are reserved for specific uses
+    00:48:15    Ola:    You can assign an application a port number. 
+    00:48:58    Ola:    There are some default ports for certain applications like postgres I think its like port 5410 … don't quote me on that
+    00:49:45    Ryan Metcalf:   Many APIs utilize particular ports when communicating to different servers. Redis, Postgres, SQLServer, etc…
+    00:49:52    Ryan Metcalf:   HTML by default is 80 or 8080.
+    00:50:17    Ryan Metcalf:   SSH, FTP, SFTP, are 21, 22, 23, etc…
+    00:51:35    Eileen: Shiny:: cheat sheet
+    00:54:43    Ola:    Maybe we should have a debugging zoom party one of these days
 ```
 </details>
