@@ -1,4 +1,4 @@
-# Your first Shiny app
+# Tidy evaluation
 
 **Learning objectives:**
 
