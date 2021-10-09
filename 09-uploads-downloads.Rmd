@@ -1,23 +1,28 @@
 # Uploads and Downloads
 
-In this chapter we learn how to upload/download files to/from a Shiny
- application.
-The UI for both uploads and downloads is simple, with essentially one function 
- for each operation.
-The server side is more complex.
-The upload and download functions for the server each have their own quirks.
+**Learning objectives:**  
 
-## Uploads
+* Learn how to include file upload/download functionality into a Shiny application
+* Implement the key UI components required to provide uploading/downloading functionality in an app
+* Implement the key server components required to provide uploading/downloading functionality in an app
+* Describe how the the UI and server elements fit together to provide this functionality
+* Develop an app that validates the user's input from an upload
+* Observe examples where uploading/downloading functionality is applied within a simple Shiny application
+
+## File uploads
 
 ### UI
 
-To upload a file use `fileInput(id, label)`. Some other arguments are
+To upload a file use `fileInput(id, label)`. 
+
+Some other arguments are:
 
 - `multiple` - can multiple files be uploaded at once?
 - `accept` - what file types are accepted? (character vector)
     - file extension: `.csv`, `.tsv`, `.rds`
     - MIME type: `application/JSON`, `image/png`
     - one of: `audio/*`, `video/*`, `image/*`
+- Use `?fileInput` in console to learn more    
     
 ### Server
 
@@ -30,7 +35,7 @@ There are 4 columns:
 - `type` - MIME type of the file
 - `datapath` - file path on the server. Temporary.
 
-### Uploading data
+## Uploading data
 
 There are 2 things to note about uploading a data set.
 
@@ -65,13 +70,40 @@ server <- function(input, output, session) {
 }
 ```
 
+### Observe this in action
+
+- Check out the `app-upload.R` example
+
+### Use a break-point to observe what's going on here
+
+- Add a breakpoint before the `switch()` function.
+  - Examine `input$upload`
+  - Examine `input$file$datapath` object
+  - Examine `ext`
+  - Import data in the interactive debugger
+
+```{r eval=FALSE}
+  data <- reactive({
+    req(input$upload)
+    
+    ext <- tools::file_ext(input$upload$name)
+#> Add a breakpoint here    
+    switch(ext,
+           csv = vroom::vroom(input$upload$datapath, delim = ","),
+           tsv = vroom::vroom(input$upload$datapath, delim = "\t"),
+           validate("Invalid file; Please upload a .csv or .tsv file")
+           )
+    
+  })
+```
+
 
 ## Downloads
 
 ### UI
 
-For file downloads, use `downloadButton(id, label)` or `downloadLink(id, label)`.
-Customize the appearance with the `class` or `icon` arguments.
+- For file downloads, use `downloadButton(id, label)` or `downloadLink(id, label)`.
+- Customize the appearance with the `class` or `icon` arguments.
 
 
 ### Server
@@ -94,7 +126,24 @@ output$download <- downloadHandler(
 ```
 
 
-### Downloading reports
+## Downloading data
+
+#### Diagram of data download functionality {-}
+![](images/09-uploads-downloads/data-download.png)
+
+We can allow the user to download a file containing data based on their exploration of an application.
+
+- provide functionality to download a tab separated file (e.g., `.csv`; `.tsv`)
+- provide functionality to download any type of content (e.g., `png`)
+
+### Observe this in action
+
+- Check out the `app-download-data.R` example
+
+## Downloading reports
+
+#### Diagram of report download functionality {-}
+![](images/09-uploads-downloads/report-download.png)
 
 We can allow the user to download a report based on their exploration of an
  application.
@@ -104,8 +153,12 @@ We can allow the user to download a report based on their exploration of an
 - specify parameters in YAML header of R Markdown document
 - **key idea** - call `rmarkdown::render()` from `content` argument of
  `downloadHandler()`
+ 
+### Observe this in action
 
-Some tips & tricks:
+- Check out the `app-download-report.R` example
+
+### Some tips & tricks when including report download functionality:
 
 - `.Rmd` renders in working directory so copy file temporary directory before
  rendering.
