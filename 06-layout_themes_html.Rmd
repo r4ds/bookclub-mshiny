@@ -396,11 +396,31 @@ an open SO page.
 
 ### Cohort 2
 
-`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
+#### Meeting #1 video: `r knitr::include_url("https://www.youtube.com/embed/FN34gu0FzQo")` {-}
 
 <details>
-  <summary> Meeting chat log </summary>
+  <summary> Meeting #1 chat log </summary>
   
 ```
+00:07:02	shane:	one sec, dog wants to go see his mom ha
+00:07:32	shane:	Kevin, your volume is a little low like it was last week
+01:06:06	shane:	team, I unfortunately have to drop. Thank you everyone for the discussion, and thanks to Ryan for presenting and for the great info! If we do end up bleeding into a second session on this, I would definitely be down to be there. Have a great evening!
+```
+</details>
+
+#### Meeting #2 video: `r knitr::include_url("https://www.youtube.com/embed/W01MoW3AWpY")` {-}
+
+<details>
+  <summary> Meeting #2 chat log </summary>
+  
+```
+00:21:58	shane:	https://rstudio.github.io/thematic/
+00:25:03	Collin Berke:	https://bootswatch.com/
+00:28:50	Conor Tompkins:	"This works because, at plot time, thematic grabs CSS styles from the plot(s) HTML container (via shiny::getCurrentOutputInfo())1 and uses that info to set new R styling defaults."
+00:28:56	Conor Tompkins:	From https://rstudio.github.io/thematic/articles/auto.html#shiny
+00:31:15	Collin Berke:	Not sure how this relates, but here is the link to the `theme_set()` function I referenced: https://ggplot2.tidyverse.org/reference/theme_get.html
+00:46:41	Collin Berke:	You can also see the object here: https://gallery.shinyapps.io/095-plot-interaction-advanced/
+00:50:48	Collin Berke:	Here's some more about subsetting list objects. Check out this chapter from Advanced R: https://adv-r.hadley.nz/subsetting.html
+01:13:14	Ryan Metcalf:	https://www.osti.gov/servlets/purl/1115145
 ```
 </details>

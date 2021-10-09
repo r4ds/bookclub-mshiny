@@ -414,11 +414,15 @@ More like waiting some time before acually performing the task and giving the us
 
 ### Cohort 2
 
-`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
+`r knitr::include_url("https://www.youtube.com/embed/6VOmJp6SyoA")`
 
 <details>
   <summary> Meeting chat log </summary>
   
 ```
+00:30:42	Ryan Metcalf:	https://cran.r-project.org/web/packages/shinyFeedback/shinyFeedback.pdf
+00:37:14	Ryan Metcalf:	https://shiny.rstudio.com/articles/req.html#:~:text=req%20is%20short%20for%20%E2%80%9Crequire,means)%2C%20it%20will%20stop.
+00:37:21	Ryan Metcalf:	As you can see, dataset uses the req function, and the outputs don't do any checking. Unlike using return(NULL), when you use req to check your preconditions, a failure not only stops the current calculation (the dataset reactive expression, in this case) but also any callers on the call stack. In this case, if the user has not chosen a dataset, then output$plot and output$table both stop upon calling dataset().
+00:52:54	Kevin Gilds:	https://tidydatabykwg57.shinyapps.io/ACLOlderAmericansProfile/
 ```
 </details>

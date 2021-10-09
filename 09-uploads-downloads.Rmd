@@ -173,11 +173,13 @@ We can allow the user to download a report based on their exploration of an
 
 ### Cohort 2
 
-`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
+`r knitr::include_url("https://www.youtube.com/embed/SZIVWc91g-o")`
 
 <details>
   <summary> Meeting chat log </summary>
   
 ```
+00:51:00	Ryan Metcalf:	https://github.com/royfrancis/shinyapp_calendar_plot/blob/master/app.R
+00:54:23	Ryan Metcalf:	https://pandoc.org/
 ```
 </details>
