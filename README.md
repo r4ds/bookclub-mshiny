@@ -65,7 +65,7 @@ If you would like to present, please add your name next to a chapter using the [
   - 2021-09-29: Chapter 9: _Uploads and Downloads_: Collin Berke
   - 2021-10-06: Chapter 10: _Dynamic UI_: Ryan Metcalf
   - 2021-10-13: Chapter 10: _Dynamic UI_: Ryan Metcalf & Collin Berke
-  - 2021-10-20: Chapter 11: _Bookmarking_: Presenter TBA
+  - 2021-10-20: Chapter 10: _Dynamic UI_: Collin Berke & Chapter 11: _Bookmarking_: Conor Tompkins
   - 2021-10-27: Chapter 12: _Tidy evaluation_: Presenter TBA
 - Part 3 (Mastering reactivity)
   - 2021-11-03: Chapter 13: _Why reactivity?_: Presenter TBA
