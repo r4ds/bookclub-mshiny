@@ -99,11 +99,12 @@ old_data %>% select(!!!old_nm)
 
 ### Cohort 2
 
-`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
+`r knitr::include_url("https://www.youtube.com/embed/EGu10YO_Bn4")`
 
 <details>
   <summary> Meeting chat log </summary>
   
 ```
+01:11:18	Ryan Metcalf:	https://databank.worldbank.org/reports.aspx?source=global-economic-prospects
 ```
 </details>

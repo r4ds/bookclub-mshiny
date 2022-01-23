@@ -190,11 +190,16 @@ The parameter in this instance is the `state_id` which corresponds to a director
 
 ### Cohort 2
 
-`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
+`r knitr::include_url("https://www.youtube.com/embed/gB70zh1MkLk")`
 
 <details>
   <summary> Meeting chat log </summary>
   
 ```
+00:23:33	Conor Tompkins:	From the docs: “reduce() is an operation that combines the elements of a vector into a single value. The combination is driven by .f, a binary function that takes two values and returns a single value”
+01:09:29	Conor Tompkins:	https://www.rplumber.io/
+01:09:37	Conor Tompkins:	curl --data "a=4&b=3" "http://localhost:8000/sum"
+01:13:18	Conor Tompkins:	https://cran.r-project.org/web/packages/curl/index.html
+01:17:06	Conor Tompkins:	https://xkcd.com/327/
 ```
 </details>

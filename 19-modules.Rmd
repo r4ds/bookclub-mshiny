@@ -238,11 +238,14 @@ Two versions of a simple app based on Tidy Tuesday data:
 
 ### Cohort 2
 
-`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
+`r knitr::include_url("https://www.youtube.com/embed/5YmZiyVgUeg")`
+
+`r knitr::include_url("https://www.youtube.com/embed/BTpK8lan97E")`
 
 <details>
   <summary> Meeting chat log </summary>
   
 ```
+00:43:20	Kevin Gilds:	https://github.com/bios2/shiny_volcano_golem
 ```
 </details>

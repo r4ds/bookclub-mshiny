@@ -106,11 +106,25 @@ Key concepts that were covered in the chapter:
 
 ### Cohort 2
 
-`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
+`r knitr::include_url("https://www.youtube.com/embed/8AK_qPbK4MA")`
 
 <details>
   <summary> Meeting chat log </summary>
   
 ```
+00:43:00	Ryan Metcalf:	Not sure if this quite answers the question of cache’ing variables in a Shiny Server -> UI handshake. The comment I made was toward “threading”. The article does clarify the differences. https://www.digitalocean.com/community/tutorials/apache-vs-nginx-practical-considerations
+```
+</details>
+
+`r knitr::include_url("https://www.youtube.com/embed/q2d3uBHO3Tk")`
+
+<details>
+  <summary> Meeting chat log </summary>
+  
+```
+00:37:01	Ryan Metcalf:	Really good topic on Linked List in C++. The discussion was related to memory management. https://www.geeksforgeeks.org/data-structures/linked-list/
+00:45:12	Kevin Gilds:	Reactive Values in Modules
+00:45:39	Kevin Gilds:	The inputs across across modules
+00:47:27	Kevin Gilds:	I will put some articles in the slack reactive values and modules
 ```
 </details>

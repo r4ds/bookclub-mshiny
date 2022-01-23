@@ -451,11 +451,16 @@ What structural changes might be needed to use ShinyDriver-based end-to-end test
 
 ### Cohort 2
 
-`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
+`r knitr::include_url("https://www.youtube.com/embed/nwAg54rA3xs")`
 
 <details>
   <summary> Meeting chat log </summary>
   
 ```
+00:08:40	collinberke:	https://github.com/collinberke/ga4WebDash
+00:43:42	Kevin Gilds:	https://rich-iannone.github.io/pointblank/
+00:50:43	Kevin Gilds:	https://github.com/yonicd/covrpage
 ```
 </details>
+
+`r knitr::include_url("https://www.youtube.com/embed/eguok48Piyg")`
