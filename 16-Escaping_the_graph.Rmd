@@ -277,11 +277,13 @@ More readings:
 
 ### Cohort 2
 
-`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
+`r knitr::include_url("https://www.youtube.com/embed/9Kv67Ar8Fvw")`
 
 <details>
   <summary> Meeting chat log </summary>
   
 ```
+00:06:38	Kevin Gilds:	pine phone
+00:55:04	collinberke:	https://www.collinberke.com/post/shiny-series-implementing-a-next-and-back-button/
 ```
 </details>

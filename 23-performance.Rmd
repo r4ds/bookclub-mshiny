@@ -165,11 +165,4 @@ output$text <- renderText(slow_function2(input$z)) %>%
 
 ### Cohort 2
 
-`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
-
-<details>
-  <summary> Meeting chat log </summary>
-  
-```
-```
-</details>
+`r knitr::include_url("https://www.youtube.com/embed/UwrBxS39E3g")`

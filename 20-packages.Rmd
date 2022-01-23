@@ -98,14 +98,3 @@ You can run a demo survey with the function `shinysurveys::demo_survey()`.
 00:37:53	Jonathan Trattner:	https://github.com/jdtrat/shinysurveys
 ```
 </details>
-
-### Cohort 2
-
-`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
-
-<details>
-  <summary> Meeting chat log </summary>
-  
-```
-```
-</details>

@@ -565,11 +565,4 @@ Extra Packages:
 
 ### Cohort 2
 
-`r knitr::include_url("https://www.youtube.com/embed/XXXX")`
-
-<details>
-  <summary> Meeting chat log </summary>
-  
-```
-```
-</details>
+`r knitr::include_url("https://www.youtube.com/embed/eguok48Piyg")`
