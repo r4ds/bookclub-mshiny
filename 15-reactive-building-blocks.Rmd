@@ -499,3 +499,14 @@ Beware, the accuracy of timing may be affected by other processes
 00:47:27	Kevin Gilds:	I will put some articles in the slack reactive values and modules
 ```
 </details>
+
+### Cohort 3
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>

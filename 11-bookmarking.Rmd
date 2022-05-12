@@ -203,3 +203,14 @@ The parameter in this instance is the `state_id` which corresponds to a director
 01:17:06	Conor Tompkins:	https://xkcd.com/327/
 ```
 </details>
+
+### Cohort 3
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>

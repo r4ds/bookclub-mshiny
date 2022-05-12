@@ -296,3 +296,32 @@ Shiny cheatsheet
     00:54:43    Ola:    Maybe we should have a debugging zoom party one of these days
 ```
 </details>
+
+### Cohort 3
+
+`r knitr::include_url("https://www.youtube.com/embed/aDiOqqd1Ydc")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+00:06:57	Njoki Njuki Lucy:	https://docs.google.com/spreadsheets/d/1YnFBY5nwSFoQuryPXtfmoguVbE4sIrjP_LhRLSZM8dc/edit#gid=0
+00:17:24	Ryan Metcalf:	https://github.com/r4ds/bookclub-mshiny
+00:23:57	Njoki Njuki Lucy:	https://docs.google.com/spreadsheets/d/1YnFBY5nwSFoQuryPXtfmoguVbE4sIrjP_LhRLSZM8dc/edit?usp=sharing
+00:35:56	Njoki Njuki Lucy:	https://mastering-shiny.org/
+00:36:22	Ryan Metcalf:	`git branch <repo name> # create branch
+00:37:35	Ryan Metcalf:	Forgive me, let me edit that line of code: `git remote add [name_of_your_remote] [name_of_your_new_branch]`
+00:48:02	Mohit Soni:	Hi All, I’m Mohit, logging in from India, I work with R in Supply Chain forecasting. Excited to meet fellow learners and learn together.
+00:59:43	Njoki Njuki Lucy:	https://docs.google.com/spreadsheets/d/1YnFBY5nwSFoQuryPXtfmoguVbE4sIrjP_LhRLSZM8dc/edit?usp=sharing
+01:00:14	Ryan Metcalf:	https://docs.google.com/spreadsheets/d/1YnFBY5nwSFoQuryPXtfmoguVbE4sIrjP_LhRLSZM8dc/edit#gid=0
+```
+</details>
+
+`r knitr::include_url("https://www.youtube.com/embed/D0pUxWx6BZE")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+00:24:22	Ryan Metcalf:	https://www.rstudio.com/about/platform-support/
+00:58:04	Ryan Metcalf:	Lucy’s Cohort Signup Sheet: https://docs.google.com/spreadsheets/d/1YnFBY5nwSFoQuryPXtfmoguVbE4sIrjP_LhRLSZM8dc/edit#gid=0
+```
+</details>

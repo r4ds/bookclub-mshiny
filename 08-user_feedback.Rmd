@@ -426,3 +426,14 @@ More like waiting some time before acually performing the task and giving the us
 00:52:54	Kevin Gilds:	https://tidydatabykwg57.shinyapps.io/ACLOlderAmericansProfile/
 ```
 </details>
+
+### Cohort 3
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>

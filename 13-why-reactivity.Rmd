@@ -235,3 +235,14 @@ temp_f()
 00:43:00	Ryan Metcalf:	Not sure if this quite answers the question of cache’ing variables in a Shiny Server -> UI handshake. The comment I made was toward “threading”. The article does clarify the differences. https://www.digitalocean.com/community/tutorials/apache-vs-nginx-practical-considerations
 ```
 </details>
+
+### Cohort 3
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>

@@ -183,3 +183,14 @@ We can allow the user to download a report based on their exploration of an
 00:54:23	Ryan Metcalf:	https://pandoc.org/
 ```
 </details>
+
+### Cohort 3
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>

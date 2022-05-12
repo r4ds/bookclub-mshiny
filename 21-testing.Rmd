@@ -464,3 +464,14 @@ What structural changes might be needed to use ShinyDriver-based end-to-end test
 </details>
 
 `r knitr::include_url("https://www.youtube.com/embed/eguok48Piyg")`
+
+### Cohort 3
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>

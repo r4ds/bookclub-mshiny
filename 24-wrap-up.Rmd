@@ -19,3 +19,14 @@
 00:58:51	Federica Gazzelloni:	https://github.com/Fgazzelloni/shiny_apps/blob/master/App-Covid19_Italy_map/app.R
 ```
 </details>
+
+### Cohort 3
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>

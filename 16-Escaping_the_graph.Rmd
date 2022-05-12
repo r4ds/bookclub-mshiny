@@ -287,3 +287,14 @@ More readings:
 00:55:04	collinberke:	https://www.collinberke.com/post/shiny-series-implementing-a-next-and-back-button/
 ```
 </details>
+
+### Cohort 3
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>
