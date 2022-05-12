@@ -164,3 +164,14 @@ Alternatives / complements? pair programming
 00:51:35	collinberke:	https://www.youtube.com/watch?v=tWEa6JwlJ3c&list=PL3x6DOfs2NGjtn1_4BSX99R5wrLjK7XvY&index=21
 ```
 </details>
+
+### Cohort 3
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>

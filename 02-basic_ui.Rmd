@@ -337,3 +337,15 @@ Chapter 3: *Basic UI* introduces the 3 components of user interface for Shiny
 00:59:03	Collin Berke:	Thanks, Ola
 ```
 </details>
+
+### Cohort 3
+
+`r knitr::include_url("https://www.youtube.com/embed/94zye7iYzPs")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+00:11:45	Ryan Metcalf:	https://appsilon.com/shiny-conference/
+01:09:37	Njoki Njuki Lucy:	I had the same question 😄
+```
+</details>

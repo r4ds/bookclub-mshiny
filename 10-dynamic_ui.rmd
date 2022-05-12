@@ -365,3 +365,14 @@ The dynamic of the UI can be appreciated by modification of the Server. Many com
 01:14:47	Conor Tompkins:	barplot() automatically translates some strings to hex
 ```
 </details>
+
+### Cohort 3
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>

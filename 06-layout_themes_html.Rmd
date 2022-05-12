@@ -424,3 +424,14 @@ an open SO page.
 01:13:14	Ryan Metcalf:	https://www.osti.gov/servlets/purl/1115145
 ```
 </details>
+
+### Cohort 3
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>

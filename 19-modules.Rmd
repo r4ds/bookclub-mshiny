@@ -249,3 +249,14 @@ Two versions of a simple app based on Tidy Tuesday data:
 00:43:20	Kevin Gilds:	https://github.com/bios2/shiny_volcano_golem
 ```
 </details>
+
+### Cohort 3
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>
