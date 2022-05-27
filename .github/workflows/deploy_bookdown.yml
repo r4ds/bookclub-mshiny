@@ -1,6 +1,8 @@
 on:
   push:
     branches: main
+    paths-ignore:
+      - 'README.md'
   workflow_dispatch:
 
 name: renderbook
@@ -8,37 +10,20 @@ name: renderbook
 jobs:
   bookdown:
     name: Render-Book
-    runs-on: macOS-latest
-    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
-      - uses: r-lib/actions/setup-r@v1
-          
-      - uses: r-lib/actions/setup-pandoc@v1
-      
-      - name: Install pak and query dependencies
-        run: |
-          install.packages("pak", repos = "https://r-lib.github.io/p/pak/dev/")
-          saveRDS(pak::pkg_deps("local::.", dependencies = TRUE), "r-depends.rds")
-        shell: Rscript {0}
-      
-      - name: Cache R packages
-        uses: actions/cache@v1
+      - uses: r-lib/actions/setup-r@v2
         with:
-          path: ${{ env.R_LIBS_USER }}
-          key: r4ds_bookclub-${{ hashFiles('DESCRIPTION') }}-${{ hashFiles('r-depends.rds') }}
-          restore-keys: r4ds_bookclub-
-
-      - name: Install dependencies
-        run: |
-          pak::local_install_dev_deps(upgrade = TRUE)
-        shell: Rscript {0}
+          r-version: '4.2.0'
+      - uses: r-lib/actions/setup-pandoc@v2
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          cache-version: 2
 
       - name: Render Book
         run: Rscript -e 'bookdown::render_book("index.Rmd")'
-        
-      - uses: actions/upload-artifact@v1
+      - uses: actions/upload-artifact@v2
         with:
           name: _book
           path: _book/
@@ -66,5 +51,3 @@ jobs:
           EMAIL: ${{ secrets.EMAIL }}               # must be a verified email
           GH_TOKEN: ${{ secrets.GH_PAT }} # https://github.com/settings/tokens
           BUILD_DIR: _book/                     # "_site/" by default
-
-
