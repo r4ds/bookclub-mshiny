@@ -4,7 +4,7 @@
 
 - Use `renderPlot()` to display reactive plots.
 - Create interactive plots.
-- displaying images with `renderImage()`
+- Display images with `renderImage()`.
 
 ---
 
