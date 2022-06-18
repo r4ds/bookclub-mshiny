@@ -2,7 +2,7 @@
 
 **Learning objectives**
 
-- how to use `renderPlot()`
+- Use `renderPlot()` to display reactive plots.
 - create interactive plots
 - displaying images with `renderImage()`
 
