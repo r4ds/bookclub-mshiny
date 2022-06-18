@@ -1,4 +1,305 @@
-# Graphics and Shiny
+# Graphics
+
+**Learning objectives**
+
+- how to use `renderPlot()`
+- create interactive plots
+- displaying images with `renderImage()`
+
+---
+
+## Interactivity: the basics
+
+```{r 07-01, message=FALSE, warning=FALSE, paged.print=FALSE}
+library(shiny)
+library(ggplot2)
+```
+
+The syntax for displaying a plot in a Shiny app is:
+
+ In the **ui** the `plotOutput()` function releasese an output that can also be an input.
+
+In the server the `renderPlot()` function releases the plot.
+
+### Summary of interactive action events
+
+- click
+- dblclick
+- hover
+- brush
+
+#### Clicking
+
+As we see in this example, there are two options available:
+
+- "plot_click"
+- nearPoints()
+
+The first option allows you to selext specific points from the data, the other one select the area around the selected point, so it releases values which are near the observed value.
+
+```{r 07-02,eval=FALSE, message=FALSE, warning=FALSE, include=T, paged.print=FALSE}
+
+ui <- fluidPage(
+  
+  plotOutput("plot", click = "plot_click", brush = "plot_brush"),
+  verbatimTextOutput("info"),
+  tableOutput("data")
+  
+)
+
+server <- function(input, output, session) {
+  
+  output$plot <- 
+    renderPlot({
+    plot(mtcars$wt, mtcars$mpg)
+      }, res = 96)
+  
+  output$info <- 
+    renderPrint({
+    # this is to make sure the app does nothing before the first click
+    req(input$plot_click)
+    x <- round(input$plot_click$x, 1)
+    y <- round(input$plot_click$y, 1)
+    cat("[", x, ", ", y, "]", sep = "")
+    })
+  
+   output$data <- 
+     renderTable({
+    req(input$plot_click)
+    # browser() (you need to use the function with all options as is)
+    # nearPoints() function translates coords to data
+    nearPoints(mtcars, input$plot_click, xvar = "wt", yvar = "mpg")
+    # brushedPoints(mtcars, input$plot_brush, xvar = "wt", yvar = "mpg")
+       })
+   
+    output$data <- 
+     renderTable({
+    req(input$plot_click)
+    
+    brushedPoints(mtcars, input$plot_brush, xvar = "wt", yvar = "mpg")
+       })
+}
+
+
+# shinyApp(ui,server)
+```
+
+
+More specific example here : https://gallery.shinyapps.io/095-plot-interaction-advanced/
+
+
+#### Brushing
+
+- brush: a rectangular selection
+
+Example of a [Brushed Points App](https://hadley.shinyapps.io/ms-brushedPoints)
+```{r 07-03,eval=FALSE, include=T}
+ui <- fluidPage(
+  plotOutput("plot", brush = "plot_brush"),
+  tableOutput("data")
+)
+server <- function(input, output, session) {
+  output$plot <- renderPlot({
+    # here we change the plot() function with ggplot()
+    ggplot(mtcars, aes(wt, mpg)) + geom_point()
+  }, res = 96)
+  
+  output$data <- renderTable({
+    brushedPoints(mtcars, input$plot_brush)
+  })
+}
+```
+
+
+## Modifying the plot
+
+- reactiveVal()
+- reactive()
+
+see more info in [chapter 16 Escaping the graph](https://mastering-shiny.org/reactivity-components.html)
+
+This is part of the **function factories** (more info here: [Function factories](https://adv-r.hadley.nz/function-factories.html)), i.e. a function that makes functions. This is the main difference with `reactive()`, the `reactiveVal()` function updates the values.
+It need to be run in an reactive environment. If you'd like to debug the function you can use `browser()` inside the app, as we shown before.
+
+```{r 07-04,eval=FALSE, include=T}
+val <- reactiveVal(10)
+val()
+```
+
+Let's see the distance between a click and the points: [Modifying Size App]( https://hadley.shinyapps.io/ms-modifying-size)
+
+```{r 07-05,eval=FALSE, include=T}
+set.seed(1014)
+df <- data.frame(x = rnorm(100), y = rnorm(100))
+
+
+
+ui <- fluidPage(
+  plotOutput("plot", click = "plot_click") # comma
+)
+
+
+server <- function(input, output, session) {
+  # the reactiveVal function
+  dist <- reactiveVal(rep(1, nrow(df)))
+  # and the observeEvent calling the reactivity
+  observeEvent(input$plot_click,
+    dist(nearPoints(df, 
+                    input$plot_click, 
+                    allRows = TRUE, 
+                    addDist = TRUE)$dist_) # this "dist_" gives the distance between the row and the event (in pixels) 
+  )
+
+  output$plot <- renderPlot({
+    df$dist <- dist()
+    ggplot(df, aes(x, y, size = dist)) + 
+      geom_point() + 
+      # set the limits
+      scale_size_area(limits = c(0, 1000), max_size = 10, guide = NULL)
+  }, res = 96)
+}
+
+# shinyApp(ui,server)
+```
+
+
+Another example with different colors:
+
+- initialise the reactiveVal() to a vector of FALSEs
+- use `brushedPoints()` and `|` to add any points under the brush to the selection
+- double clicking reset the selection
+
+```{r 07-06,eval=FALSE, include=T}
+ui <- fluidPage(
+  plotOutput("plot", brush = "plot_brush", dblclick = "plot_reset")
+)
+
+
+server <- function(input, output, session) {
+  
+  selected <- 
+    reactiveVal(rep(FALSE, nrow(mtcars)))
+    
+    observeEvent(input$plot_brush, {
+    brushed <- brushedPoints(mtcars, 
+                             input$plot_brush,
+                             # "selected_" whether it’s near the click event
+                             allRows = TRUE)$selected_   
+    selected(brushed | selected())
+  })
+  
+  observeEvent(input$plot_reset, {
+    selected(rep(FALSE, nrow(mtcars)))
+  })
+
+  output$plot <- renderPlot({
+    mtcars$sel <- selected()
+    
+    ggplot(mtcars, aes(wt, mpg)) + 
+      geom_point(aes(colour = sel)) +
+      scale_colour_discrete(limits = c("TRUE", "FALSE"))
+  }, res = 96)
+}
+
+# shinyApp(ui,server)
+```
+
+## Interactivity limitations
+
+The basic data flow in interactive plots:
+```{r 07-07,echo=FALSE,fig.align="center",fig.dim="100%"}
+DiagrammeR::mermaid(
+  "graph TB
+  A(JavaScript captures the mouse event)-->B(Shiny sends the mouse event data back to R)
+  B-->C(The reactive actions are recomputed)
+  C-->D(plotOutput send an image of the results to the browser)
+  "
+)
+```
+
+In terms of limitations, here we talk about **time response**. To acheive what is tought to be **instanteous** reaction at click, such as the requested modification is immediately visible, it would be necessary to improve JavaScript computation. And this can be obtained to the **plotly package**.
+
+Here is the resource: [Interactive web-based data visualization with R, plotly, and shiny](https://plotly-r.com/)
+
+## Dynamic height and width
+
+How to change the plot size interactively?
+see this example: https://hadley.shinyapps.io/ms-resize
+```{r 07-08}
+ui <- fluidPage(
+  sliderInput("height", "height", min = 100, max = 500, value = 250),
+  sliderInput("width", "width", min = 100, max = 500, value = 250),
+  plotOutput("plot", width = 250, height = 250)
+)
+server <- function(input, output, session) {
+  output$plot <- renderPlot(
+    width = function() input$width,
+    height = function() input$height,
+    res = 96,
+    {
+      plot(rnorm(20), rnorm(20))
+    }
+  )
+}
+# shinyApp(ui,server)
+```
+
+
+## Images
+
+To display images use `renderImage()` as in this app: https://hadley.shinyapps.io/ms-puppies.
+
+```{r 07-09}
+puppies <- tibble::tribble(
+  ~breed, ~ id, ~author, 
+  "corgi", "eoqnr8ikwFE","alvannee",
+  "labrador", "KCdYn0xu2fU", "shaneguymon",
+  "spaniel", "TzjMd7i5WQI", "_redo_"
+)
+
+ui <- fluidPage(
+  selectInput("id", "Pick a breed", 
+              choices = setNames(puppies$id, puppies$breed)),
+  htmlOutput("source"),
+  imageOutput("photo")
+)
+server <- function(input, output, session) {
+  output$photo <- renderImage({
+    list(
+      src = file.path("puppy-photos", paste0(input$id, ".jpg")),
+      contentType = "image/jpeg",
+      width = 500,
+      height = 650
+    )
+  }, deleteFile = FALSE)
+  
+  output$source <- renderUI({
+    info <- puppies[puppies$id == input$id, , drop = FALSE]
+    HTML(glue::glue("<p>
+      <a href='https://unsplash.com/photos/{info$id}'>original</a> by
+      <a href='https://unsplash.com/@{info$author}'>{info$author}</a>
+    </p>"))
+  })
+}
+```
+
+More info here: https://shiny.rstudio.com/articles/images.html
+
+---
+
+
+## Resources
+
+- [Shiny cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
+- [Images](https://shiny.rstudio.com/articles/images.html)
+
+---
+
+
+
+
+
+## Presentation Cohort 1
 
 Follow this link to the presentation for this chapter:
 
