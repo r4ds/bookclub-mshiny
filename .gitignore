@@ -5,5 +5,11 @@
 .DS_Store
 _book
 _bookdown_files
+bookclub-mshiny.Rmd
+bookclub-mshiny.html
+bookclub-mshiny.knit.md
+bookclub-mshiny_files
+libs
 neiss
 temp/
+*.html
