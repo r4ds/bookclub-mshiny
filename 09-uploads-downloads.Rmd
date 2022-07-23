@@ -186,11 +186,4 @@ We can allow the user to download a report based on their exploration of an
 
 ### Cohort 3
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
-
-<details>
-  <summary>Meeting chat log</summary>
-```
-LOG
-```
-</details>
+`r knitr::include_url("https://www.youtube.com/embed/A08gd1X74GQ")`

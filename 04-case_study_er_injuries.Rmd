@@ -368,11 +368,12 @@ The resulting version of the app is available at https://hadley.shinyapps.io/ms-
 
 ### Cohort 3
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/VCuaOLXLOZ4")`
 
 <details>
   <summary>Meeting chat log</summary>
 ```
-LOG
+00:15:13	Njoki Njuki Lucy:	I don't know yet but we can ask on the slack channel for more info!
+00:15:25	Njoki Njuki Lucy:	so far so good.
 ```
 </details>

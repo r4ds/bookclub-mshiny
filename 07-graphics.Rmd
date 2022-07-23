@@ -347,11 +347,18 @@ knitr::include_url("https://masteringshinych7.netlify.app/#1")
 
 ### Cohort 3
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/KwUE61NVDUk")`
 
 <details>
   <summary>Meeting chat log</summary>
 ```
-LOG
+00:46:29	Njoki Njuki Lucy:	Sorry to ask; what is the reactive
+00:46:44	Njoki Njuki Lucy:	reactiveVal() doing here? I am lost
+00:57:28	Ryan Metcalf:	"res" in the explanation is the size or scale relation / ratios between your x and y. In this case, 96 pixels is the relationship between height and width.
+00:58:18	Ryan Metcalf:	Or maybe a better way to convey resolution is how “zoomed in" or “zoomed out" your graphical object is rendered.
+00:58:41	Njoki Njuki Lucy:	Thank you, Ryan! :)
+01:01:38	Njoki Njuki Lucy:	what would be the importance of having dynamic height and width?
+01:09:49	Federica Gazzelloni:	https://shiny.rstudio.com/articles/images.html
+01:11:43	Oluwafemi Oyedele:	Thank you!!!
 ```
 </details>

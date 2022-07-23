@@ -429,11 +429,16 @@ More like waiting some time before acually performing the task and giving the us
 
 ### Cohort 3
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/fUI2PnmhNzw")`
 
 <details>
   <summary>Meeting chat log</summary>
 ```
-LOG
+00:25:00	Christopher Maronga:	Can I use this technique{re() and validate} to limit the ranges of my user inputs, for instance numericInput() between allowable ranges?
+00:28:59	Ryan Metcalf:	@Chris, for example: https://shiny.rstudio.com/tutorial/written-tutorial/lesson3/
+00:29:29	Christopher Maronga:	thank you
+00:31:04	Ryan Metcalf:	The example at the bottom (after you expand) shows a sliderInput with a min, max, and a initial entry. We can rap this into req() and force the system to receive a valid input otherwise provide a ShinyFeedback(). This can also work with a textual input or even with some from of upload. In essence, we can wrap the majority of our user input functions into this validation / feedback process.
+00:50:45	Ryan Metcalf:	More information from BootStrap for Modal dialog: https://getbootstrap.com/docs/4.0/components/modal/
+01:03:34	Njoki Njuki Lucy:	https://docs.google.com/spreadsheets/d/1YnFBY5nwSFoQuryPXtfmoguVbE4sIrjP_LhRLSZM8dc/edit?usp=sharing
 ```
 </details>

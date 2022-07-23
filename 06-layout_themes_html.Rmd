@@ -427,11 +427,19 @@ an open SO page.
 
 ### Cohort 3
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/gpj2Uw8imtA")`
 
 <details>
   <summary>Meeting chat log</summary>
 ```
-LOG
+00:17:24	Njoki Njuki Lucy:	Current deployed slide deck: https://r4ds.github.io/bookclub-mshiny/layout-themes-html.html
+00:36:58	Njoki Njuki Lucy:	https://revealjs.com/
+01:04:33	Njoki Njuki Lucy:	what is the function cat() doing?
+01:10:53	Federica Gazzelloni:	cat {base}: Concatenate and Print
+01:11:12	Njoki Njuki Lucy:	Great, thanks! :)
+01:11:34	Federica Gazzelloni:	It outputs the objects, concatenating the representations.
+01:13:06	Brendan Lam:	I'm also good either way
 ```
 </details>
+
+`r knitr::include_url("https://www.youtube.com/embed/EDcW3IwtBQc")`

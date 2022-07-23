@@ -206,11 +206,14 @@ The parameter in this instance is the `state_id` which corresponds to a director
 
 ### Cohort 3
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/rBGzD4v9qhc")`
 
 <details>
   <summary>Meeting chat log</summary>
 ```
-LOG
+00:17:16	Brendan Lam:	https://shiny.rstudio.com/articles/advanced-bookmarking.html
+00:24:09	Ryan Metcalf:	https://www.man7.org/linux/man-pages/man8/cron.8.html
+00:25:07	Ryan Metcalf:	Keep in mind, this is only one solution for managing a web server using some type of “timing" service. The link is specific to a Linux server. There are alternatives from other hosting applications.
+00:29:51	Brendan Lam:	https://mastering-shiny-solutions.org/bookmarking.html
 ```
 </details>
