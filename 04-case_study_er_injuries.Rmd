@@ -48,7 +48,7 @@ Code to download the data:
 dir.create("neiss")
 
 download <- function(name) {
-  url <- "https://github.com/hadley/mastering-shiny/raw/master/neiss/"
+  url <- "https://github.com/hadley/mastering-shiny/raw/main/neiss/"
   download.file(paste0(url, name), paste0("neiss/", name), quiet = TRUE)
 }
 
