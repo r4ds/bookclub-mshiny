@@ -1,7 +1,7 @@
 library(shiny)
 
 # note: this is a modified version of apps from the book and
-# https://github.com/hadley/mastering-shiny/tree/master/rmarkdown-report
+# https://github.com/hadley/mastering-shiny/tree/main/rmarkdown-report
 
 # copies report to current working directory
 report_path <- tempfile(fileext = ".Rmd")

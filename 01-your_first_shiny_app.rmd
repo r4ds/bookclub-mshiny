@@ -325,3 +325,17 @@ Shiny cheatsheet
 00:58:04	Ryan Metcalf:	Lucy’s Cohort Signup Sheet: https://docs.google.com/spreadsheets/d/1YnFBY5nwSFoQuryPXtfmoguVbE4sIrjP_LhRLSZM8dc/edit#gid=0
 ```
 </details>
+
+
+<!--
+### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>
+-->

@@ -99,6 +99,8 @@ You can run a demo survey with the function `shinysurveys::demo_survey()`.
 ```
 </details>
 
+
+<!--
 ### Cohort 3
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
@@ -109,3 +111,18 @@ You can run a demo survey with the function `shinysurveys::demo_survey()`.
 LOG
 ```
 </details>
+-->
+
+
+<!--
+### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>
+-->

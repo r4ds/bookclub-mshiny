@@ -167,6 +167,8 @@ output$text <- renderText(slow_function2(input$z)) %>%
 
 `r knitr::include_url("https://www.youtube.com/embed/UwrBxS39E3g")`
 
+
+<!--
 ### Cohort 3
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
@@ -177,3 +179,18 @@ output$text <- renderText(slow_function2(input$z)) %>%
 LOG
 ```
 </details>
+-->
+
+
+<!--
+### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>
+-->

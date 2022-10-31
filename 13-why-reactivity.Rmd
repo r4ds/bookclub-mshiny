@@ -236,6 +236,8 @@ temp_f()
 ```
 </details>
 
+
+<!--
 ### Cohort 3
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
@@ -246,3 +248,18 @@ temp_f()
 LOG
 ```
 </details>
+-->
+
+
+<!--
+### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>
+-->

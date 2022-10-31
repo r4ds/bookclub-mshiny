@@ -48,7 +48,7 @@ Code to download the data:
 dir.create("neiss")
 
 download <- function(name) {
-  url <- "https://github.com/hadley/mastering-shiny/raw/master/neiss/"
+  url <- "https://github.com/hadley/mastering-shiny/raw/main/neiss/"
   download.file(paste0(url, name), paste0("neiss/", name), quiet = TRUE)
 }
 
@@ -377,3 +377,17 @@ The resulting version of the app is available at https://hadley.shinyapps.io/ms-
 00:15:25	Njoki Njuki Lucy:	so far so good.
 ```
 </details>
+
+
+<!--
+### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>
+-->

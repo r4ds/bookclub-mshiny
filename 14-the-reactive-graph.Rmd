@@ -129,6 +129,8 @@ Key concepts that were covered in the chapter:
 ```
 </details>
 
+
+<!--
 ### Cohort 3
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
@@ -139,3 +141,18 @@ Key concepts that were covered in the chapter:
 LOG
 ```
 </details>
+-->
+
+
+<!--
+### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>
+-->
