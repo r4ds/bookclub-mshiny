@@ -369,3 +369,17 @@ The dynamic of the UI can be appreciated by modification of the Server. Many com
 ### Cohort 3
 
 `r knitr::include_url("https://www.youtube.com/embed/2LQyxFMJ4Kg")`
+
+
+<!--
+### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>
+-->

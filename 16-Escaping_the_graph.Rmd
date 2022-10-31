@@ -288,6 +288,8 @@ More readings:
 ```
 </details>
 
+
+<!--
 ### Cohort 3
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
@@ -298,3 +300,18 @@ More readings:
 LOG
 ```
 </details>
+-->
+
+
+<!--
+### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>
+-->

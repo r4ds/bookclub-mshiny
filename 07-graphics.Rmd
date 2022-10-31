@@ -362,3 +362,17 @@ knitr::include_url("https://masteringshinych7.netlify.app/#1")
 01:11:43	Oluwafemi Oyedele:	Thank you!!!
 ```
 </details>
+
+
+<!--
+### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>
+-->

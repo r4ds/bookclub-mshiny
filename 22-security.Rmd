@@ -567,6 +567,8 @@ Extra Packages:
 
 `r knitr::include_url("https://www.youtube.com/embed/eguok48Piyg")`
 
+
+<!--
 ### Cohort 3
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
@@ -577,3 +579,18 @@ Extra Packages:
 LOG
 ```
 </details>
+-->
+
+
+<!--
+### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>
+-->

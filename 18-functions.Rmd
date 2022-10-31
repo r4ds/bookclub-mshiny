@@ -266,6 +266,8 @@ There are two different approaches to allow the user to choose from a prespecifi
 
 `r knitr::include_url("https://www.youtube.com/embed/5YmZiyVgUeg")`
 
+
+<!--
 ### Cohort 3
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
@@ -276,3 +278,18 @@ There are two different approaches to allow the user to choose from a prespecifi
 LOG
 ```
 </details>
+-->
+
+
+<!--
+### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>
+-->

@@ -377,3 +377,17 @@ The resulting version of the app is available at https://hadley.shinyapps.io/ms-
 00:15:25	Njoki Njuki Lucy:	so far so good.
 ```
 </details>
+
+
+<!--
+### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>
+-->

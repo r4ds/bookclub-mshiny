@@ -217,3 +217,17 @@ The parameter in this instance is the `state_id` which corresponds to a director
 00:29:51	Brendan Lam:	https://mastering-shiny-solutions.org/bookmarking.html
 ```
 </details>
+
+
+<!--
+### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>
+-->

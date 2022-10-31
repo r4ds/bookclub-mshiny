@@ -500,6 +500,8 @@ Beware, the accuracy of timing may be affected by other processes
 ```
 </details>
 
+
+<!--
 ### Cohort 3
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
@@ -510,3 +512,18 @@ Beware, the accuracy of timing may be affected by other processes
 LOG
 ```
 </details>
+-->
+
+
+<!--
+### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>
+-->

@@ -349,3 +349,17 @@ Chapter 3: *Basic UI* introduces the 3 components of user interface for Shiny
 01:09:37	Njoki Njuki Lucy:	I had the same question 😄
 ```
 </details>
+
+
+<!--
+### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>
+-->

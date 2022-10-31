@@ -320,3 +320,17 @@ To improve the user experience, we’ve made changes in Shiny Server (Pro and Op
 ### Cohort 3
 
 `r knitr::include_url("https://www.youtube.com/embed/DzyZIEP2knQ")`
+
+
+<!--
+### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>
+-->

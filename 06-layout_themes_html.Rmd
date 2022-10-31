@@ -443,3 +443,17 @@ an open SO page.
 </details>
 
 `r knitr::include_url("https://www.youtube.com/embed/EDcW3IwtBQc")`
+
+
+<!--
+### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/URL")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+LOG
+```
+</details>
+-->
