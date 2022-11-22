@@ -1,5 +1,3 @@
-# (PART\*) Mastering reactivity {.unnumbered}
-
 # Why reactivity?
 
 This chapter starts a new section of the book focused on reactivity.

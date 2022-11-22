@@ -1,6 +1,6 @@
 # Reactive Building Blocks
 
-## Learning Objectives
+**Learning Objectives**
 
 - Building blocks:
   - Reactive values

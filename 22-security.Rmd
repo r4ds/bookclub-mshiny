@@ -1,6 +1,6 @@
 # Security
 
-**Learning objectives**:
+**Learning objectives:**
 
 In this chapter, we learn **how to prevent some undesired outputs** caused by malicious attackers and/or misleading of inputs allowed by some function combinations.
 

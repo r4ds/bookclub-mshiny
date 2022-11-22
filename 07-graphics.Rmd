@@ -6,8 +6,6 @@
 - Create interactive plots.
 - Display images with `renderImage()`.
 
----
-
 ## Interactivity: the basics
 
 ```{r 07-01, message=FALSE, warning=FALSE, paged.print=FALSE}
@@ -285,18 +283,11 @@ server <- function(input, output, session) {
 
 More info here: https://shiny.rstudio.com/articles/images.html
 
----
-
 
 ## Resources
 
 - [Shiny cheatsheet](https://shiny.rstudio.com/images/shiny-cheatsheet.pdf)
 - [Images](https://shiny.rstudio.com/articles/images.html)
-
----
-
-
-
 
 
 ## Presentation Cohort 1

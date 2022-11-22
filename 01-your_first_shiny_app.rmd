@@ -1,5 +1,3 @@
-# (PART\*) Getting started {.unnumbered}
-
 # Your first Shiny app
 
 **Learning objectives:**

@@ -1,5 +1,3 @@
-# (PART\*) Shiny in action {.unnumbered}
-
 # Workflow 
 
 ## Why workflow? 

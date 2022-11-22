@@ -1,6 +1,6 @@
 # Testing
 
-## Learning outcomes
+**Learning outcomes:**
 
   - Purpose of testing
   - Different levels of test

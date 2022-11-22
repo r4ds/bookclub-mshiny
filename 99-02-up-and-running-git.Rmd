@@ -1,5 +1,3 @@
-# (PART\*) Other topics {-}
-
 # Up and running with `git`
 
 **Learning objectives**
