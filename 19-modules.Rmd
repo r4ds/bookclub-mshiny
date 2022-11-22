@@ -1,4 +1,4 @@
-# Modules
+# Shiny modules
 
 Modules are a kind of miniature app within a larger app. They isolate a particular group of inputs and outputs. Just like fully Shiny apps they have a UI and a server part. Modules help you break your big, complex app into smaller parts. This makes your Shiny code more readable, easier to debug, and reuseable. This last is particularly interesting, since you can use the same module among many different projects. 
 

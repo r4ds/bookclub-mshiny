@@ -1,5 +1,3 @@
-# (PART\*) Best practices {.unnumbered}
-
 # General guidelines
 
 Big apps or big teams == New challenges
