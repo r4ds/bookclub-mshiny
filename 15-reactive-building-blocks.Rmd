@@ -501,18 +501,36 @@ Beware, the accuracy of timing may be affected by other processes
 </details>
 
 
-<!--
 ### Cohort 3
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/JPDAWd4Pi7U")`
 
 <details>
   <summary>Meeting chat log</summary>
 ```
-LOG
+00:22:46	Brendan Lam:	Nope 🙁
+00:24:41	Federica Gazzelloni:	more info here: https://engineering-shiny.org/common-app-caveats.html?q=R6#using-r6-as-data-storage
+00:29:07	Federica Gazzelloni:	video: https://www.youtube.com/watch?v=JkacZOrB1QY&list=PL3x6DOfs2NGh-XM69f20HXT7QXCuQPZxB&index=12
+01:06:16	Federica Gazzelloni:	https://shiny.rstudio.com/reference/shiny/1.3.0/reactiveVal.html
+01:12:11	Brendan Lam:	my wifi was unstable so ill have to go back and rewatch some of this, but thank you Lucy for presenting!
+01:12:27	Brendan Lam:	Bye!
 ```
 </details>
--->
+
+
+`r knitr::include_url("https://www.youtube.com/embed/FGexkKxQ_wA")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+00:10:15	LUCIO ENRIQUE CORNEJO RAMÍREZ:	Hi, it's Lucio :)
+00:35:24	Federica Gazzelloni:	https://shiny.rstudio.com/articles/isolation.html
+00:40:59	Federica Gazzelloni:	that’s nice: https://shiny.rstudio.com/gallery/isolate-demo.html
+00:41:13	Federica Gazzelloni:	let's see how it does
+00:50:45	Oluwafemi Oyedele:	Thank you!!!
+00:50:59	LUCIO ENRIQUE CORNEJO RAMÍREZ:	Thanks!
+```
+</details>
 
 
 <!--

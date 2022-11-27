@@ -235,18 +235,16 @@ temp_f()
 </details>
 
 
-<!--
 ### Cohort 3
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/VMX95Dap39Y")`
 
 <details>
   <summary>Meeting chat log</summary>
 ```
-LOG
+00:29:06	Ryan Metcalf:	“The R6 package provides an implementation of encapsulated object-oriented programming for R (also sometimes referred to as classical object-oriented programming)”. https://r6.r-lib.org/articles/Introduction.html
 ```
 </details>
--->
 
 
 <!--

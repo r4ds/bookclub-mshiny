@@ -13,7 +13,7 @@ If you would like to present, please see the sign-up sheet for your cohort (link
 
 - Cohort 1 (started 2021-02-16, ended 2021-08-10): [meeting videos](https://www.youtube.com/playlist?list=PL3x6DOfs2NGi4B1Idnv8MLaUhFwOqfc3h)
 - Cohort 2 (started 2021-07-21, ended 2022-01-19): [meeting videos](https://www.youtube.com/playlist?list=PL3x6DOfs2NGjhwrYvdmrKRNcvXX7X6ldt)
-- [Cohort 3](https://docs.google.com/spreadsheets/d/1YnFBY5nwSFoQuryPXtfmoguVbE4sIrjP_LhRLSZM8dc/edit?usp=sharing) (started 2022-04-16): [Saturdays, 8:00am CST/CDT](https://www.timeanddate.com/worldclock/converter.html?iso=20220416T130000&p1=1440&p2=170&p3=51&p4=250&p5=136&p6=24) | [meeting videos](https://www.youtube.com/playlist?list=PL3x6DOfs2NGg76TRO2h1vtBeRyRKjVZSb)
+- Cohort 3 (started 2022-04-16, ended 2022-11-26): [meeting videos](https://www.youtube.com/playlist?list=PL3x6DOfs2NGg76TRO2h1vtBeRyRKjVZSb)
 - [Cohort 4](https://docs.google.com/spreadsheets/d/12b7L0jkMKC29vWqovVjoQKLVE1aB3YtIcu9lhWCGxI0/edit?usp=sharing) (started 2022-11-15): [Tuesdays, 12:00pm CST/CDT](https://www.timeanddate.com/worldclock/converter.html?iso=20221115T180000&p1=24&p2=125&p3=1440) | [meeting videos](https://www.youtube.com/playlist?list=PL3x6DOfs2NGhXh0_1fKhoPQ9sm4OAf8oV)
 
 

@@ -466,18 +466,17 @@ What structural changes might be needed to use ShinyDriver-based end-to-end test
 `r knitr::include_url("https://www.youtube.com/embed/eguok48Piyg")`
 
 
-<!--
 ### Cohort 3
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/MNf6w_FpxVw")`
 
 <details>
   <summary>Meeting chat log</summary>
 ```
-LOG
+00:28:35	Oluwafemi Oyedele:	https://github.com/collinberke/ga4WebDash
+00:58:38	Oluwafemi Oyedele:	https://adv-r.hadley.nz/names-values.html#gc
 ```
 </details>
--->
 
 
 <!--

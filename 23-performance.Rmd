@@ -168,18 +168,38 @@ output$text <- renderText(slow_function2(input$z)) %>%
 `r knitr::include_url("https://www.youtube.com/embed/UwrBxS39E3g")`
 
 
-<!--
 ### Cohort 3
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/GFbRR--E8Ow")`
 
 <details>
   <summary>Meeting chat log</summary>
 ```
-LOG
+00:06:14	Brendan Lam:	What function records interactions with your Shiny app? How do you simulate users interacting with your app?
+What is a flame graph and how do you interpret it?
+What are the cache key and scope?
+What are two ways of optimizing your app
+00:09:25	Brendan Lam:	https://rstudio.github.io/promises/
+00:14:39	Brendan Lam:	https://github.com/rstudio/shinycannon/issues/69#issuecomment-1322390215
+00:22:46	Brendan Lam:	We start with f().
+Then f() calls g(),
+Then g() calls h().
+Then f() calls h().
+00:28:03	Brendan Lam:	https://memoise.r-lib.org/
+00:38:16	Brendan Lam:	arrow::write_feather()
+00:38:23	Brendan Lam:	arrow::read_feather()
+00:38:30	Brendan Lam:	qs::qread()/qs::qsave() instead of readRDS()/saveRDS()
+00:41:15	Brendan Lam:	https://rstudio.com/resources/rstudioconf-2019/shiny-in-production-principles-practices-and-tools/
+https://rstudio.github.io/shinyloadtest/articles/analyzing-load-test-logs.html
+https://queue.acm.org/detail.cfm?id=2927301
+https://adv-r.hadley.nz/perf-improve.html
+https://csgillespie.github.io/efficientR/
+https://rstudio.com/resources/rstudioconf-2018/make-shiny-fast-by-doing-as-little-work-as-possible/
+https://shiny.rstudio.com/articles/caching.html
+https://shiny.rstudio.com/app-stories/weather-lookup-caching.html
+00:45:15	Brendan Lam:	https://twitter.com/brendannathanl1
 ```
 </details>
--->
 
 
 <!--

@@ -251,18 +251,17 @@ Two versions of a simple app based on Tidy Tuesday data:
 </details>
 
 
-<!--
 ### Cohort 3
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/O1Fe_IHWcS0")`
 
 <details>
   <summary>Meeting chat log</summary>
 ```
-LOG
+00:52:06	Oluwafemi Oyedele:	https://shiny.rstudio.com/articles/modules.html
+00:52:25	Oluwafemi Oyedele:	https://engineering-shiny.org/structuring-project.html
 ```
 </details>
--->
 
 
 <!--

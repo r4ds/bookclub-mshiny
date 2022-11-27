@@ -267,18 +267,18 @@ There are two different approaches to allow the user to choose from a prespecifi
 `r knitr::include_url("https://www.youtube.com/embed/5YmZiyVgUeg")`
 
 
-<!--
 ### Cohort 3
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/U2vtBWwWUU8")`
 
 <details>
   <summary>Meeting chat log</summary>
 ```
-LOG
+00:15:32	FG:	https://engineering-shiny.org/
+00:29:21	Oluwafemi Oyedele:	ObserveEvent Respond to "event-like" reactive inputs, values, and expressions.
+00:32:12	Brendan Lam:	This was great, thanks!
 ```
 </details>
--->
 
 
 <!--
