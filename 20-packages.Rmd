@@ -100,18 +100,16 @@ You can run a demo survey with the function `shinysurveys::demo_survey()`.
 </details>
 
 
-<!--
 ### Cohort 3
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/CDSDAVye-Fk")`
 
 <details>
   <summary>Meeting chat log</summary>
 ```
-LOG
+00:46:57	Brendan Lam:	Your tutorial was helpful, thanks!
 ```
 </details>
--->
 
 
 <!--

@@ -130,18 +130,26 @@ Key concepts that were covered in the chapter:
 </details>
 
 
-<!--
 ### Cohort 3
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/prc4_l2SIbw")`
 
 <details>
   <summary>Meeting chat log</summary>
 ```
-LOG
+01:07:52	LUCIO ENRIQUE CORNEJO RAMÍREZ:	shiny:::plotOutput
+01:07:59	LUCIO ENRIQUE CORNEJO RAMÍREZ:	is that it?
+01:10:25	Federica Gazzelloni:	formals()
+01:10:35	Federica Gazzelloni:	body()
+01:10:41	Federica Gazzelloni:	environment()
+01:11:02	Federica Gazzelloni:	typeof()
+01:12:39	LUCIO ENRIQUE CORNEJO RAMÍREZ:	https://shiny.rstudio.com/articles/client-data.html
+01:13:31	Federica Gazzelloni:	https://adv-r.hadley.nz/functions.html
+01:13:33	LUCIO ENRIQUE CORNEJO RAMÍREZ:	session$clientData
+01:15:44	Federica Gazzelloni:	shiny:::plotOutput
+01:21:23	LUCIO ENRIQUE CORNEJO RAMÍREZ:	bye, thanks
 ```
 </details>
--->
 
 
 <!--

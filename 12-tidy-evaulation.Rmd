@@ -110,18 +110,17 @@ old_data %>% select(!!!old_nm)
 </details>
 
 
-<!--
 ### Cohort 3
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/wrN7Xv85dWM")`
 
 <details>
   <summary>Meeting chat log</summary>
 ```
-LOG
+00:55:54	Federica Gazzelloni:	VROOM: https://www.rdocumentation.org/packages/vroom/versions/1.0.2/topics/vroom
+00:56:22	Federica Gazzelloni:	in practice: vroom: Read a delimited file into a tibble
 ```
 </details>
--->
 
 
 <!--

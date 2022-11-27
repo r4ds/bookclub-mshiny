@@ -164,18 +164,10 @@ Alternatives / complements? pair programming
 </details>
 
 
-<!--
 ### Cohort 3
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/JdisqyPzfHo")`
 
-<details>
-  <summary>Meeting chat log</summary>
-```
-LOG
-```
-</details>
--->
 
 
 <!--
