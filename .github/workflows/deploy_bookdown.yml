@@ -23,9 +23,8 @@ jobs:
 
       - name: Render Book
         run: Rscript -e 'bookdown::render_book("index.Rmd")'
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-pages-artifact@v1
         with:
-          name: _book
           path: _book/
 
   deploy:
