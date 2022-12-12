@@ -25,7 +25,7 @@ library(tidyverse)
 
 We're exploring data from the National Electronic Injury Surveillance System (NEISS), which covers **accidents reported from a sample of hospitals in the US**.
 
-For every accident / inured person we have
+For every accident / injured person we have
 
 - **date**,
 - **age**,
