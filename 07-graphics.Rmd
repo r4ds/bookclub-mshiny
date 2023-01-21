@@ -15,25 +15,25 @@ library(ggplot2)
 
 The syntax for displaying a plot in a Shiny app is:
 
- In the **ui** the `plotOutput()` function releasese an output that can also be an input.
+ In the **UI** the `plotOutput()` function releases an output that can also be an input.
 
 In the server the `renderPlot()` function releases the plot.
 
 ### Summary of interactive action events
 
-- click
-- dblclick
-- hover
-- brush
+- `click`
+- `dblclick`: (double click)
+- `hover`: (when the mouse stays in the same place for a little while) 
+- `brush`: (a rectangular selection tool)
 
 #### Clicking
 
 As we see in this example, there are two options available:
 
-- "plot_click"
-- nearPoints()
+- `"plot_click"`
+- `nearPoints()`
 
-The first option allows you to selext specific points from the data, the other one select the area around the selected point, so it releases values which are near the observed value.
+The first option allows you to select specific points from the data, the other one select the area around the selected point, so it releases values which are near the observed value.
 
 ```{r 07-02,eval=FALSE, message=FALSE, warning=FALSE, include=T, paged.print=FALSE}
 
@@ -111,8 +111,8 @@ server <- function(input, output, session) {
 
 ## Modifying the plot
 
-- reactiveVal()
-- reactive()
+- `reactiveVal()`
+- `reactive()`
 
 see more info in [chapter 16 Escaping the graph](https://mastering-shiny.org/reactivity-components.html)
 
@@ -163,7 +163,7 @@ server <- function(input, output, session) {
 
 Another example with different colors:
 
-- initialise the reactiveVal() to a vector of FALSEs
+- initialise the `reactiveVal()` to a vector of FALSEs
 - use `brushedPoints()` and `|` to add any points under the brush to the selection
 - double clicking reset the selection
 
@@ -215,7 +215,7 @@ DiagrammeR::mermaid(
 )
 ```
 
-In terms of limitations, here we talk about **time response**. To acheive what is tought to be **instanteous** reaction at click, such as the requested modification is immediately visible, it would be necessary to improve JavaScript computation. And this can be obtained to the **plotly package**.
+In terms of limitations, here we talk about **time response**. To achieve what is thought to be **instantaneous** reaction at click, such as the requested modification is immediately visible, it would be necessary to improve JavaScript computation. And this can be obtained to the **plotly package**.
 
 Here is the resource: [Interactive web-based data visualization with R, plotly, and shiny](https://plotly-r.com/)
 
