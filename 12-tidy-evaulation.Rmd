@@ -3,14 +3,14 @@
 
 **Learning objectives:**
 
-- The difference between a data-variable and an env-variable.
-- How to create Shiny apps that lets the user choose which variables will be fed into tidyverse functions like `dplyr::filter()` and `ggplot2::aes()`.
+- Learn the difference between a data-variable and an env-variable.
+- Create Shiny apps that lets the user choose which variables will be fed into tidyverse functions like `dplyr::filter()` and `ggplot2::aes()`.
 
 ## Tidy Evaluation 
 
 Tidy evaluation is used throughout the tidyverse to make interactive data exploration more fluid, but it comes with a cost: it’s hard to refer to variables indirectly, and hence harder to program with.
 
-In this chapter, you’ll learn how to wrap ggplot2 and dplyr function in a Shiny app. The techniques for wrapping ggplot2 and dplyr functions in a functions and package, are a a little different and covered in other resources like [Using ggplot2 in packages](https://ggplot2.tidyverse.org/dev/articles/ggplot2-in-packages.html) or [Programming with dplyr](https://dplyr.tidyverse.org/articles/programming.html).
+In this chapter, you’ll learn how to wrap ggplot2 and dplyr functions in a Shiny app. The techniques for wrapping ggplot2 and dplyr functions in a functions and package, are a a little different and covered in other resources like [Using ggplot2 in packages](https://ggplot2.tidyverse.org/dev/articles/ggplot2-in-packages.html) or [Programming with dplyr](https://dplyr.tidyverse.org/articles/programming.html).
 
 ```{r 12-01}
 library(shiny)
@@ -21,7 +21,7 @@ library(ggplot2)
 
 ##  Motivation
 
-Here we create an app that allows you to filter a numeric variable to select rows that are greater than a threshold. The app runs without error, but it doesn’t return the correct result — all the rows have values of carat less than 1. The goal of the chapter is to help you understand why this doesn’t work, and why dplyr thinks you have asked for `filter(diamonds, "carat" > 1)`.
+Below, we create an app that allows you to filter a numeric variable to select rows that are greater than a threshold. The app runs without error, but it doesn’t return the correct result — all the rows have values of carat less than 1. The goal of the chapter is to help you understand why this doesn’t work, and why dplyr thinks you have asked for `filter(diamonds, "carat" > 1)`.
 
 ```{r 12-02, eval=FALSE, message=FALSE, warning=FALSE}
 num_vars <- c("carat", "depth", "table", "price", "x", "y", "z")
@@ -35,6 +35,8 @@ server <- function(input, output, session) {
   output$output <- renderTable(head(data()))
 }
 ```
+
+![](images/12-tidy-evaluation/messed-up.png)
 
 This is a problem of **indirection**: normally when using tidyverse functions you type the name of the variable directly in the function call. But now you want to refer to it indirectly: the variable (`carat`) is stored inside another variable (`input$var`).
 
@@ -100,8 +102,9 @@ server <- function(input, output, session) {
 }
 ```
 
+![](images/12-tidy-evaluation/tidied-up.png)
 
-Figure 12.2: Our app works now that we’ve been explicit about .data and `.env` and `[[` vs `$`. See live at [https://hadley.shinyapps.io/ms-tidied-up](https://hadley.shinyapps.io/ms-tidied-up).
+***The app works now that we’ve been explicit about .data and `.env` and `[[` vs `$`. See live at [https://hadley.shinyapps.io/ms-tidied-up](https://hadley.shinyapps.io/ms-tidied-up).***
 
 ### Example: ggplot2
 
@@ -147,7 +150,9 @@ server <- function(input, output, session) {
 }
 ```
 
-Figure 12.3: A simple app that allows you to select which variables are plotted on the `x` and `y` axes. See live at [https://hadley.shinyapps.io/ms-ggplot2](https://hadley.shinyapps.io/ms-ggplot2).
+![](images/12-tidy-evaluation/ggplot2-scatter.png)
+
+***This app allows you to select which variables are plotted on the `x` and `y` axes. See live at [https://hadley.shinyapps.io/ms-ggplot2](https://hadley.shinyapps.io/ms-ggplot2).***
 
 One of the challenges of programming with user selected variables is that your code has to become more complicated to handle all the cases the user might generate.
 
@@ -183,7 +188,9 @@ server <- function(input, output, session) {
 }
 ```
 
-Figure 12.4: A simple app that allows you to pick a variable to threshold, and choose how to sort the results. See live at [https://hadley.shinyapps.io/ms-dplyr](https://hadley.shinyapps.io/ms-dplyr).
+![](images/12-tidy-evaluation/dplyr.png)
+
+***This app that allows you to pick a variable to threshold, and choose how to sort the results. See live at [https://hadley.shinyapps.io/ms-dplyr](https://hadley.shinyapps.io/ms-dplyr).***
 
 Most other problems can be solved by combining `.data` with your existing programming skills. For example, what if you wanted to conditionally sort in either ascending or descending order?
 
@@ -242,8 +249,9 @@ server <- function(input, output, session) {
 }
 ```
 
+![](images/12-tidy-evaluation/user-supplied.png)
 
-Figure 12.5: An app that filter users supplied data, with a surprising failure mode See live at [https://hadley.shinyapps.io/ms-user-supplied](https://hadley.shinyapps.io/ms-user-supplied).
+***An app that filter users supplied data, with a surprising failure mode See live at [https://hadley.shinyapps.io/ms-user-supplied](https://hadley.shinyapps.io/ms-user-supplied).***
 
 It'll work with the vast majority of data frames. However, if the data frame contains a variable called `input`, we get an error message because `filter()` is attempting to evaluate `df$input$min`:
 
@@ -339,8 +347,9 @@ server <- function(input, output, session) {
 }
 ```
 
+![](images/12-tidy-evaluation/across.png)
 
-Figure 12.6: This app allows you to select any number of variables and count their unique combinations. See live at [https://hadley.shinyapps.io/ms-across](https://hadley.shinyapps.io/ms-across).
+***This app allows you to select any number of variables and count their unique combinations. See live at [https://hadley.shinyapps.io/ms-across](https://hadley.shinyapps.io/ms-across).***
 
 The second argument is a function (or list of functions) that’s applied to each selected column. That makes it a good fit for `mutate()` and `summarise()` where you typically want to transform each variable in some way. For example, the following code lets the user select any number of grouping variables, and any number of variables to summarise with their means.
 
