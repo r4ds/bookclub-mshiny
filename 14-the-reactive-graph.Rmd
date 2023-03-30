@@ -46,7 +46,7 @@ server <- function(input, output, session) {
 
 ## Exercises
 
-[excercises in book](https://mastering-shiny.org/reactive-graph.html#exercises-12)
+[exercises in book](https://mastering-shiny.org/reactive-graph.html#exercises-12)
 
 1.  Starting state is invalidated
 
