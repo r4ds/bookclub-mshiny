@@ -44,7 +44,7 @@ server <- function(input, output, session) {
 - [example from book](https://mastering-shiny.org/reactive-graph.html#a-session-begins)
 - [example from reactlog](https://rstudio.github.io/reactlog/articles/reactlog.html#reactivity)
 
-## Excercises
+## Exercises
 
 [excercises in book](https://mastering-shiny.org/reactive-graph.html#exercises-12)
 
