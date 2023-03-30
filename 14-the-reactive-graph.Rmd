@@ -50,9 +50,71 @@ server <- function(input, output, session) {
 
 1.  Starting state is invalidated
 
-2.  x1 = 1sec, x2 = 1sec, x3 = 2sec
+2. The waiting times can be calculated via the reactive graph, but, for a *double check*, the following app confirms each waiting time:
+    ```{r, eval=FALSE}
+    # Waiting times per reactive value
+    ## x1: 1 second
+    ## x2: 2 seconds
+    ## x3: 1 second
 
-3.  [recursion](https://i.redd.it/qlqb8ch1sdg11.jpg)
+    library(shiny)
+
+    ui <- fluidPage(
+      radioButtons("increaseVal", 
+        "Increase selected reactive value by 1",
+        inline = TRUE,
+        choices = paste0("x", 1:3)
+      )
+    )
+
+    server <- function(input, output) {
+      x1 <- reactiveVal(1)
+      x2 <- reactiveVal(2)
+      x3 <- reactiveVal(3)
+
+      y1 <- reactive({
+        Sys.sleep(1)
+        x1()
+      })
+      y2 <- reactive({
+        Sys.sleep(1)
+        x2()
+      })
+      y3 <- reactive({
+        Sys.sleep(1)
+        x2() + x3() + y2() + y2()
+      })
+
+      observe({
+        # Print current minute and seconds
+        print(paste("Starting time:", stringr::str_sub(Sys.time(), 15, 20)))
+        print(y1())
+        print(paste("y1 finished:", stringr::str_sub(Sys.time(), 15, 20)))
+        print(y2())
+        print(paste("y2 finished:", stringr::str_sub(Sys.time(), 15, 20)))
+        print(y3())
+        print(paste("y3 finished:", stringr::str_sub(Sys.time(), 15, 20)))
+      })
+
+      # When the user increases some reactive value
+      observeEvent(input$increaseVal, {
+        message(input$increaseVal)
+        # Example: x1(isolate(x1()) +1)
+        eval(parse(text = 
+          paste0(
+            input$increaseVal, 
+            "(isolate(",
+            input$increaseVal, 
+            "()) + 1)"
+          )
+        ))
+      })
+    }
+
+    shinyApp(ui, server)
+    ```
+
+3.  [Recursion](https://i.redd.it/qlqb8ch1sdg11.jpg)
 
 ## Dynamism
 
