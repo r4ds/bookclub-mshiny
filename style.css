@@ -1,3 +1,23 @@
+.page-inner {
+  max-width: 1000px !important;
+}
+
+.book.font-size-0 .book-body .page-inner section {
+  font-size: 1em !important;
+}
+.book.font-size-1 .book-body .page-inner section {
+  font-size: 1.5em !important;
+}
+.book.font-size-2 .book-body .page-inner section {
+  font-size: 2em !important;
+}
+.book.font-size-3 .book-body .page-inner section {
+  font-size: 2.5em !important;
+}
+.book.font-size-4 .book-body .page-inner section {
+  font-size: 3em !important;
+}
+
 p.caption {
   color: #777;
   margin-top: 10px;
