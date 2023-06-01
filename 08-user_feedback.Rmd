@@ -287,7 +287,7 @@ server <- function(input, output, session) {
 }
 ```
 
---> example app: [https://waiter.john-coene.com/#/waiter/examples](https://shiny.john-coene.com/waiter/)
+--> example app: https://shiny.john-coene.com/waiter/
 
 
 ### Spinners
