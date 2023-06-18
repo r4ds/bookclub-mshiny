@@ -219,8 +219,19 @@ The parameter in this instance is the `state_id` which corresponds to a director
 </details>
 
 
-<!--
 ### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/94lBiGgCs7c")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+01:00:08	Matthew Efoli: https://ambient.data-imaginist.com/reference/noise_simplex.html
+```
+</details>
+
+
+### Cohort 5
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
 
@@ -230,4 +241,3 @@ The parameter in this instance is the `state_id` which corresponds to a director
 LOG
 ```
 </details>
--->

@@ -112,8 +112,24 @@ You can run a demo survey with the function `shinysurveys::demo_survey()`.
 </details>
 
 
-<!--
 ### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/_POCL1OHvyw")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+00:33:30	Lydia Gibson:	Hello
+00:34:25	Trevin Flickinger:	start
+00:50:01	Trevin Flickinger:	“Using @import is not generally considered best practice, but it makes sense here”
+01:07:08	Lydia Gibson:	Need to drop for another meeting. See you next week
+01:08:22	Trevin Flickinger:	Lydia dropped off the call
+01:16:21	Trevin Flickinger:	stop
+```
+</details>
+
+
+### Cohort 5
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
 
@@ -123,4 +139,3 @@ You can run a demo survey with the function `shinysurveys::demo_survey()`.
 LOG
 ```
 </details>
--->

@@ -484,8 +484,29 @@ old_data %>% select(!!!old_nm)
 </details>
 
 
-<!--
 ### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/hzFruvsiJQs")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+00:04:15	Lucio Cornejo: .data[[some_columns]]
+00:04:53	Lucio Cornejo: %>%
+00:05:01	Lucio Cornejo: |>
+00:08:19	Lucio Cornejo: Hello everyone
+00:19:19	Trevin: More info on $ and [[
+00:19:22	Trevin: https://adv-r.hadley.nz/subsetting.html#section-1
+00:34:06	Lucio Cornejo: I have used, but it's kinda hacky
+00:34:09	Lucio Cornejo: used it*
+00:35:33	Trevin: Have not used parse + eval before
+00:49:58	Lucio Cornejo: https://github.com/rstudio/shiny/blob/a8c14dab9623c984a66fcd4824d8d448afb151e7/R/update-input.R#L37:L42
+00:52:03	Lucio Cornejo: bye, thank you
+```
+</details>
+
+
+### Cohort 5
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
 
@@ -495,4 +516,3 @@ old_data %>% select(!!!old_nm)
 LOG
 ```
 </details>
--->

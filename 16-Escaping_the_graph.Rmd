@@ -294,8 +294,27 @@ More readings:
 `r knitr::include_url("https://www.youtube.com/embed/hRl4nh_sUc4")`
 
 
-<!--
 ### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/UX2i4_8TDU0")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+00:23:59	Lucio Cornejo:	all good
+00:34:06	Lucio Cornejo:	About the "theme counter" input: https://stackoverflow.com/a/71827950
+00:34:16	Trevin Flickinger:	Reacted to "all good" with 👍
+00:34:19	Trevin Flickinger:	Reacted to "About the "theme cou..." with 👍
+00:34:52	Matthew Efoli:	Reacted to "About the "theme cou..." with 👍
+00:40:57	Matthew Efoli:	no questions
+00:46:30	Lucio Cornejo:	req()
+00:59:43	Lucio Cornejo:	no more comments, thanks for presenting
+01:00:35	Lucio Cornejo:	bye, thanks
+```
+</details>
+
+
+### Cohort 5
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
 
@@ -305,4 +324,3 @@ More readings:
 LOG
 ```
 </details>
--->

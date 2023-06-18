@@ -322,8 +322,27 @@ To improve the user experience, we’ve made changes in Shiny Server (Pro and Op
 `r knitr::include_url("https://www.youtube.com/embed/DzyZIEP2knQ")`
 
 
-<!--
 ### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/pXvqryklIg0")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+00:25:18	Trevin Flickinger:	spelling
+00:30:58	Trevin Flickinger:	R4DS - “You should consider writing a function whenever you’ve copied and pasted a block of code more than twice (i.e. you now have three copies of the same code).”
+00:31:04	Trevin Flickinger:	https://r4ds.had.co.nz/functions.html#when-should-you-write-a-function
+00:33:56	Matthew Efoli:	()
+00:34:01	Matthew Efoli:	{}
+00:39:15	Trevin Flickinger:	“Note that the {} are only required in render functions if need to run multiple lines of code. As you’ll learn shortly, you should do as little computation in your render functions as possible, which means you can often omit them.”
+00:39:23	Trevin Flickinger:	https://mastering-shiny.org/basic-ui.html?q=multiple%20lines#text
+00:59:15	Trevin Flickinger:	I think it depends on what you want to do as well, but just R/Shiny will let you do pretty much anything
+01:07:46	Trevin Flickinger:	I need to head out, thanks @Matthew
+```
+</details>
+
+
+### Cohort 5
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
 
@@ -333,4 +352,3 @@ To improve the user experience, we’ve made changes in Shiny Server (Pro and Op
 LOG
 ```
 </details>
--->

@@ -446,8 +446,31 @@ More like waiting some time before acually performing the task and giving the us
 </details>
 
 
-<!--
 ### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/hCl_gGVEyY0")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+00:09:12	Lydia Gibson:	Hi Lucio. Hi Matthew
+00:09:21	Lucio Cornejo:	hello everyone
+00:09:26	Lydia Gibson:	Hello Trevin
+00:10:13	Trevin:	Hi everyone!
+00:42:55	Lydia Gibson:	That’s cool
+00:47:27	Trevin:	Thanks, I didn’t run those on my end
+01:07:11	Lydia Gibson:	Thank you Lucio!
+01:07:19	Matthew Efoli:	thank you lucio
+01:07:25	Lucio Cornejo:	thank you :)
+01:07:29	Lucio Cornejo:	see you all next week
+01:07:38	Matthew Efoli:	I would go over the video again
+01:07:41	Lydia Gibson:	Bye all
+01:07:44	Lucio Cornejo:	bye, thanks
+```
+</details>
+
+
+### Cohort 5
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
 
@@ -457,4 +480,3 @@ More like waiting some time before acually performing the task and giving the us
 LOG
 ```
 </details>
--->

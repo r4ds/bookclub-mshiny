@@ -325,8 +325,40 @@ Shiny cheatsheet
 </details>
 
 
-<!--
 ### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/AJh03Py6Tmk")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+00:05:00	Lucio:	all good. excited to be here
+00:08:39	Sarfaraz Jamal:	I was introduced to shiny by my friend a few weeks ago.
+00:08:44	Sarfaraz Jamal:	so I wanted to learn more
+00:11:09	Jon Harmon (jonthegeek):	I'm going to hop off! Good luck, I love to see a new cohort get started!
+00:11:32	Matthew Efoli:	Thanks @Jon
+00:12:07	novica nakov:	Hi. I just joined because I noticed a new cohort and it seemed like there were people being late.
+00:16:15	Trevin:	Welcome Lydia!
+00:16:32	Lydia Gibson:	Hello!
+00:25:55	Lucio:	i use vs code
+00:32:12	Lydia Gibson:	no
+00:32:35	Trevin:	I’m in the Advanced R bookclub right now
+00:35:06	Lance Christian:	Did Matthew lose connection?
+00:35:26	Trevin:	I thought that was me, my internet went out before the meeting
+00:35:34	Lydia Gibson:	Me too
+00:47:17	Trevin:	It should be package:datasets
+00:48:32	Lucio:	line 11
+00:51:03	Lucio:	session is also used when one wants to send data from R to JavaScript, or the other way around
+00:51:04	Trevin:	Yeah, that makes sense thanks
+01:02:41	Lydia Gibson:	Thank you Matthew!
+01:02:47	Lucio:	thank you
+01:02:48	Lucio:	bye
+01:02:49	Sarfaraz Jamal:	thank you very much
+```
+</details>
+
+
+### Cohort 5
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
 
@@ -336,4 +368,3 @@ Shiny cheatsheet
 LOG
 ```
 </details>
--->

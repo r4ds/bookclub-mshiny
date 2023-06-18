@@ -214,8 +214,12 @@ Key concepts that were covered in the chapter:
 </details>
 
 
-<!--
 ### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/3kagToL-3ik")`
+
+
+### Cohort 5
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
 
@@ -225,4 +229,3 @@ Key concepts that were covered in the chapter:
 LOG
 ```
 </details>
--->

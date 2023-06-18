@@ -533,8 +533,31 @@ Beware, the accuracy of timing may be affected by other processes
 </details>
 
 
-<!--
 ### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/BiliSGguMAk")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+00:03:22	Matthew:	Hi everyone,
+We will start in 7 - 10 mins.
+00:03:35	Lydia Gibson:	Hello
+00:03:53	Matthew:	Hello
+00:07:03	Lydia Gibson:	We need to update the dates on the volunteers sheet. I most likely won’t be able to attend on 5/16 so I’m not sure which chapter to sign up to present next
+00:07:19	Lucio Cornejo:	Hello
+00:07:24	Lydia Gibson:	Hello
+00:07:55	Matthew:	Hello
+00:10:05	Lucio Cornejo:	hi matthew
+00:10:38	Lucio Cornejo:	Hello Trevin
+00:11:30	Lucio Cornejo:	Hello Matthew
+00:48:59	Lydia Gibson:	Ntd for another meeting. See you all next week!
+00:55:35	Lucio Cornejo:	Thanks for the presentation. See you, everyone
+```
+</details>
+
+
+### Cohort 5
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
 
@@ -544,4 +567,3 @@ Beware, the accuracy of timing may be affected by other processes
 LOG
 ```
 </details>
--->

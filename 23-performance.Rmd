@@ -202,8 +202,24 @@ https://shiny.rstudio.com/app-stories/weather-lookup-caching.html
 </details>
 
 
-<!--
 ### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/bxSj2VdA8XI")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+00:09:46	Trevin Flickinger:	start
+00:15:04	Trevin Flickinger:	https://rstudio.github.io/shinyloadtest/articles/case-study-scaling.html
+00:15:54	Trevin Flickinger:	https://posit.co/resources/videos/shiny-in-production-principles-practices-and-tools/
+00:22:35	Trevin Flickinger:	https://rstudio.github.io/promises/
+00:47:58	Matthew Efoli:	https://www.youtube.com/watch?v=hltOgAC2mC4&list=PLexAKolMzPcriOdeLwoMxQOyHRnMguEv4&index=28
+00:50:44	Trevin Flickinger:	stop
+```
+</details>
+
+
+### Cohort 5
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
 
@@ -213,4 +229,3 @@ https://shiny.rstudio.com/app-stories/weather-lookup-caching.html
 LOG
 ```
 </details>
--->

@@ -281,8 +281,33 @@ There are two different approaches to allow the user to choose from a prespecifi
 </details>
 
 
-<!--
 ### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/7b5UQvzgPxo")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+00:22:45	Trevin Flickinger:	Hi everyone 👋
+00:22:58	Lydia Gibson:	Hello
+00:28:45	Trevin Flickinger:	No questions
+00:28:48	Lucio Cornejo:	all good so far
+00:32:54	Trevin Flickinger:	yes
+00:36:03	Trevin Flickinger:	I can see it now
+00:36:11	Trevin Flickinger:	Sorry I can only type today
+00:44:31	Matthew Efoli:	https://dcl-prog.stanford.edu/purrr-parallel.html#:~:text=The%20pmap()%20functions%20work,to%20supply%20to%20your%20function.
+00:59:07	Lucio Cornejo:	session = getReactiveDomain()
+01:00:04	Lucio Cornejo:	session = getDefaultReactiveDomain()
+01:01:04	Trevin Flickinger:	We’ll get more into sessions next week with modules
+01:01:55	Lucio Cornejo:	same over here
+01:03:16	Trevin Flickinger:	Thanks Matthew! Nothing from me
+01:03:41	Trevin Flickinger:	See everyone next week 😄
+01:03:41	Lucio Cornejo:	Also excited for next week. Thank you, see you next everyone
+```
+</details>
+
+
+### Cohort 5
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
 
@@ -292,4 +317,3 @@ There are two different approaches to allow the user to choose from a prespecifi
 LOG
 ```
 </details>
--->
