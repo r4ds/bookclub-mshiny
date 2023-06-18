@@ -445,8 +445,25 @@ an open SO page.
 `r knitr::include_url("https://www.youtube.com/embed/EDcW3IwtBQc")`
 
 
-<!--
 ### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/LAm7k2qGvbo")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+00:11:49	Lydia Gibson:	I'm having issues with zoom. I'll have to join from my laptop
+00:13:15	LUCIO ENRIQUE CORNEJO RAMÍREZ:	do i start now?
+00:42:25	Trevin Flickinger:	Here for more about the customizer: https://rstudio.github.io/bslib/articles/bslib.html#real-time
+00:42:42	Lydia Gibson:	Thank you!
+01:03:16	Trevin Flickinger:	Yes, thank you!
+01:03:22	LUCIO ENRIQUE CORNEJO RAMÍREZ:	thank you
+01:03:58	LUCIO ENRIQUE CORNEJO RAMÍREZ:	bye, thanks
+```
+</details>
+
+
+### Cohort 5
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
 
@@ -456,4 +473,3 @@ an open SO page.
 LOG
 ```
 </details>
--->

@@ -605,8 +605,32 @@ ui <- fluidPage(
 `r knitr::include_url("https://www.youtube.com/embed/-dHiUdsRxA4")`
 
 
-<!--
 ### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/16qIoee5zGc")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+00:25:38	LUCIO ENRIQUE CORNEJO RAM REZ:	all good
+00:26:05	Trevin Flickinger:	https://support.posit.co/hc/en-us/articles/200711853-Keyboard-Shortcuts-in-the-RStudio-IDE
+00:26:20	Lydia Gibson:	Hello
+00:30:43	Matthew Efoli:	https://appsilon.com/r-studio-shortcuts-and-tips-part-2/#:~:text=It%20is%20achieved%20by%20selecting,but%20it%20can%20be%20helpful.
+00:43:33	Trevin Flickinger:	https://adv-r.hadley.nz/debugging.html
+00:57:18	Trevin Flickinger:	https://wizardzines.com/zines/debugging-guide/
+01:07:03	Trevin Flickinger:	https://www.rstudio.com/resources/rstudioconf-2020/object-of-type-closure-is-not-subsettable/
+01:07:20	Lydia Gibson:	Thank you!
+01:08:39	LUCIO ENRIQUE CORNEJO RAM REZ:	thank you
+01:09:17	Trevin Flickinger:	I’m good with that
+01:09:28	LUCIO ENRIQUE CORNEJO RAM REZ:	works for me
+01:09:42	Trevin Flickinger:	I think most R4DS book clubs are on a two week break
+01:10:44	LUCIO ENRIQUE CORNEJO RAM REZ:	happy new year then :)
+01:10:55	Trevin Flickinger:	Happy new year all!
+```
+</details>
+
+
+### Cohort 5
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
 
@@ -616,4 +640,3 @@ ui <- fluidPage(
 LOG
 ```
 </details>
--->

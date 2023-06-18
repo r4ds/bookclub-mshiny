@@ -355,8 +355,28 @@ knitr::include_url("https://masteringshinych7.netlify.app/#1")
 </details>
 
 
-<!--
 ### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/Zq6z00X3jzM")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+00:11:01	LUCIO ENRIQUE CORNEJO RAMÍREZ:	hello
+00:11:11	Lydia Gibson:	Hi Lucio!
+00:11:56	Lydia Gibson:	Trevin won’t be able to join today, but I believe Matthew will be.
+00:12:12	Lydia Gibson:	Let’s give him a couple more minutes
+00:35:47	Lydia Gibson:	https://shiny.rstudio.com/gallery/plot-interaction-advanced.html
+00:40:58	Lydia Gibson:	https://plotly-r.com/index.html
+00:41:17	LUCIO ENRIQUE CORNEJO RAMÍREZ:	mmm not really, it was pretty clear
+00:41:19	LUCIO ENRIQUE CORNEJO RAMÍREZ:	cool demos
+00:41:50	LUCIO ENRIQUE CORNEJO RAMÍREZ:	I' bee presenting next week
+00:41:53	LUCIO ENRIQUE CORNEJO RAMÍREZ:	thank you, bye
+```
+</details>
+
+
+### Cohort 5
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
 
@@ -366,4 +386,3 @@ knitr::include_url("https://masteringshinych7.netlify.app/#1")
 LOG
 ```
 </details>
--->

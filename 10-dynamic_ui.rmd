@@ -6,20 +6,6 @@ Learn how to **add dynamics to a Shiny app** to be able to see interactive chang
 
 At the end of this chapter, you will be able to understand what is a dynamic user interface, and what are the functions to update, hide or make visible and render the changes made interactively from UI to the server output.
 
-------------------------------------------------------
-
-Introduction
-
-1 - Updating inputs
-
-2 - Dynamic visibility
-
-3 - Creating UI with code
-
-Conclusions
-
-----------------------------------------------------------
-
 ## Introduction 
 
 This chapter based on Dynamic UI is made to addressing the user interface by updating the server outcome. There are three main sections, all of them relating to automated functions, able to dynamically change the output passing through parallel commands between the UI and the Server.
@@ -29,8 +15,6 @@ This chapter based on Dynamic UI is made to addressing the user interface by upd
 **How to create dynamic user interfaces?**
 
 One way to do this is changing the UI using *code run* in the Server function, and by modifying inputs and outputs to see dynamic changes in the app.
-
---------------------------------------------------------------
 
 ## Updating inputs
 
@@ -371,8 +355,12 @@ The dynamic of the UI can be appreciated by modification of the Server. Many com
 `r knitr::include_url("https://www.youtube.com/embed/2LQyxFMJ4Kg")`
 
 
-<!--
 ### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/5llm8FZB-es")`
+
+
+### Cohort 5
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
 
@@ -382,4 +370,3 @@ The dynamic of the UI can be appreciated by modification of the Server. Many com
 LOG
 ```
 </details>
--->

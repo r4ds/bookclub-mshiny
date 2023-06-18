@@ -264,8 +264,23 @@ Two versions of a simple app based on Tidy Tuesday data:
 </details>
 
 
-<!--
 ### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/f5nWPY3jYAM")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+00:06:51	Lydia Gibson:	Hello
+00:08:33	Trevin Flickinger:	https://www.youtube.com/watch?v=F6I_jXPWFBk
+00:09:42	Trevin Flickinger:	https://engineering-shiny.org/structuring-project.html?q=module#using-shiny-modules
+00:10:34	Lydia Gibson:	I attended Shiny conf 2023 but didn’t get to attend a lot of talk
+00:48:53	Matthew Efoli:	interesting!
+```
+</details>
+
+
+### Cohort 5
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
 
@@ -275,4 +290,3 @@ Two versions of a simple app based on Tidy Tuesday data:
 LOG
 ```
 </details>
--->

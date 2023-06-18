@@ -247,8 +247,29 @@ temp_f()
 </details>
 
 
-<!--
 ### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/egmNwbddpm4")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+00:26:28	Lucio Cornejo: why do your coworkers not consider Shiny a web app?
+00:26:53	Trevin: I don’t have any links 😄
+00:27:05	Matthew Efoli: Reacted to "I don’t have any lin..." with 😄
+00:27:15	Trevin: I’ll second that talk, I was lucky enough to see it in person
+00:27:41	Lucio Cornejo: please someone find that link :)
+00:28:00	Trevin: https://www.youtube.com/watch?v=HpqLXB_TnpI
+00:28:13	Trevin: The Past and Future of Shiny (2022) Joe Cheng
+00:28:16	Lydia Gibson: You beat me to it loll
+00:28:29	Lydia Gibson: I got to see it in person as well. It was amazing!
+00:28:40	Lucio Cornejo: oooh that's weird, I had not seen it. Thank you
+00:30:58	Lucio Cornejo: it's me hehe sorry
+```
+</details>
+
+
+### Cohort 5
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
 
@@ -258,4 +279,3 @@ temp_f()
 LOG
 ```
 </details>
--->

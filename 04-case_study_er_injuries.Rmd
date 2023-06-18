@@ -379,8 +379,12 @@ The resulting version of the app is available at https://hadley.shinyapps.io/ms-
 </details>
 
 
-<!--
 ### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/dR7HRUm3QHs")`
+
+
+### Cohort 5
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
 
@@ -390,4 +394,3 @@ The resulting version of the app is available at https://hadley.shinyapps.io/ms-
 LOG
 ```
 </details>
--->

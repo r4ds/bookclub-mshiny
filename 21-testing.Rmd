@@ -479,8 +479,25 @@ What structural changes might be needed to use ShinyDriver-based end-to-end test
 </details>
 
 
-<!--
 ### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/7Uz0Mh2gMfk")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+00:10:54	Trevin Flickinger:	start
+00:12:01	Trevin Flickinger:	https://rstudio-conf-2022.github.io/build-tidy-tools/
+00:12:19	Trevin Flickinger:	https://rstudio-conf-2022.github.io/build-tidy-tools/materials/day-1-session-3-testing.html#/title-slide
+00:21:47	Trevin Flickinger:	https://r-pkgs.org/index.html
+00:27:17	Matthew Efoli:	thank you
+00:42:42	Trevin Flickinger:	https://github.com/rstudio-conf-2022/ussie
+01:04:39	Trevin Flickinger:	stop
+```
+</details>
+
+
+### Cohort 5
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
 
@@ -490,4 +507,3 @@ What structural changes might be needed to use ShinyDriver-based end-to-end test
 LOG
 ```
 </details>
--->

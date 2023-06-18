@@ -349,15 +349,26 @@ Chapter 3: *Basic UI* introduces the 3 components of user interface for Shiny
 </details>
 
 
-<!--
 ### Cohort 4
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/hBYkhLT9xfo")`
 
 <details>
   <summary>Meeting chat log</summary>
 ```
-LOG
+00:04:27	Lydia:	Hello
+00:43:01	Trevin:	https://glin.github.io/reactable/index.html
+00:54:52	Lydia Gibson:	Not at the moment. Thank you Trevin
+00:54:57	Lucio:	No questions. Great talk
+00:55:32	Lydia Gibson:	I wont be able to for the next 3 weeks or so
+00:55:40	Lydia Gibson:	Finishing up my fall semester
+00:56:14	Trevin:	I can do 4 or 5
+00:57:23	Lydia Gibson:	Thanks everyone
+00:57:33	Lucio:	thanks, bye
 ```
 </details>
--->
+
+
+### Cohort 5
+
+`r knitr::include_url("https://www.youtube.com/embed/4WD-6mC8vnk")`

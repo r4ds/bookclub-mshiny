@@ -189,8 +189,32 @@ We can allow the user to download a report based on their exploration of an
 `r knitr::include_url("https://www.youtube.com/embed/A08gd1X74GQ")`
 
 
-<!--
 ### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/jwexyE8C20E")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+00:08:10	Matthew Efoli:	hi trevin
+00:09:29	Lydia Gibson:	Hello all
+00:09:31	Lucio Cornejo:	Hi everyone
+00:09:34	Trevin Flickinger:	Okay, I can start?
+00:30:00	Lydia Gibson:	To confirm, Ctrl + C stops Shiny apps? Or Ctrl + Esc ?
+00:30:12	Lydia Gibson:	Thank toy
+00:30:15	Lydia Gibson:	you*
+00:30:22	Trevin Flickinger:	Ctrl + C
+00:49:07	Lydia Gibson:	Thank you Trevin!
+00:49:16	Trevin Flickinger:	Joe Cheng talk link - https://www.youtube.com/watch?v=5KByRC6eqC8
+00:49:34	Lucio Cornejo:	the exercises were interesting as well, due to the libraries explored
+00:50:07	Lucio Cornejo:	thank you
+00:55:11	Lydia Gibson:	Shiny Conf: https://shinyconf.appsilon.com/
+00:55:45	Lucio Cornejo:	thanks, bye eveyone
+```
+</details>
+
+
+### Cohort 5
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
 
@@ -200,4 +224,3 @@ We can allow the user to download a report based on their exploration of an
 LOG
 ```
 </details>
--->

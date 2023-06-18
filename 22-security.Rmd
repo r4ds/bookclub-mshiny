@@ -573,8 +573,22 @@ Extra Packages:
 `r knitr::include_url("https://www.youtube.com/embed/JTg3IWUCB88")`
 
 
-<!--
 ### Cohort 4
+
+`r knitr::include_url("https://www.youtube.com/embed/8cjsKgKHoTo")`
+
+<details>
+  <summary>Meeting chat log</summary>
+```
+00:17:25	Matthew Efoli:	https://solutions.posit.co/connections/db/best-practices/managing-credentials/
+00:22:02	Trevin Flickinger:	https://usethis.r-lib.org/articles/git-credentials.html
+00:45:15	Trevin Flickinger:	https://www.explainxkcd.com/wiki/index.php/327:_Exploits_of_a_Mom
+00:53:14	Trevin Flickinger:	stop
+```
+</details>
+
+
+### Cohort 5
 
 `r knitr::include_url("https://www.youtube.com/embed/URL")`
 
@@ -584,4 +598,3 @@ Extra Packages:
 LOG
 ```
 </details>
--->
