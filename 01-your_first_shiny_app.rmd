@@ -360,11 +360,16 @@ Shiny cheatsheet
 
 ### Cohort 5
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/0TQ-rXYrRfE")`
 
 <details>
   <summary>Meeting chat log</summary>
 ```
-LOG
+00:24:15	Abdou:	For now it’s clear
+00:56:17	Oluwafemi Oyedele:	https://github.com/nanxstats/awesome-shiny-extensions.
+00:58:15	Abdou:	Reacted to "https://github.com/n..." with 👍
+00:58:26	Oluoch, Wyclife Agumba:	Reacted to "https://github.com/n..." with 👍🏾
+00:58:45	Oluoch, Wyclife Agumba:	Amazing!
+00:59:20	Jim:	Very good presentation !
 ```
 </details>

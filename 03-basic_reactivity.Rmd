@@ -344,11 +344,36 @@ To improve the user experience, we’ve made changes in Shiny Server (Pro and Op
 
 ### Cohort 5
 
-`r knitr::include_url("https://www.youtube.com/embed/URL")`
+`r knitr::include_url("https://www.youtube.com/embed/I9-Mm5j58Do")`
 
 <details>
   <summary>Meeting chat log</summary>
 ```
-LOG
+00:00:21	Oluwafemi Oyedele:	Hi Jim
+00:00:31	jim rothstein:	hi
+00:00:49	Wyclife Oluoch:	Hi Jim?
+00:01:34	jim rothstein:	Today is chapter 4 - Case Study ER?
+00:02:24	Oluwafemi Oyedele:	Yes
+00:02:56	Wyclife Oluoch:	No, it is Chapter 3
+00:03:23	Mateo Vega:	Can anyone hear me?
+00:04:35	Mateo Vega:	im sorry i dont know what is going on with my mic
+00:04:38	Mateo Vega:	its not working
+00:05:15	Mateo Vega:	Yes, I can hear you!
+00:05:45	Mateo Vega:	sorry about that, I think we can start the presentation
+00:05:58	Mateo Vega:	start
+00:11:54	jim rothstein:	So the server is responsible for handling multiple 'sessions"   right?
+00:12:16	Oluwafemi Oyedele:	Yes
+00:14:08	jim rothstein:	Good example .. where does the money emerge?  haha
+00:20:22	jim rothstein:	Is it the BROWSER that talks to SERVER?   Or is something running in the BROWSER?
+00:25:47	jim rothstein:	Is this same as "EVENT" driven programming?   Nothing happens till there is an "EVENT" ?
+00:30:53	Oluwafemi Oyedele:	the output ID
+00:36:09	Ahmed:	Jim I think it quite similar but, it triggers automatically when any change happened in the inputs by users with the minimum needed dependency that it needs to run the shiny app.
+00:37:45	Oluwafemi Oyedele:	https://rstudio.github.io/reactlog/
+00:42:37	jim rothstein:	@Ahmed @Oluwafemi  - thanks.    I need to think about it some more ...   To me seems to trigger on some kind of event, or change in state, sort of like spreadsheet.
+01:08:36	Wyclife Oluoch:	https://navaak.shinyapps.io/agriSuitNew/
+01:08:41	Ahmed:	Thanks a lot Wyclife for this very interesting presentation.
+01:08:47	Mateo Vega:	stop
+01:08:50	Oluwafemi Oyedele:	Thank you
+01:08:59	Wyclife Oluoch:	https://www.sciencedirect.com/science/article/abs/pii/S0048969719336071
 ```
 </details>
