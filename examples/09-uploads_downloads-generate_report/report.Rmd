@@ -3,17 +3,17 @@ title: "A Parameterized Report"
 output: html_document
 params:
   dist: normal
-  n: NA
+  n: 195
 ---
 
-A density plot of a random sample of size `r params$n` from a `r params$dist`
- distribution.
+A density plot of a random sample of size `r params$n` from a `r params$dist` distribution.
  
 ```{r, echo = FALSE}
-x <- switch(params$dist,
-            normal = rnorm(params$n),
-            "log normal" = rlnorm(params$n)
-            )
+x <- switch(
+  params$dist,
+  normal = rnorm(params$n),
+  "log normal" = rlnorm(params$n)
+)
 
 plot(density(x), main = "")
 ```

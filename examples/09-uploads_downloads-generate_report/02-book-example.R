@@ -37,7 +37,7 @@ server <- function(input, output, session) {
     
   })
   
-  # Finaly Rendering the table to display
+  # Finally Rendering the table to display
   output$head <- renderTable({
     head(data(), input$n)
   })
