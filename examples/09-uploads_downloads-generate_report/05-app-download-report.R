@@ -12,8 +12,9 @@ file.copy(
 )
 
 
-# Wrapping the render function
-
+# Wrapping the render function in a new function to
+# make sure of having the right environment and 
+# dependencies available to execute the function correctly
 render_report <- function(input, output, params) {
   
   rmarkdown::render(input,
