@@ -16,11 +16,11 @@ library(shiny)
 ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
-      h3('Dimensions'),
+      h4('Dimensions'),
       numericInput("x_dim","X Size", 500),
       numericInput("y_dim","Y Size", 500),
       
-      h3('More Options'),
+      h4('More Options'),
       selectInput("pertubation", 
                   label = "Pertubation Type", 
                   choices = c("none", "normal", "fractal"),
@@ -43,13 +43,14 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   
-  simplex_raster <- reactive({
+  simplex_raster <- eventReactive(input$render,{
     
     noise_simplex(dim = c(input$x_dim, input$y_dim), 
                   pertubation = input$pertubation, 
                   pertubation_amplitude = input$amplitude) |>
       normalise() |>
       as.raster()
+    
   })
   
   output$final_plot <- renderPlot({

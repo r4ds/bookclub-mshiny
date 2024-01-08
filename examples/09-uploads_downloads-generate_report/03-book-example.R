@@ -11,7 +11,7 @@ ui <- fluidPage(
   numericInput("n", "Rows to select", value = 5, min = 1, step = 1),
   
   # Download button options
-  downloadButton("download1", class = "btn btn-info"),
+  downloadButton("download1"),
   downloadLink("download2"),
   
   # Display results
