@@ -11,35 +11,43 @@ ui <- fluidPage(
   textInput("name", "What is your Name?"),
   checkboxInput("box", "Advanced"),
   
-  # Tabset doesn't support hiding elements
-  conditionalPanel(
-    condition = "input.box == true",
-    textInput("job", "What do you do?")
-  ),
+  tabsetPanel(
+    id = "switcher",
+    type = "hidden",
+    tabPanelBody("show", 
+                 textInput("job", "What do you do?"),
+                 actionButton("send1", "Send"),
+                 br(),
+                 textOutput("output_text1")),
+    tabPanelBody("hidde", 
+                 actionButton("send2", "Send"),
+                 br(),
+                 textOutput("output_text2"))
+  )
   
-  # Defining the botton to print results
-  actionButton("send", "Send"),
-  br(),
-  
-  # Returning the output
-  textOutput("output_text")
 )
 
 server <- function(input, output, session) {
   
   # Makes sure that values print after clicking the button
-  job <- eventReactive(input$send, input$job)
-  name <- eventReactive(input$send, input$name)
+  job <- eventReactive({input$send1 | input$box}, input$job)
+  name <- eventReactive({input$send1 | input$send2}, input$name)
   
-  # Defining the value to return
-  output$output_text <- renderText({
-    if(input$box) {
-      paste("Welcome", job(), name())
-    } else {
-      paste("Welcome", name())
-    }
+  # Select the tab to show
+  observeEvent(input$box,{
+    updateTabsetPanel(session, "switcher",
+                      selected = ifelse(input$box,"show","hidde"))
+  }) 
+  
+  # Defining the value to return on each panel
+  observeEvent(input$send1 ,{
+    output$output_text1 <- renderText(paste("Welcome", job(), name()))
   })
-
+  
+  observeEvent(input$send2 ,{
+    output$output_text2 <- renderText(paste("Welcome", name()))
+  })
+  
 }
 
 # Run the add

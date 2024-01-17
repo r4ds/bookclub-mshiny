@@ -9,9 +9,9 @@ ui <- fluidPage(
 server <- function(input, output, session) {
   dataset <- reactive(get(input$dataset, "package:datasets"))
   
-  observeEvent(input$dataset, {
-    # it’s actually good practice to ALWAYS
-    # use freezeReactiveValue when 
+  observeEvent(dataset(), {
+    # HIERARCHICAL SELECTION can briefly create an invalid set of inputs
+    # it’s actually good practice to ALWAYS use freezeReactiveValue when 
     # you dynamically change an input value
     freezeReactiveValue(input, "column")
     updateSelectInput(inputId = "column", choices = names(dataset()))
