@@ -1,8 +1,12 @@
 # The reactive graph
 
-This chapter gives an overview of the reactive graph and explains how reactive components are linked to each other.
+**Learning Objectives**
 
-## Quick review of chapter 3 Basic reactivity
+- Understand the reactive graph
+- Learn the importance of invalidation
+- Learn about the `reactlog` package
+
+## Quick review of chapter 3 Basic reactivity {-}
 
  - Imperative (most of R) vs declarative (shiny)
  - Lazyness, only do what is necessary but could be difficult to debug
@@ -11,18 +15,19 @@ This chapter gives an overview of the reactive graph and explains how reactive c
  - Reactive expressions with `reactive()`
  - Observers with `observeEvent()`
 
-
-## Introduction
-
-We begin with a simple example:
+## Reactive execution example (code) {-}
 
 ```{r, reactive-example, eval=FALSE}
 ui <- fluidPage(
-  numericInput("a", "a", value = 10),
-  numericInput("b", "b", value = 1),
-  numericInput("c", "c", value = 1),
+  numericInput("a", "Range mid point", value = 10),
+  numericInput("b", "Sample size", value = 1),
+  numericInput("c", "Times sample size", value = 1),
+  br(),
+  h4("Sampled data from the range"),
   plotOutput("x"),
+  h4("Highest number in the sampled data"),
   tableOutput("y"),
+  h4("Times sample size"),
   textOutput("z")
 )
 
@@ -37,86 +42,278 @@ server <- function(input, output, session) {
 }
 ```
 
-![](https://d33wubrfki0l68.cloudfront.net/9f65da9e6e5066eb409030bd85c465aa0c787e0c/7fce6/diagrams/reactivity-tracking/08.png)
 
-## An example
+## Reactive execution example (graphic) {-}
 
-- [example from book](https://mastering-shiny.org/reactive-graph.html#a-session-begins)
-- [example from reactlog](https://rstudio.github.io/reactlog/articles/reactlog.html#reactivity)
+- Reactive producers
+  - 3 reactive inputs
+  
+- Reactive consumers
+  - 3 reactive expressions
+  - 3 outputs
 
-## Exercises
+![](images/14-the-reactive-graph/00-reactivity-graph.png)
 
-[exercises in book](https://mastering-shiny.org/reactive-graph.html#exercises-12)
+> *Reactivity is more accurately modelled in the opposite direction*
+
+## A session begins {-}
+
+- Shiny has no a priori knowledge of the **relationships between reactives**
+- The consumers are **invalidated** (grey) as they haven't run yet.
+- The producers are **available** (green) for computation
+
+![](images/14-the-reactive-graph/01-start-graph.png)
+
+## Execution begins {-}
+
+- Shiny **starts executing** (orange) ***any*** invalidated output.
+
+![](images/14-the-reactive-graph/02-execution-begins.png)
+
+## Reading a reactive expression {-}
+
+- The reactive expression 
+  - Starts **executing** (orange)
+  - **Records** the relationship
+- The output keeps executing
+
+![](images/14-the-reactive-graph/03-reactive-expression.png)
+
+## Reading an input {-}
+
+- This reactive expression happens to **read a reactive input**.
+- Inputs don't need an execution phase.
+
+![](images/14-the-reactive-graph/04-reading-an-input.png)
+
+## Reactive expression completes {-}
+
+- The other reactive expression 
+  - Starts **executing** (orange).
+  - **Records** the relationship.
+- Then a reactive expression happens to **read a reactive input**.
+- Now that the reactive expression has **finished executing** (green).
+- The reactive expression has **cached the result**.
+
+![](images/14-the-reactive-graph/05-reactive-expression-completes.png)
+
+## Output completes {-}
+
+- The reactive expression has **returned** its value.
+- The output can **finish executing** (green).
+
+![](images/14-the-reactive-graph/06-output-completes.png)
+
+## The next output executes {-}
+
+- Shiny chooses another to **execute** (orange).
+- It starts reading values from reactive producers.
+- Reactives behavior:
+  - Complete returns their values immediately.
+  - Invalidated kicks off their own execution graph.
+
+![](images/14-the-reactive-graph/07-next-output-executes.png)
+
+## Outputs flushed {-}
+
+- No more work will occur until some external force acts on the system.
+
+![](images/14-the-reactive-graph/08-all-green.png)
+
+## An input changes (1/3) {-}
+
+1. Invalidating the input.
+
+![](images/14-the-reactive-graph/09-invalidating-inputs.png)
+
+## An input changes (2/3) {-}
+
+2. Notifying the dependencies.
+
+![](images/14-the-reactive-graph/10-notifying-dependecies.png)
+
+## An input changes (3/3) {-}
+
+3. Removing the existing connections.
+
+![](images/14-the-reactive-graph/11-removing-relations.png)
+
+## Rediscovering the relationships {-}
+
+- To ensure that our graph stays accurate shiny needs **erase arrows when they become stale**
+
+![](images/14-the-reactive-graph/11-removing-relations.png)
+
+## Re-execution {-}
+
+- Execute the invalidated outputs, one at a time, starting off
+- Shiny will **rediscover** the relationships around these nodes as they re-execute.
+
+
+![](images/14-the-reactive-graph/12-re-execution.png)
+
+## Exercises {-}
+
+*1. Draw the reactive graph for the following server function and then explain why the reactives are not run.*
+
+```r
+server <- function(input, output, session) {
+  sum <- reactive(input$x + input$y + input$z)
+  prod <- reactive(input$x * input$y * input$z)
+  division <- reactive(prod() / sum())
+}
+```
+
+
+```{r}
+#| message: false
+#| warning: false
+#| echo: false
+#| eval: true
+
+library(DiagrammeR)
+
+grViz("
+digraph reactive_graph_1 {
+
+  # General properties
+  graph [rankdir = LR, fontsize = 10, overlap = true]
+
+
+  # Defining input nodes
+  node [shape = cds,
+        fontname = Helvetica,
+        rank = 1]
+  x; y; z
+  
+  subgraph {
+  rank = same; x; y; z;
+  }
+  
+  
+  # Defining Reactive Expressions
+  node [shape = box,
+        fontname = Helvetica,
+        height = 0.15]
+  sum; prod; division
+
+
+  # Defining output
+  node [shape = circle,
+        width = 0.5]
+  
+
+  # several 'edge' statements
+  x -> sum
+  y -> sum
+  z -> sum
+  x -> prod
+  y -> prod
+  z -> prod
+  sum -> division
+  prod -> division
+}
+")
+```
+
+**There are no outputs**. Server function only contains inputs and reactive expressions.
+
+
+## Exercises {-}
+
+*2. The following reactive graph simulates long running computation by using Sys.sleep().*
+
 
 1.  Starting state is invalidated
 
 2. The waiting times can be calculated via the reactive graph, but, for a *double check*, the following app confirms each waiting time:
-    ```{r, eval=FALSE}
-    # Waiting times per reactive value
-    ## x1: 1 second
-    ## x2: 2 seconds
-    ## x3: 1 second
 
-    library(shiny)
+```{r, eval=FALSE}
+# Waiting times per reactive value
+## x1: 1 second
+## x2: 2 seconds
+## x3: 1 second
 
-    ui <- fluidPage(
-      radioButtons("increaseVal", 
-        "Increase selected reactive value by 1",
-        inline = TRUE,
-        choices = paste0("x", 1:3)
-      )
-    )
+library(shiny)
 
-    server <- function(input, output) {
-      x1 <- reactiveVal(1)
-      x2 <- reactiveVal(2)
-      x3 <- reactiveVal(3)
+ui <- fluidPage(
+  radioButtons("increaseVal", 
+               "Increase selected reactive value by 1",
+               inline = TRUE,
+               choices = paste0("x", 1:3)
+  )
+)
 
-      y1 <- reactive({
-        Sys.sleep(1)
-        x1()
-      })
-      y2 <- reactive({
-        Sys.sleep(1)
-        x2()
-      })
-      y3 <- reactive({
-        Sys.sleep(1)
-        x2() + x3() + y2() + y2()
-      })
 
-      observe({
-        # Print current minute and seconds
-        print(paste("Starting time:", stringr::str_sub(Sys.time(), 15, 20)))
-        print(y1())
-        print(paste("y1 finished:", stringr::str_sub(Sys.time(), 15, 20)))
-        print(y2())
-        print(paste("y2 finished:", stringr::str_sub(Sys.time(), 15, 20)))
-        print(y3())
-        print(paste("y3 finished:", stringr::str_sub(Sys.time(), 15, 20)))
-      })
+server <- function(input, output) {
+  x1 <- reactiveVal(1)
+  x2 <- reactiveVal(2)
+  x3 <- reactiveVal(3)
+  
+  y1 <- reactive({
+    Sys.sleep(1)
+    x1()
+  })
+  y2 <- reactive({
+    Sys.sleep(1)
+    x2()
+  })
+  y3 <- reactive({
+    Sys.sleep(1)
+    x2() + x3() + y2() + y2()
+  })
+  
+  
+  observe({
+    # Print current minute and seconds
+    print(paste("Starting time:", stringr::str_sub(Sys.time(), 15, 20)))
+    print(y1())
+    print(paste("y1 finished:", stringr::str_sub(Sys.time(), 15, 20)))
+    print(y2())
+    print(paste("y2 finished:", stringr::str_sub(Sys.time(), 15, 20)))
+    print(y3())
+    print(paste("y3 finished:", stringr::str_sub(Sys.time(), 15, 20)))
+  })
+  
+  # When the user increases some reactive value
+  observeEvent(input$increaseVal, {
+    message(input$increaseVal)
+    # Example: x1(isolate(x1()) +1)
+    eval(parse(text = 
+                 paste0(
+                   input$increaseVal, 
+                   "(isolate(",
+                   input$increaseVal, 
+                   "()) + 1)"
+                 )
+    ))
+  })
+}
 
-      # When the user increases some reactive value
-      observeEvent(input$increaseVal, {
-        message(input$increaseVal)
-        # Example: x1(isolate(x1()) +1)
-        eval(parse(text = 
-          paste0(
-            input$increaseVal, 
-            "(isolate(",
-            input$increaseVal, 
-            "()) + 1)"
-          )
-        ))
-      })
-    }
+shinyApp(ui, server)
+```
+    
+## Exercises {-}
 
-    shinyApp(ui, server)
-    ```
+*3. What happens if you attempt to create a reactive graph with cycles?*
 
-3.  [Recursion](https://i.redd.it/qlqb8ch1sdg11.jpg)
+```r
+x <- reactiveVal(1)
+y <- reactive(x + y())
+y()
+```
 
-## Dynamism
+When we start the session, `y` would not exist and thus `y()` would return an error since `y` is a reactive expression that consists of itself.
+
+## Dynamism {-}
+
+- Here the app you want to create.
+
+![](images/14-the-reactive-graph/13-dynamic-want.png)
+
+## Dynamism {-}
+
+- But you wrote this code.
 
 ```{r, eval=FALSE}
 ui <- fluidPage(
@@ -128,9 +325,6 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
   output$out <- renderText({
-  # different reactive dependencies
-  # a <- input$a
-  # b <- input$b
     if (input$choice == "a") {
       input$a
     } else {
@@ -141,17 +335,55 @@ server <- function(input, output, session) {
 ```
 
 
-## The reactlog package
+## Dynamism {-}
 
+- So the real graph is:
+
+![](images/14-the-reactive-graph/14-dynamic-reality.png)
+
+
+## Dynamism {-}
+
+- Use all the inputs before using the `if` statement.
+
+```{r}
+#| eval: false
+
+output$out <- renderText({
+  a <- input$a
+  b <- input$b
+
+  if (input$choice == "a") {
+    a
+  } else {
+    b
+  }
+}) 
+```
+
+
+## The reactlog package {-}
+
+- Draws every dependency even if there are **not currently active** with thin **dotted lines**:
+  - They might be used in the past
+  - They might be used in the future
+  
+- There are three additional reactive inputs
+  - `clientData$output_x_height`
+  - `clientData$output_x_width`
+  - `clientData$pixelratio`
 
 ```{r, eval=FALSE}
+options(shiny.reactlog = TRUE)
 reactlog::reactlog_enable()
 shiny::runApp("examples/14-the-reactive-graph/app.R")
 ```
 
 Ctrl+F3 or Cmd+F3
 
-## Summary
+![](images/14-the-reactive-graph/15-reactlog-example.png)
+
+## Summary {-}
 
 Key concepts that were covered in the chapter:
 
