@@ -201,46 +201,29 @@ y()
 z()
 ```
 
-## Reactive Expressions
+## Errors in Reactive Expressions {-}
 
-Example of a reactive expression from Section 8.2.2 (User Feedback, Notifications, Removing on
-completion)
+Errors are **cached** just as values.
 
-```r
-server <- function(input, output, session) {
-  data <- reactive({
-    # Several lines of code can go inside this expression
-    id <- showNotification("Reading data...", duration = NULL, closeButton = FALSE)
-    
-    # the code inside `on.exit(...)` runs after this whole expression is evaluated
-    on.exit(removeNotification(id), add = TRUE)
-    
-    # on success, this value is cached in `data()`
-    read.csv(input$file$datapath)
-  })
-  
-  # ... some code that uses data()
-}
-```
-
-### Errors
-
-Errors
-- are cached just like values
-- propagate through the reactive graph
-- different behaviour when they reach
-  - output (error is displayed by the app)
-  - observer (eg, `observeEvent()`; crashes the session; unless you use try/tryCatch)
-
-```r
-# Errors are cached
-
-# Run this in the console
+```{r}
 r <- reactive(stop("Error occured at ", Sys.time(), call. = FALSE))
 r()
+```
+
+So if you run it again, it **won't update** the message.
+
+```{r}
 Sys.sleep(2)
 r()
 ```
+
+## Errors in Reactive Expressions {-}
+
+Errors are **propagated** through the reactive graph just as values, but they present different behavior when they reach an:
+
+- **Output**: The error will be displayed in the app.
+- **Observer**: The error will cause the current session to terminate.
+  - This can be avoided by wrapping the code in `try()` or `tryCatch()` functions.
 
 ```r
 # Errors propagate through the reactive graph
