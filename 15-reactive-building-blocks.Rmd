@@ -20,78 +20,160 @@
 |     |**reactiveVal()**|**reactiveValues()**|
 |:----|:----------------|:-------------------|
 |Holds|A **single** reactive value|A **list** of reactive values|
-|Definition|x <- reactiveVal(1)|x <- reactiveValues(a = 1, b = 2)|
-|Getting syntax|x()|x$a|
-|Setting syntax|x(2)|x$a <- 2|
+|Definition|`x <- reactiveVal(1)`|`x <- reactiveValues(a = 1, b = 2)`|
+|Getting syntax|`x()`|`x$a`|
+|Setting syntax|`x(2)`|`x$a <- 2`|
 |Class|reactiveVal reactive function|reactivevalues|
 
-Reference semantics
+## Copy-on-modify Semantics {-}
+
+If you create an object with some value.
 
 ```{r}
-# Most of R uses copy-on-modify semantics
+x1 <- 10
+```
+
+And you copy the same value on a new object.
+
+```{r}
+x2 <- x1
+```
+
+## Copy-on-modify Semantics {-}
+
+Then if you modify the original object.
+
+```{r}
+x2 <- 20
+```
+
+That won't change the value of the original object.
+
+```{r}
+x1
+```
+
+
+## Copy-on-modify Semantics {-}
+
+If we create a list.
+
+```{r}
+x <- list(a = 1, b = 1)
+```
+
+And a function to modify the element "a" of the list.
+
+```{r}
 f <- function(x) {
   x$a = 2
-  x
+  invisible(x)
 }
-x <- list(a = 1, b = 2)
 ```
 
-```{r}
-f(x) # a new object is returned
-```
+## Copy-on-modify Semantics {-}
+
+After applying the function to the original list will return a new object.
 
 ```{r}
-x # ... and the initial object is unchanged
+f(x) |> unlist()
 ```
 
-```{r}
-x1 <- x2 <- 1
-x2 <- 2
-x1
-x2
-```
+Rather than modifying the original list.
 
 ```{r}
-# R6 classes use reference semantics
-g <- function(x) {
-  x$a = 2
-  invisible(NULL)
-}
-Y <- R6::R6Class("Y", list(a = 1, b = 2))
-y <- Y$new()
-y
+x |> unlist()
 ```
 
-```{r}
-g(y)
-y
-```
+## Reference Semantics (shiny) {-}
+
+If you are working in the server function of the app.
 
 ```{r}
-y1 <- y2 <- Y$new()
-y2$a <- 2
-y1
+library(shiny)
+
+reactiveConsole(TRUE)
+```
+
+You can copy the value of a reactive value to new object.
+
+```{r}
+b1 <- reactiveValues(x = 10)
+
+b2 <- b1
+```
+
+But if you change the original reactive variable.
+
+```{r}
+b1$x <- 20
+```
+
+Then the copy also changes.
+
+```{r}
+b2$x
+```
+
+## Reference Semantics (R6) {-}
+
+If you create a new object R6 object.
+
+```{r}
+y1 <- R6::R6Class("Y", list(a = 1, b = 1))$new()
+```
+
+An you copy that object.
+
+```{r}
+y2 <- y1
+```
+
+## Reference Semantics (R6) {-}
+
+Then if you modify the value of the new object.
+
+```{r}
+y2$b <- 2
+```
+
+Then the original object also changes.
+
+```{r}
+y1 |> unlist()
+```
+
+## Reference Semantics (R6) {-}
+
+If a function changes the value of the original object.
+
+```{r}
+f(y1)
+```
+
+Then the copy also get changed.
+
+```{r}
 y2
 ```
 
-Both `reactiveVal` and `reactiveValues` have reference semantics
+## Exercises {-}
 
-```r
-# Exercise from the book
-# Run this interactively:
+1. *What are the differences between these two lists of reactive values? Compare the syntax for getting and setting individual reactive values.*
 
+```{r}
+# Defining values
 l1 <- reactiveValues(a = 1, b = 2)
 l2 <- list(a = reactiveVal(1), b = reactiveVal(2))
-
 # ... with a little extra
 l3 <- reactiveVal(list(a = 1, b = 2))
+```
 
+```r
 # Getting
-l1$a
-l1[["a"]]
-l2$a()
-l2[["a"]]()
-l3()$a
+l1$a; l1[["a"]]
+l2$a(); l2[["a"]]()
+l3()$a; l3()[["a"]]
 
 # Setting
 l1$a <- 15
@@ -100,29 +182,23 @@ l2$a(15)
 l3(list(a = 15, b = 2))
 ```
 
-```r
-# Exercise, run this interactively:
+2. *Design and perform a small experiment to verify that reactiveVal() also has reference semantics.*
 
-# reactiveVal has reference semantics
+```{r}
+# If we define 3 objects
 x <- reactiveVal(1)
 y <- x
 z <- reactiveVal(1)
 
-x_init_address <- pryr::address(x)
-
-x()
-y()
-z()
-
+# If we change the value of x
 x(2)
 
+# Then y also changes
 x()
 y()
-z()
 
-pryr::address(x) == pryr::address(y)
-pryr::address(x) == pryr::address(z)
-pryr::address(x) == x_init_address
+# But z keeps the same
+z()
 ```
 
 ## Reactive Expressions
