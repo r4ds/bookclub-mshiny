@@ -15,49 +15,15 @@
 
 - Shiny reactive values are built on reference-semantics
 
-## Tools
+## Types of Reactive Values {-}
 
-- Timed invalidation
-- `reactiveVal(some_value)` and `reactiveValues(a = abc, b = xyz)`
-- `reactiveConsole(TRUE)`
-- `{reactlog}`
-
-## Prerequisite Knowledge
-
-- Important properties of reactives:
-  - lazy
-  - cached
-
-- (non-shiny) R things
-  - Reference- vs Copy-On-Modify semantics
-  - Error handling in R
-  - Functions that are used inside other functions (on.exit, match.args)
-
-- Shiny examples and functions:
-  - difference between usage of (Section 3.5 and 3.6)
-    - `eventReactive` --- you want the value
-    - and `observeEvent` --- you want a side-effect
-  - `shiny::req()` (Chapter 8)
-  - `shiny::reactiveTimer()` (Section 3.5.1)
-
-## Reactive Values
-
-```{r, echo = FALSE}
-rv_details <- tibble::tribble(
-  ~ "", ~ "reactiveVal()", ~ "reactiveValues()",
-  "Holds", "Single value", "Multiple values (sim to list)",
-  "Definition", "x <- reactiveVal(1)", "x <- reactiveValues(a = 1, b = 2)",
-  "Getting syntax", "x()", "x\\$a",
-  "Setting syntax", "x(2)", "x\\$a <- 2",
-  "Class", "reactiveVal,reactive,function", "reactivevalues"
-)
-```
-
-```{r, echo = FALSE}
-rv_details %>%
-  kableExtra::kbl() %>%
-  kableExtra::kable_styling()
-```
+|     |**reactiveVal()**|**reactiveValues()**|
+|:----|:----------------|:-------------------|
+|Holds|A **single** reactive value|A **list** of reactive values|
+|Definition|x <- reactiveVal(1)|x <- reactiveValues(a = 1, b = 2)|
+|Getting syntax|x()|x$a|
+|Setting syntax|x(2)|x$a <- 2|
+|Class|reactiveVal reactive function|reactivevalues|
 
 Reference semantics
 
