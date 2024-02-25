@@ -203,7 +203,7 @@ y()
 z()
 ```
 
-## Cached Errors in Reactive Expressions {-}
+## Reactive Expressions: Cached Errors {-}
 
 Errors are **cached** just as values.
 
@@ -229,7 +229,7 @@ Sys.sleep(2)
 try(r())
 ```
 
-## Propagated Errors in Reactive Expressions {-}
+## Reactive Expressions: Propagated Errors{-}
 
 Errors are **propagated** through the reactive graph just as values, but they present different behavior when they reach an:
 
@@ -245,7 +245,7 @@ Errors are **propagated** through the reactive graph just as values, but they pr
 #| file: examples/15-reactive-blocks/01-error-propagated-example.R
 ```
 
-## Errors in `seq()` {-}
+## Reactive Expressions: Errors `seq()` {-}
 
 If some error is present in next function:
 
@@ -261,27 +261,20 @@ If some error is present in next function:
 ```
 
 
-### `on.exit()`
+## Where does `on.exit()` work? {-}
 
-Where else do you see `on.exit()`?
+`on.exit()` can be used on:
 
-- inside [function bodies](https://adv-r.hadley.nz/functions.html#on-exit) (eg, close this file once
-the function completes, reset the plotting options after making this graph)
-- in [testthat expressions](https://www.tidyverse.org/blog/2020/04/self-cleaning-test-fixtures/)
-
-In functions, for example, the code in `on.exit()` runs after all the rest of the code has run.
-It runs even if there are errors / warnings.
-You can have multiple calls to `on.exit()` inside a function (use add = TRUE, so a call doesn't overwrite an earlier one)
-
-The expression in the definition of a `reactive` can be thought of as a function body (but with
-automatic caching / laziness):
+- Inside [function bodies](https://adv-r.hadley.nz/functions.html#on-exit)
+- In [testthat expressions](https://www.tidyverse.org/blog/2020/04/self-cleaning-test-fixtures/)
+- In a **reactive expression or observer**
 
 ```r
 # Think of this:
 reactive({
   do_something(x(), y())
 })
-# or eventReactive(triggers, {do_something(x(), y())})
+eventReactive(triggers, {do_something(x(), y())})
 
 # Like this:
 function() {
@@ -289,85 +282,105 @@ function() {
 }
 ```
 
-Because that's basically what it is:
+## When does `on.exit()` run? {-}
+
+- In functions, the code in `on.exit()` runs after all the rest of the code has run.
+
+- It runs even if there are errors / warnings.
+
+- You can have multiple calls to `on.exit()` inside a function (use add = TRUE, so a call doesn't overwrite an earlier one)
+
+
+## Applications of `on.exit()` {-}
+
+- Set an R option
+- Set an environment variable
+- Change working directory
+- Create a file or directory
+- Create a resource on an external system
 
 ```{r}
-# note that `fun <- as_function(x)` line ...
-reactive
-```
-
-
-## Observers and Outputs
-
-Reactives : cached and lazy
-
-Observers / Outputs : forgetful and eager
-
-Why does `x()` never run here?
-
-```r
-server <- function(input, output, session) {
-  x <- reactive({
-    rnorm(10)
-  })
+neat <- function(x, sig_digits) {
+  op <- options(digits = sig_digits)
+  on.exit(options(op), add = TRUE)
+  print(x)
 }
+
+neat(pi, 2)
+
+pi
 ```
 
-In the reactive graph, observers and outputs are the terminal nodes.
-If they were lazy, nothing would get done.
+## Observers and Outputs {-}
 
-Eagerness is infectious
+Observers and outputs are terminal nodes in the reactive graph.
 
-Observer:
+- Reactives : cached and lazy
+- Observers / Outputs : forgetful and eager *(if they were lazy, nothing would get done)*
 
-- side-effect node (eg, write to file, send messages to console)
-- usually defined using `observeEvent()`
+![](images/15-reactive-blocks/01-output-observer-reactive-graph.png)
 
-Output:
+## Observers and Outputs {-}
 
-- as assigned to `output$x <- ...` variable
+`observeEvent()` is used for:
 
-Both created using low-level function `observe()`
+- Saving a file to a shared network drive
+- Sending data to a web API
+- Updating a database
+- Printing a debugging message to the console
+
+> The **value returned by an observer is ignored** because they are designed to work with functions called for their side-effects
+
+In the other side, **Outputs**:
+
+- Running `output$text <- ...` creates the observer.
+- They can detect when they're not **visible** so they don't have to **recompute**
+
+## `observe()` Function {-}
+
+Observers and Outputs use `observe()`.
+
+`observe()` sets up a block of code that is run **every time one** of the reactive values or expressions it uses is updated.
 
 ```r
-# observers are eager
-
 y <- reactiveVal(10)
 observe({
   message("`y` is ", y())
 })
+#> `y` is 10
+
 y(5)
+#> `y` is 5
 y(4)
+#> `y` is 4
 ```
 
-`observe()` doesn't do something, it creates something
+## `observe()` Propertites {-}
+
+Every time you run the `observe()` function it **creates** an action that can be triggered.
+
+In the next example, every time x changes, it creates another observer, so its value is printed another time.
 
 ```r
-# example from the book (I found this a bit confusing)
 x <- reactiveVal(1)
 y <- observe({
   x()
   observe(print(x()))
 })
+#> [1] 1
 x(2)
+#> [1] 2
+#> [1] 2
 x(3)
-
-# y() reacts each time x() updates
-# each time y() reacts it adds a new observer node that reacts to x()
+#> [1] 3
+#> [1] 3
+#> [1] 3
 ```
 
-```r
-# alternative example:
-# each time you change f, a new observer of g is added to the graph
-f <- reactiveVal(1)
-g <- reactiveVal(2)
-h <- observe({
-  f()
-  observe(print(g()))
-})
-```
+> You should only ever create **observers or outputs at the top-level** of your server function
 
-## Isolating Code
+
+## Isolating Code {-}
 
 `observeEvent()` and `eventReactive` allow you to access values in a reactive without taking a
 reactive dependency on them.
