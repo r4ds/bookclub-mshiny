@@ -182,6 +182,8 @@ l2$a(15)
 l3(list(a = 15, b = 2))
 ```
 
+## Exercises {-}
+
 2. *Design and perform a small experiment to verify that reactiveVal() also has reference semantics.*
 
 ```{r}
@@ -201,23 +203,33 @@ y()
 z()
 ```
 
-## Errors in Reactive Expressions {-}
+## Cached Errors in Reactive Expressions {-}
 
 Errors are **cached** just as values.
 
-```{r}
+```{r, eval=FALSE}
 r <- reactive(stop("Error occured at ", Sys.time(), call. = FALSE))
 r()
 ```
 
+```{r, echo=FALSE}
+r <- reactive(stop("Error occured at ", Sys.time(), call. = FALSE))
+try(r())
+```
+
 So if you run it again, it **won't update** the message.
 
-```{r}
+```{r, eval=FALSE}
 Sys.sleep(2)
 r()
 ```
 
-## Errors in Reactive Expressions {-}
+```{r, echo=FALSE}
+Sys.sleep(2)
+try(r())
+```
+
+## Propagated Errors in Reactive Expressions {-}
 
 Errors are **propagated** through the reactive graph just as values, but they present different behavior when they reach an:
 
@@ -225,30 +237,29 @@ Errors are **propagated** through the reactive graph just as values, but they pr
 - **Observer**: The error will cause the current session to terminate.
   - This can be avoided by wrapping the code in `try()` or `tryCatch()` functions.
 
-```r
-# Errors propagate through the reactive graph
+*From: examples/15-reactive-blocks/01-error-propagated-example.R*
 
-# Exercise --- run this in the console
-ui <- fluidPage(
-  checkboxInput("error", "error?"),
-  textOutput("result")
-)
-server <- function(input, output, session) {
-  a <- reactive({
-    if (input$error) {
-      stop("Error!")
-    } else {
-      1
-    }
-  })
-  b <- reactive(a() + 1)
-  c <- reactive(b() + 1)
-  output$result <- renderText(c())
-}
-
-reactlog::reactlog_enable()
-shinyApp(ui, server)
+```{r}
+#| echo: true
+#| eval: false
+#| file: examples/15-reactive-blocks/01-error-propagated-example.R
 ```
+
+## Errors in `seq()` {-}
+
+If some error is present in next function:
+
+- Observers and outputs to **stop what they’re doing** but not otherwise fail.
+- By default, it will cause outputs to reset to their **initial blank state**, unless `req(..., cancelOutput = TRUE)` they’ll preserve their current display.
+
+*From: examples/15-reactive-blocks/02-seq-error-example.R*
+
+```{r}
+#| echo: true
+#| eval: false
+#| file: examples/15-reactive-blocks/02-seq-error-example.R
+```
+
 
 ### `on.exit()`
 
