@@ -4,6 +4,7 @@ ui <- fluidPage(
   checkboxInput("error", "error?"),
   textOutput("result")
 )
+
 server <- function(input, output, session) {
   a <- reactive({
     if (input$error) {

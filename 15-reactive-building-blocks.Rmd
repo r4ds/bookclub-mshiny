@@ -269,20 +269,7 @@ If some error is present in next function:
 - In [testthat expressions](https://www.tidyverse.org/blog/2020/04/self-cleaning-test-fixtures/)
 - In a **reactive expression or observer**
 
-```r
-# Think of this:
-reactive({
-  do_something(x(), y())
-})
-eventReactive(triggers, {do_something(x(), y())})
-
-# Like this:
-function() {
-  do_something(x(), y())
-}
-```
-
-## When does `on.exit()` run? {-}
+When does `on.exit()` run?
 
 - In functions, the code in `on.exit()` runs after all the rest of the code has run.
 
@@ -377,99 +364,92 @@ x(3)
 #> [1] 3
 ```
 
-> You should only ever create **observers or outputs at the top-level** of your server function
+> You should only ever create **observers or outputs at the top-level** of your server function.
 
 
 ## Isolating Code {-}
 
-`observeEvent()` and `eventReactive` allow you to access values in a reactive without taking a
-reactive dependency on them.
+To avoid creating reactive dependencies when not needed, we can use the functions:
 
-How would you write a function to achieve that?
+- `isolate()`
+- `observeEvent()`
+- `eventReactive()`
 
-From section 3.5.2
+## Using the `isolate` Function {-}
 
-```r
-ui <- fluidPage(
-  fluidRow(
-    column(3, 
-      numericInput("lambda1", label = "lambda1", value = 3),
-      numericInput("lambda2", label = "lambda2", value = 5),
-      numericInput("n", label = "n", value = 1e4, min = 0),
-      actionButton("simulate", "Simulate!")
-    ),
-    column(9, plotOutput("hist"))
-  )
-)
-
-server <- function(input, output, session) {
-  # x1 depends on `simulate`, `n` and `lambda1`
-  # ... but only has a "reactive dependency" on `simulate`
-  # ... sorry, ... what?
-  
-  x1 <- eventReactive(input$simulate, {
-    rpois(input$n, input$lambda1)
-  })
-  x2 <- eventReactive(input$simulate, {
-    rpois(input$n, input$lambda2)
-  })
-
-  output$hist <- renderPlot({
-    freqpoly(x1(), x2(), binwidth = 1, xlim = c(0, 40))
-  }, res = 96)
-}
-```
-
-So we've got
-
-```r
-new_reactive <- eventReactive(dependOnThis, runThis)
-```
-
-`isolate(expression)` is used.
-
-- separates access from dependency
-- executes the expression in a scope where the reactive values can be read (see `? isolate`)
-- reduces the time the reactive graph is invalidated
-
-Counting example from the book:
+For example, the next code creates an **infinite loop** because the observer will take a reactive dependency on `x` **and** `count`.
 
 ```r
 r <- reactiveValues(count = 0, x = 1)
 observe({
   r$x
-  # without the isolate() call, an infinite loop would occur
+  r$count <- r$count + 1
+})
+```
+
+As we don't want to create dependency based on `r$count` we can isolate it.
+
+```r
+r <- reactiveValues(count = 0, x = 1)
+
+observe({
+  r$x
   r$count <- isolate(r$count) + 1
 })
 
 r$x <- 1
 r$x <- 2
 r$count
+#> [1] 2
+
+r$x <- 3
+r$count
+#> [1] 3
 ```
 
-In `eventReactive(dependOnThis, runThis)`,
-if you follow the code:
-- eventReactive calls `bindEvent()`
-- bindEvent (basically) calls `reactive({dependOnThis; isolate(runThis)})`
 
-So 
-- eventReactive(x, y) ===~ reactive(x, isolate(y))
-- (and similarly) observeEvent(x, y) ===~ observe({x, isolate(y)})
+## Using the `observeEvent` Function {-}
 
-## Timed Invalidation
+But if we need to isolate many variables in a script is better to use `observeEvent(x, y)` which is equivalent to `observe({x; isolate(y)})` to get the same results.
 
-In section 3.5.1
+```r
+observeEvent(r$x, { 
+  r$count <- r$count + 1 
+}) 
+
+r$x <- 8
+r$count
+#> [1] 4
+```
+
+`eventReactive(x, y)` on the other hand is equivalent to use `reactive({x; isolate(y)})`
+
+
+## `observeEvent` and `eventReactive` arguments {-}
+
+- `ignoreNULL = FALSE` to also handle NULL values, rather than ignoring any event that yields NULL.
+
+- `ignoreInit = TRUE` to avoid running the functions the functions once when you create them.
+
+- `once = TRUE` to run the handler only once.
+
+*From: examples/15-reactive-blocks/03-isolate-example.R*
+
+```{r}
+#| echo: true
+#| eval: false
+#| file: examples/15-reactive-blocks/03-isolate-example.R
+```
+
+## Review to `reactiveTimer()` {-}
+
+![](images/15-reactive-blocks/02-timing-timer.png)
 
 ```r
 server <- function(input, output, session) {
-  # timer is invalidated every 500ms
-  # A) How is that possible?
   timer <- reactiveTimer(500)
   
   x1 <- reactive({
-    # ... hence, a new x1 and x2 are sampled each 500ms
-    # B) What if sampling x1 took longer than 500ms?
-
     timer()
     rpois(input$n, input$lambda1)
   })
@@ -484,11 +464,31 @@ server <- function(input, output, session) {
 }
 ```
 
-`invalidateLater(ms)` allows the programmer to invalidate a node in the graph
+## Understanding `invalidateLater(ms)` {-}
+
+After `ms` milliseconds it causes any **reactive consumer to be invalidated**.
+
+That is useful for:
+
+- Creating animations
+- Connecting to data sources outside of Shiny’s reactive framework
+
+## Understanding `invalidateLater(ms)` {-}
+
+Generate 10 fresh random normals every half a second
 
 ```r
-# Example, add a new random number to a sum once every 300ms
+x <- reactive({
+  invalidateLater(500)
+  rnorm(10)
+})
+```
 
+## Understanding `invalidateLater(ms)` {-}
+
+Increment a cumulative sum with a random number
+
+```r
 sum <- reactiveVal(0)
 observe({
   invalidateLater(300)
@@ -496,23 +496,66 @@ observe({
 })
 ```
 
-Note that `invalidateLater` runs from the time it is invoked.
-Combine it with on.exit() to ensure the node is invalidated a fixed-time after the node's
-computation completes
+## Importing data {-}
+
+To import data only when the data have been updated you can use the `reactivePoll()` function.
 
 ```r
-# e.g.: iterate: load a file, one second after you finished reading it
+server <- function(input, output, session) {
+  data <- reactivePoll(1000, session, 
+    function() file.mtime("data.csv"),
+    function() read.csv("data.csv")
+  )
+}
+```
 
-data <- reactive({
-  on.exit(invalidateLater(1000))
-  read.csv("data.csv")
+But for this simple example we can also use `reactiveFileReader()` function.
+
+```r
+server <- function(input, output, session) {
+  data <- reactiveFileReader(1000, session, "data.csv", read.csv)
+}
+```
+
+## Long running reactives {-}
+
+In the next code we are invalidating the result before ending a log process which ends in an **infinitive invalidation loop**.
+
+```r
+x <- reactive({
+
+  # Invalidation
+  invalidateLater(500)
+  
+  # Long Process
+  Sys.sleep(1)
+  
+  # Output
+  10
 })
 ```
 
-Additional tools `reactivePoll` and `reactiveFileReader` are built on invalidateLater
+But if we wrap the invalidation function into an `on.exit` function, we will make sure to run check after ending the process.
 
-Beware, the accuracy of timing may be affected by other processes
+```r
+x <- reactive({
 
+  # Invalidation
+  on.exit(invalidateLater(500), add = TRUE)
+  
+  # Long Process
+  Sys.sleep(1)
+  
+  # Output
+  10
+})
+```
+
+## Timer accuracy {-}
+
+The number of milliseconds specified in `invalidateLater()` is a **polite request**, not a demand. 
+
+This effectively means that the **invalidation might take longer** than you expect.
 
 ## Meeting Videos
 
