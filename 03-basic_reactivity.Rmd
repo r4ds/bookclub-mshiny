@@ -330,7 +330,7 @@ To improve the user experience, we’ve made changes in Shiny Server (Pro and Op
   <summary>Meeting chat log</summary>
 ```
 00:25:18	Trevin Flickinger:	spelling
-00:30:58	Trevin Flickinger:	R4DS - “You should consider writing a function whenever you’ve copied and pasted a block of code more than twice (i.e. you now have three copies of the same code).”
+00:30:58	Trevin Flickinger:	DSLC - “You should consider writing a function whenever you’ve copied and pasted a block of code more than twice (i.e. you now have three copies of the same code).”
 00:31:04	Trevin Flickinger:	https://r4ds.had.co.nz/functions.html#when-should-you-write-a-function
 00:33:56	Matthew Efoli:	()
 00:34:01	Matthew Efoli:	{}

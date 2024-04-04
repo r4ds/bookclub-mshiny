@@ -20,7 +20,7 @@
     - [https://github.com/hadley/mastering-shiny](https://github.com/hadley/mastering-shiny)  
     - By using Github, *YOU* can contribute too.    
 
-3. R4DS book club Github-repo:
+3. DSLC book club Github-repo:
     - [https://github.com/r4ds/bookclub-mshiny](https://github.com/r4ds/bookclub-mshiny)
 
 4. Shiny Cheat Sheet    

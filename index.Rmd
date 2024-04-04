@@ -1,6 +1,6 @@
 --- 
 title: "Mastering Shiny Book Club"
-author: "The R4DS Online Learning Community"
+author: "The Data Science Learning Community"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
@@ -8,7 +8,7 @@ bibliography: book.bib
 biblio-style: apalike
 link-citations: yes
 github-repo: r4ds/bookclub-mshiny
-description: "This website is the product of the R4DS Online Learning Community's Book Club."
+description: "This website is the product of the Data Science Learning Community's Book Club."
 ---
 
 # Welcome {-}
@@ -18,10 +18,10 @@ Welcome to the Mastering Shiny book club!
 the book [Mastering Shiny](https://mastering-shiny.org/) by Hadley Wickham.
 
 -   These are **shared slides!**
-    -   Developed by the [R4DS Online Learning Community](https://rfordatasci.com).
-    -   [Join the community](https://r4ds.io/join) to participate.
-    -   Available at [r4ds.io/mshiny](https://r4ds.io/mshiny).
--   We follow the [R4DS Online Learning Community Code of Conduct](https://r4ds.io/conduct).
+    -   Developed by the [Data Science Learning Community](https://dslc.io).
+    -   [Join the community](https://dslc.io/join) to participate.
+    -   Available at [dslc.io/mshiny](https://dslc.io/mshiny).
+-   We follow the [Data Science Learning Community Code of Conduct](https://dslc.io/conduct).
 
 ## Pace {-}
 
@@ -38,4 +38,4 @@ the book [Mastering Shiny](https://mastering-shiny.org/) by Hadley Wickham.
 -   Ideally **update shared slides**.
     -   Instructions in [github repo](https://github.com/r4ds/bookclub-mshiny).
     -   **Embedded code** is almost always easier to follow than live demos!
--   Presentations **recorded** & available on [**R4DS Online Learning Community YouTube Channel**](https://r4ds.io/youtube).
+-   Presentations **recorded** & available on [**Data Science Learning Community YouTube Channel**](https://dslc.io/youtube).

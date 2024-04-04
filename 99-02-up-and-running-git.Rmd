@@ -191,7 +191,7 @@ The two most common are:
 
 5. [How Does Git Work? (A more in-depth blog on git internals)](https://www.honeybadger.io/blog/how-does-git-work/)
 
-6. `@Tan` in the R4DS Slack put together some [videos](https://www.youtube.com/playlist?list=PL3x6DOfs2NGhS_PhklqT6PwK1Fh7blgP2).
+6. `@Tan` in the DSLC Slack put together some [videos](https://www.youtube.com/playlist?list=PL3x6DOfs2NGhS_PhklqT6PwK1Fh7blgP2).
 
 ## Meeting Videos
 

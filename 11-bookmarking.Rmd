@@ -176,7 +176,7 @@ The parameter in this instance is the `state_id` which corresponds to a director
 00:05:55	Russ Hyde:	Welcome to another week of Mastering Shiny
 00:06:19	Anne:	Hello ;)
 00:06:46	Russ Hyde:	Is anyone interested in taking over looking after Maya Gans' Mastering Shiny solutions manual?
-00:06:56	Russ Hyde:	https://rfordatascience.slack.com/archives/C012R356GLC/p1619539252081100
+00:06:56	Russ Hyde:	https://dslcio.slack.com/archives/C012R356GLC/p1619539252081100
 00:14:14	Robert Overman:	SAS still is great when you need to plug and chug through a ton of data
 00:22:54	Federica Gazzelloni:	we cannot hear
 00:23:03	Federica Gazzelloni:	it is metallic

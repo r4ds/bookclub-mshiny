@@ -8,4 +8,4 @@
     -   All studied in more detail in later chapters
 -   Also notes on setting up R/RStudio for `shiny`
     -   Problems setting up or deploying `shiny`?
-    -   Ask in #book_club-mastering_shiny / #help-4-shiny on [R4DS slack](https://r4ds.io/join)
+    -   Ask in #book_club-mastering_shiny / #help-4-shiny on [DSLC slack](https://dslc.io/join)
