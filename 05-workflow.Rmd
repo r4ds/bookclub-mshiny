@@ -623,7 +623,7 @@ ui <- fluidPage(
 01:08:39	LUCIO ENRIQUE CORNEJO RAM REZ:	thank you
 01:09:17	Trevin Flickinger:	I’m good with that
 01:09:28	LUCIO ENRIQUE CORNEJO RAM REZ:	works for me
-01:09:42	Trevin Flickinger:	I think most R4DS book clubs are on a two week break
+01:09:42	Trevin Flickinger:	I think most DSLC book clubs are on a two week break
 01:10:44	LUCIO ENRIQUE CORNEJO RAM REZ:	happy new year then :)
 01:10:55	Trevin Flickinger:	Happy new year all!
 ```

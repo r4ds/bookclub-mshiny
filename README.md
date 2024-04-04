@@ -1,15 +1,15 @@
-# R4DS Mastering Shiny Book Club
+# DSLC Mastering Shiny Book Club
 
-Welcome to the R4DS Mastering Shiny Book Club!
+Welcome to the DSLC Mastering Shiny Book Club!
 
 We are working together to read [Mastering Shiny](https://mastering-shiny.org/) by Hadley Wickham.
-Join the [#book_club-mshiny](https://rfordatascience.slack.com/archives/C012VLJ0KRB) channel on the [R4DS Slack](https://r4ds.io/join) to participate.
+Join the [#book_club-mshiny](https://dslcio.slack.com/archives/C012VLJ0KRB) channel on the [DSLC Slack](https://dslc.io/join) to participate.
 As we read, we are producing [notes about the book](https://r4ds.github.io/bookclub-mshiny/).  
 You can catch up on Book Club recordings on the Mastering Shiny [YouTube Playlist](https://www.youtube.com/playlist?list=PL3x6DOfs2NGi4B1Idnv8MLaUhFwOqfc3h).
 
 ## Meeting Schedule
 
-If you would like to present, please see the sign-up sheet for your cohort (linked below, and pinned in the [#book_club-mshiny](https://rfordatascience.slack.com/archives/C012VLJ0KRB) channel on Slack)!
+If you would like to present, please see the sign-up sheet for your cohort (linked below, and pinned in the [#book_club-mshiny](https://dslcio.slack.com/archives/C012VLJ0KRB) channel on Slack)!
 
 - Cohort 1 (started 2021-02-16, ended 2021-08-10): [meeting videos](https://www.youtube.com/playlist?list=PL3x6DOfs2NGi4B1Idnv8MLaUhFwOqfc3h)
 - Cohort 2 (started 2021-07-21, ended 2022-01-19): [meeting videos](https://www.youtube.com/playlist?list=PL3x6DOfs2NGjhwrYvdmrKRNcvXX7X6ldt)
@@ -43,7 +43,7 @@ Do these steps each time you present another chapter:
 10. When your PR has been accepted ("merged"), `usethis::pr_finish()` to close out your branch and prepare your local repository for future work.
 11. Now that your local copy is up-to-date with the main repo, you need to update your remote fork. Run `gert::git_push("origin")` or click the `Push` button on the `Git` tab of Rstudio.
 
-When your PR is checked into the main branch, the bookdown site will rebuild, adding your slides to [this site](https://r4ds.io/mshiny).
+When your PR is checked into the main branch, the bookdown site will rebuild, adding your slides to [this site](https://dslc.io/mshiny).
 
 ## Example Shiny Apps
 
