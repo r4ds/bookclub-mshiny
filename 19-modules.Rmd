@@ -1,10 +1,178 @@
 # Shiny modules
 
-Modules are a kind of miniature app within a larger app. They isolate a particular group of inputs and outputs. Just like fully Shiny apps they have a UI and a server part. Modules help you break your big, complex app into smaller parts. This makes your Shiny code more readable, easier to debug, and reuseable. This last is particularly interesting, since you can use the same module among many different projects. 
+https://github.com/deepshamenghani/Demystifying_Shiny_modules
+https://github.com/hypebright/shinyconf2024-shiny101
 
-This goes well after the previous chapter: most of the rationale for modules is the same as that for functions: break up your code, avoid repetition.
+Functions work well if:
 
-### note about golem
+- All code is on the server side
+- All code in on the client side
+
+<br>
+
+If the **server code relies** on specific structure in the **UI**
+
+- Use **modules**
+
+## Without modules {-}
+
+We can end creating a really hard to mantain app.
+
+![](images/19-modules/01-before-modules.png){width=50% height=50%}
+
+## Modules benefits {-}
+
+Modules are a kind of **miniature app** within a larger app that isolate a particular group of **inputs and outputs** with a UI and a server part. 
+
+- Avoid namespace collisions
+- Allows encapsulate distinct app components
+- Facilities collaboration
+
+- **Modules works as functions for Shiny**.
+  - Helps you break your big, complex app into smaller parts. 
+  - Makes Shiny code more readable.
+  - Makes Shiny code easier to debug.
+  - Makes Shiny components reusable.
+  - Opens the possibility to apply unit test.
+  
+  
+## After implementing modules {-}
+
+![](images/19-modules/02-after-modules.png){width=50% height=50%}
+
+
+## Simple histogram app {-}
+
+```{r, eval=FALSE}
+ui <- fluidPage(
+  selectInput("var", "Variable", names(mtcars)),
+  numericInput("bins", "bins", 10, min = 1),
+  plotOutput("hist")
+)
+server <- function(input, output, session) {
+  data <- reactive(mtcars[[input$var]])
+  output$hist <- renderPlot({
+    hist(data(), breaks = input$bins, main = input$var)
+  }, res = 96)
+}
+```
+
+## Creating UI function {-}
+
+1. Create a function with the `id` argument.
+2. Wrap all components in the `tagList` function to **bundle together multiple components** without actually implying how they’ll be laid out. 
+3. Wrap each `inputId` using the next structure `NS(id, "id_name")`.
+
+```{r, eval=FALSE}
+histogramUI <- function(id) {
+  tagList(
+    selectInput(NS(id, "var"), "Variable", choices = names(mtcars)),
+    numericInput(NS(id, "bins"), "bins", value = 10, min = 1),
+    plotOutput(NS(id, "hist"))
+  )
+}
+```
+
+## Using NS once {-}
+
+From `shiny::NS()` documentation.
+
+> If id is missing, returns a function that expects an id string as its only argument and returns that id with the namespace prepended. 
+
+```{r eval=FALSE}
+histogramUI <- function(id) {
+  ns <- NS(id)
+  tagList(
+    selectInput(ns("var"), "Variable", choices = names(mtcars)),
+    numericInput(ns("bins"), "bins", value = 10, min = 1),
+    plotOutput(ns("hist"))
+  )
+}
+```
+
+## Module server {-}
+
+1. Create a function with the ID argument.
+2. Call the `shiny::moduleServer()` and pass the id and a **function that looks like a regular server function**.
+
+**Note:** Thanks to that `id` the `shiny::moduleServer()` will be able to bring the **inputs** and **outputs** created in the UI function.
+
+```{r eval=FALSE}
+histogramServer <- function(id) {
+  moduleServer(id, function(input, output, session) {
+    data <- reactive(mtcars[[input$var]])
+    output$hist <- renderPlot({
+      hist(data(), breaks = input$bins, main = input$var)
+    }, res = 96)
+  })
+}
+```
+
+
+## Confirm that the model works {-}
+
+We can create a custom function to validate that each modele is working.
+
+```{r eval=FALSE}
+histogramApp <- function() {
+  ui <- fluidPage(
+    histogramUI("hist1")
+  )
+  server <- function(input, output, session) {
+    histogramServer("hist1")
+  }
+  shinyApp(ui, server)  
+}
+```
+
+## Modules isolation {-}
+
+- `output$out` will never get updated because there is no input$bins
+- The bins input can only be seen inside of the **hist1 module**.
+
+
+```{r eval=FALSE}
+ui <- fluidPage(
+  histogramUI("hist1"),
+  textOutput("out")
+)
+server <- function(input, output, session) {
+  histogramServer("hist1")
+  output$out <- renderText(paste0("Bins: ", input$bins))
+}
+```
+
+
+
+## Modules conventions {-}
+
+- `R/histogram.R` holds all the code for the module.
+
+- `histogramUI()` is the module UI. If it’s used primarily for input or output I’d call it `histogramInput()` or `histogramOuput()` instead.
+
+- `histogramServer()` is the module server.
+
+- `histogramApp()` creates a complete app for interactive experimentation and more formal testing.
+
+
+
+## To take
+
+Before writing a module is portant to define what you expect from that module and which process is related with it.
+
+1. Document your modules using roxygen2 syntax.
+
+![](images/19-modules/01-document.png)
+
+2. Using reactive values as input.
+
+![](images/19-modules/02-reactive-as-input.png)
+
+3. Static inputs
+
+
+
+## note about golem {-}
 
 golem works hard to encourage you to use modules in all your apps. 
 The Think-R team offers a slightly different set of conventions than the ones Hadley advocates. 
