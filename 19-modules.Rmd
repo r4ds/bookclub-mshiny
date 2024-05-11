@@ -1,8 +1,5 @@
 # Shiny modules
 
-https://github.com/deepshamenghani/Demystifying_Shiny_modules
-https://github.com/hypebright/shinyconf2024-shiny101
-
 Functions work well if:
 
 - All code is on the server side
@@ -154,7 +151,8 @@ server <- function(input, output, session) {
 
 - `histogramApp()` creates a complete app for interactive experimentation and more formal testing.
 
-
+https://github.com/deepshamenghani/Demystifying_Shiny_modules
+https://github.com/hypebright/shinyconf2024-shiny101
 
 ## To take
 
@@ -378,11 +376,13 @@ histogramApp <- function() {
 histogramApp()
 ```
 
-## Links to examples
+## Links to examples {-}
 
 Two versions of a simple app based on Tidy Tuesday data:
 * [Shiny dashboard](https://github.com/jakelawlor/Volcano_Shiny_App)
 * [golem with modules](https://github.com/bios2/shiny_volcano_golem)
+https://github.com/deepshamenghani/Demystifying_Shiny_modules
+https://github.com/hypebright/shinyconf2024-shiny101
 
 
 ## Meeting Videos
