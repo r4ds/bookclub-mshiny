@@ -122,11 +122,14 @@ histogramApp <- function() {
 }
 ```
 
+## Confirm that the model works (Shinylive) {-}
+
+<iframe height="500" width="100%" frameborder="no" src="https://shinylive.io/r/app/#code=NobwRAdghgtgpmAXGKAHVA6ASmANGAYwHsIAXOMpMAGwEsAjAJykYE8AKAZwAtaJWAlAB0IIgMQACALJEAJgFdqcTiJG9OpIgHNmMAKoBJCQB4AtBIBm8iAVK0S7WrIESQIiRIicT5gHIBlR2d3CVIoLQAZWg12EI9OOCVbAwhUeVJ2L1iwADcWITABXAkCgDUWWih6JQLigm4iWgJlCQBeT1hldhhSAhZOASK4z3l4RiaUtIysgvo+FULi2fnaiTzqeTg2iQBGAAZimD5tnaGIDw9UaiJSAHl0qczObPVSAsGQ4QgAX1UIV+0un8cEYORBPks1ls9ggQRcbnOEhgckUcGBoJBQWKVhsdgcfCmxSID3SxQSnE4MPhw1kUDCEMYcCg0LB3V6-WAwAJ6QAJHlGABdAVfC4SYmkKY814MiiyEEABWuGQRoo8r3YtLC7CKEiYTIA1t52tzSDy5l5DlBjsbUrz+SKLt9ioyjRIAJwANgd3y+v1E-skUit5zQqD+AJ0sAAgugITjoQ5qYj5LQ4xsnPLwnBYoi1dFNJH9AYXvmdu9PiEEhjGHGoXjYSaiSTSGTlJSSEnRRGgSCwYwSxoy4UQn74rx+DHUOwU63qy4Sj8-pIsNYJKHw-nAdH0NqwN8BUA"> </iframe>
+
 ## Modules isolation {-}
 
 - `output$out` will never get updated because there is no input$bins
 - The bins input can only be seen inside of the **hist1 module**.
-
 
 ```{r eval=FALSE}
 ui <- fluidPage(
@@ -139,8 +142,6 @@ server <- function(input, output, session) {
 }
 ```
 
-
-
 ## Modules conventions {-}
 
 - `R/histogram.R` holds all the code for the module.
@@ -151,230 +152,142 @@ server <- function(input, output, session) {
 
 - `histogramApp()` creates a complete app for interactive experimentation and more formal testing.
 
-https://github.com/deepshamenghani/Demystifying_Shiny_modules
-https://github.com/hypebright/shinyconf2024-shiny101
+## Exercise 1 {-}
 
-## To take
+**Why is it good practice to put a module in its own file in the R/ directory? What do you need to do to make sure it’s loaded by your Shiny app?**
 
-Before writing a module is portant to define what you expect from that module and which process is related with it.
+- I makes easier to transform the shiny app in to a package, as all the functions in a R package are store in the R/ folder.
 
-1. Document your modules using roxygen2 syntax.
-
-![](images/19-modules/01-document.png)
-
-2. Using reactive values as input.
-
-![](images/19-modules/02-reactive-as-input.png)
-
-3. Static inputs
-
-
-
-## note about golem {-}
-
-golem works hard to encourage you to use modules in all your apps. 
-The Think-R team offers a slightly different set of conventions than the ones Hadley advocates. 
-
-* Mastering Shiny approach: `histogramUI` and `histogramServer`
-* `golem` approach: `mod_histogram_ui` and `mod_histogram_server`
-
-```{r golem-demo, eval=FALSE}
-golem::module_template("test", "test.R", export = TRUE)
-```
-
-## Case study -- modules to make a histogram
-
-the first exercise transforms this: 
-
-```{r eval = FALSE}
-ui <- fluidPage(
-  selectInput("var", "Variable", names(mtcars)),
-  numericInput("bins", "bins", 10, min = 1),
-  plotOutput("hist")
-)
-server <- function(input, output, session) {
-  data <- reactive(mtcars[[input$var]])
-  output$hist <- renderPlot({
-    hist(data(), breaks = input$bins, main = input$var)
-  }, res = 96)
-}
-
-shinyApp(ui = ui, server = server)
-```
-
-to this:
+- We will need to `source()` each of the modules.
 
 ```{r eval=FALSE}
+sourceDir <- function(path, trace = TRUE, ...) {
+    op <- options(); on.exit(options(op)) # to reset after each
+    for (nm in list.files(path, pattern = "[.][RrSsQq]$")) {
+       if(trace) cat(nm,":")
+       source(file.path(path, nm), ...)
+       if(trace) cat("\n")
+       options(op)
+    }
+}
+```
+
+## Exercise 2 {-}
+
+**The following module UI includes a critical mistake. What is it and why will it cause problems?**
+
+```{r, eval=FALSE}
 histogramUI <- function(id) {
   tagList(
-    selectInput(NS(id, "var"), "Variable", choices = names(mtcars)),
-    numericInput(NS(id, "bins"), "bins", value = 10, min = 1),
-    plotOutput(NS(id, "hist"))
+    selectInput("var", "Variable", choices = names(mtcars)),
+    numericInput("bins", "bins", value = 10, min = 1),
+    plotOutput("hist")
   )
-}
-
-histogramServer <- function(id) {
-  moduleServer(id, function(input, output, session) {
-    data <- reactive(mtcars[[input$var]])
-    output$hist <- renderPlot({
-      hist(data(), breaks = input$bins, main = input$var)
-    }, res = 96)
-  })
 }
 ```
 
+## Exercise 2 {-}
+
+We need to use the `shiny::NS()` function to define the ids.
+
+```{r, eval=FALSE}
+histogramUI <- function(id) {
+  ns <- NS(id)
+  tagList(
+    selectInput(ns("var"), "Variable", choices = names(mtcars)),
+    numericInput(ns("bins"), "bins", value = 10, min = 1),
+    plotOutput(ns("hist"))
+  )
+}
+```
+
+
+## Exercise 3 {-}
+
+**The following module generates a new random number every time you click go:**
 
 ```{r eval=FALSE}
-histogramApp <- function() {
-  ui <- fluidPage(
-    histogramUI("hist1")
-  )
-  server <- function(input, output, session) {
-    histogramServer("hist99")
-  }
-  shinyApp(ui, server)  
-}
-```
-
-
-## Case study: histogram with two modules
-
-```{r eval = FALSE}
-library(shiny)
-
-# define the dataset input ----------------
-# This is interesting, the function takes one id variable and works with that at the end
-datasetInput <- function(id, filter = NULL) {
-  names <- ls("package:datasets")
-  if (!is.null(filter)) {
-    data <- lapply(names, get, "package:datasets")
-    names <- names[vapply(data, filter, logical(1))]
-  }
-  
-  selectInput(NS(id, "dataset"), "Pick a dataset", choices = names)
-}
-
-# server function returns a reactive
-datasetServer <- function(id) {
-  moduleServer(id, function(input, output, session) {
-    # last thing returned
-    reactive(get(input$dataset, "package:datasets")) # gotta be a reactive
-  })
-}
-
-# selectVar module --------------------
-
-find_vars <- function(data, filter) {
-  names(data)[vapply(data, filter, logical(1))]
-}
-
-
-# id is the only thing linking the two parts, Input and Server
-# This module creates, within namespace `id`, the reactive input var_they_wants
-selectVarInput <- function(id) {
-  selectInput(NS(id, "var_they_wants"), "Variable", choices = NULL) 
-}
-
-
-selectVarServer <- function(id, data_chosen, filter = is.numeric) {
-  moduleServer(id, function(input, output, session) {
-    # WHEN the data changes -- that is, when the reactive value data() changes here...
-    observeEvent(data_chosen(), {
-      # ... THEN you should update Select Input with the numeric columns of the new dataframe
-      updateSelectInput(session, "var_they_wants", choices = find_vars(data_chosen(), filter))
-      ## NOTE this updating happens WIHTIN the namespace `id`.
-      #### var_they_wants is updated with the LIST OF VARS THEY MIGHT WANT
-    })
-    # input$var_they_wants -- 
-    # note that in the server function selectVarServer is called with the namespace id
-    # once again returning the last thing and its reactive
-    
-    list(
-      name = reactive(input$var_they_wants),
-      value = reactive(data_chosen()[[input$var_they_wants]])
-    )
-  })
-}
-
-
-```
-
-Finally a third module to generate the histogram:
-
-```{r eval = FALSE}
-histogramOutput <- function(id) {
+randomUI <- function(id) {
   tagList(
-    numericInput(NS(id, "bins"), "bins", 10, min = 1, step = 1),
-    plotOutput(NS(id, "hist"))
+    textOutput(NS(id, "val")),
+    actionButton(NS(id, "go"), "Go!")
   )
 }
 
-histogramOutput("foobar")
-# you can see where the input id is definied! 
-```
-
-I find it interesting to see how the module id is added to each component id in the HTML:
-
-```html
-<div class="form-group shiny-input-container">
-  <label class="control-label" id="ff-bins-label" for="ff-bins">bins</label>
-  <input id="ff-bins" type="number" class="form-control" value="10" min="1" step="1"/>
-</div>
-<div id="ff-hist" class="shiny-plot-output" style="width:100%;height:400px;"></div>
-```
-
-```{r eval = FALSE}
-histogramServer <- function(id, x, title = reactive("Histogram")) {
-  # we like these checks at the beginning because they make better error messages
-  stopifnot(is.reactive(x))
-  stopifnot(is.reactive(title))
-  
-  moduleServer(id, function(input, output, session) {   
-    # browser()
-    output$hist <- renderPlot({
-      # whoa req is interesting.. checks for "truthiness". but why the is.numeric first???
-      req(is.numeric(x()))
-      # generate a req error just to see
-      # req(is.character(x()))
-      # input bins is assumed to be in the same namespace???
-      main <- paste0(title(), " [", input$bins, "]")
-      
-      hist(x(), breaks = input$bins, main = main)
-    },
-    # neat little point to control res of plot!
-    res = 96)
+randomServer <- function(id) {
+  moduleServer(id, function(input, output, session) {
+    rand <- eventReactive(input$go, sample(100, 1))
+    output$val <- renderText(rand())
   })
 }
-
 ```
 
-```{r eval = FALSE}
-# note that there is nothing in the code YET that makes these two things go together! except the name!
+## Exercise 3 {-}
 
-histogramApp <- function() {
-  ui <- fluidPage(
-    sidebarLayout(
-      sidebarPanel(
-        datasetInput("data", is.data.frame),
-        selectVarInput("var"),
-      ),
-      mainPanel(
-        histogramOutput("hist")    
-      )
+**Create an app that displays four copies of this module on a single page. Verify that each module is independent.**
+
+```{r eval=FALSE}
+ui <- fluidPage(
+    randomUI("num1"),
+    randomUI("num2"),
+    randomUI("num3"),
+    randomUI("num4")
+)
+
+server <- function(input, output, session) {
+    randomServer("num1")
+    randomServer("num2")
+    randomServer("num3")
+    randomServer("num4")
+}
+
+shinyApp(ui, server)  
+```
+
+## Exercise 3 (Shinylive) {-}
+
+<iframe height="500" width="100%" frameborder="no" src="https://shinylive.io/r/app/#code=NobwRAdghgtgpmAXGKAHVA6ASmANGAYwHsIAXOMpMAGwEsAjAJykYE8AKAZwAtaJWAlAB0IIgMQACALJEAJgFdqcTiJHMIsojACqASQkAeALQSAZvIgFStEu1qyBEkCIkTSUAOYAZWp1LsXVzc4AA9SAHl5UlQo9gA5AGU7WVwJITAANyhqdIEBXEDXKCsbCAAhKNJbROTU9I8iXLqwAHEiAEJcwOEIAF81KA0tBLhGDNHDE3NLa1t7R2cIVxg5RTgRsdHaswsSuYgY0lSiKMPUzmVOUoXCiXVZSYk4cbIsOGLrcbsDqIASBvOsFQSnYAEYAAzg1KgvK3E7RP5ZaiPRgUWSjAAqoX893YsKWEl6PX6olJkikUD4EjQqFUEHktEepmoDNkAAVPHAAgTXPctHoApB5DBQU1bnydLpBfSYAAmMU8u6DTSS6XCgDMCqCSqGqvSMoALF0ID0RBdNowmbtZhBvmcJPD7RdOFcSDdFRKNuNGGqRcbtZ7Rt7ffKwD0A8rhkGtvqNf6goGLb6jWGRCSzbx+ABBdDsBnnaOMRxpCBgXoAXSAA"> </iframe>
+
+## Exercise 3 {-}
+
+**How could you change the return value of randomUI() to make the display more attractive?**
+
+1. Placing the Go button before the returned values.
+2. Use `bslib::value_box()`.
+
+```{r eval=FALSE}
+randomUI <- function(id, title) {
+  ns <- NS(id)
+  tagList(
+    actionButton(ns("go"), "Go!"),
+    value_box(title = title,
+              value = textOutput(ns("val"))
     )
   )
-  
-  server <- function(input, output, session) {
-    data <- datasetServer("data")
-    # reactive output captured here!! 
-    x <- selectVarServer("var", data)
-
-    histogramServer("hist", x = x$value, title = x$name)
-  }
-  shinyApp(ui, server)
-} 
-histogramApp()
+}
 ```
+
+## Exercise 3 {-}
+
+**How could you change the return value of randomUI() to make the display more attractive?**
+
+3. Changes the layout to show a grid.
+
+```{r eval=FALSE}
+ui <- page_fluid(
+  layout_column_wrap(
+    width = 1/2, height = 450,
+    randomUI("num1", "Number 1"), 
+    randomUI("num2", "Number 2"), 
+    randomUI("num3", "Number 3"),
+    randomUI("num4", "Number 4")
+  )
+)
+```
+
+## Exercise 3 (Shinylive) {-}
+
+<iframe height="500" width="100%" frameborder="no" src="https://shinylive.io/r/app/#code=NobwRAdghgtgpmAXGKAHVA6ASmANGAYwHsIAXOMpMAGwEsAjAJykYE8AKAZwAtaJWAlAB0IdJiw71OY4RBEBiAAQBZIgBMArtTicRI5hDVEYAVQCSigDwBaRQDMNEAqVol2tNbkUvS2gYpARRUUITitbADkAZXc1WWDSKABzABlaTlJ2IODFKGdXCAAhDVJSN1CssCSiITABL1qAcSIAQlr67OCANyhqDTgAfXoiAA92H21FAF5vWl84XE6c5eWevrhp7zgR0gB5EtQS9gratfb4nIvZAF89CAMjGCi4Ri6X8PtHfLcPf0CIYIwdRaODPV4vWJeBxOFw-CCHUheIgHEpeTg6TgFP5LB4fOBvMhYOB5FxvdzwkoAEmqaNgqG07AAjAAGZleRkCC7BZGkBGUtYfRgUNQvAAq20yD3YnOy1xudwUKigfFy6DuGloH1QyUGdj6HiyAMU1CgrB5A2IfRgEAGAHdmKhDctbR5SNxNoyAPQAJi83DgtCS3FImwALABWNk4qCGYzmSoQDQwRm1BpgCJJ+jvFN1BpG4IPONmBNJ72pxS1DMwLOMRRl3MV-OKQumYu1RMwADM5crmfe3dz0djrZLMFDPfTfdr47q2VkshE6PBtZsnxhBXJCKRKMRinRnExJGxRpbYLejFHOYup5e59H9evMceZ4h7aTA8fw5fF7fY-aIluORQl4fgAEF0HYDU0VvF5-EbMBrgAXSAA"> </iframe>
 
 ## Links to examples {-}
 
