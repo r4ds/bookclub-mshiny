@@ -152,7 +152,7 @@ server <- function(input, output, session) {
 
 - `histogramApp()` creates a complete app for interactive experimentation and more formal testing.
 
-## Exercise 1 {-}
+## Group 1: Exercise 1 {-}
 
 **Why is it good practice to put a module in its own file in the R/ directory? What do you need to do to make sure it’s loaded by your Shiny app?**
 
@@ -172,7 +172,7 @@ sourceDir <- function(path, trace = TRUE, ...) {
 }
 ```
 
-## Exercise 2 {-}
+## Group 1: Exercise 2 {-}
 
 **The following module UI includes a critical mistake. What is it and why will it cause problems?**
 
@@ -186,7 +186,7 @@ histogramUI <- function(id) {
 }
 ```
 
-## Exercise 2 {-}
+## Group 1: Exercise 2 {-}
 
 We need to use the `shiny::NS()` function to define the ids.
 
@@ -202,7 +202,7 @@ histogramUI <- function(id) {
 ```
 
 
-## Exercise 3 {-}
+## Group 1: Exercise 3 {-}
 
 **The following module generates a new random number every time you click go:**
 
@@ -222,7 +222,7 @@ randomServer <- function(id) {
 }
 ```
 
-## Exercise 3 {-}
+## Group 1: Exercise 3 {-}
 
 **Create an app that displays four copies of this module on a single page. Verify that each module is independent.**
 
@@ -244,11 +244,11 @@ server <- function(input, output, session) {
 shinyApp(ui, server)  
 ```
 
-## Exercise 3 (Shinylive) {-}
+## Group 1: Exercise 3 (Shinylive) {-}
 
 <iframe height="500" width="100%" frameborder="no" src="https://shinylive.io/r/app/#code=NobwRAdghgtgpmAXGKAHVA6ASmANGAYwHsIAXOMpMAGwEsAjAJykYE8AKAZwAtaJWAlAB0IIgMQACALJEAJgFdqcTiJHMIsojACqASQkAeALQSAZvIgFStEu1qyBEkCIkTSUAOYAZWp1LsXVzc4AA9SAHl5UlQo9gA5AGU7WVwJITAANyhqdIEBXEDXKCsbCAAhKNJbROTU9I8iXLqwAHEiAEJcwOEIAF81KA0tBLhGDNHDE3NLa1t7R2cIVxg5RTgRsdHaswsSuYgY0lSiKMPUzmVOUoXCiXVZSYk4cbIsOGLrcbsDqIASBvOsFQSnYAEYAAzg1KgvK3E7RP5ZaiPRgUWSjAAqoX893YsKWEl6PX6olJkikUD4EjQqFUEHktEepmoDNkAAVPHAAgTXPctHoApB5DBQU1bnydLpBfSYAAmMU8u6DTSS6XCgDMCqCSqGqvSMoALF0ID0RBdNowmbtZhBvmcJPD7RdOFcSDdFRKNuNGGqRcbtZ7Rt7ffKwD0A8rhkGtvqNf6goGLb6jWGRCSzbx+ABBdDsBnnaOMRxpCBgXoAXSAA"> </iframe>
 
-## Exercise 3 {-}
+## Group 1: Exercise 3 {-}
 
 **How could you change the return value of randomUI() to make the display more attractive?**
 
@@ -267,7 +267,7 @@ randomUI <- function(id, title) {
 }
 ```
 
-## Exercise 3 {-}
+## Group 1: Exercise 3 {-}
 
 **How could you change the return value of randomUI() to make the display more attractive?**
 
@@ -285,7 +285,7 @@ ui <- page_fluid(
 )
 ```
 
-## Exercise 3 (Shinylive) {-}
+## Group 1: Exercise 3 (Shinylive) {-}
 
 <iframe height="500" width="100%" frameborder="no" src="https://shinylive.io/r/app/#code=NobwRAdghgtgpmAXGKAHVA6ASmANGAYwHsIAXOMpMAGwEsAjAJykYE8AKAZwAtaJWAlAB0IdJiw71OY4RBEBiAAQBZIgBMArtTicRI5hDVEYAVQCSigDwBaRQDMNEAqVol2tNbkUvS2gYpARRUUITitbADkAZXc1WWDSKABzABlaTlJ2IODFKGdXCAAhDVJSN1CssCSiITABL1qAcSIAQlr67OCANyhqDTgAfXoiAA92H21FAF5vWl84XE6c5eWevrhp7zgR0gB5EtQS9gratfb4nIvZAF89CAMjGCi4Ri6X8PtHfLcPf0CIYIwdRaODPV4vWJeBxOFw-CCHUheIgHEpeTg6TgFP5LB4fOBvMhYOB5FxvdzwkoAEmqaNgqG07AAjAAGZleRkCC7BZGkBGUtYfRgUNQvAAq20yD3YnOy1xudwUKigfFy6DuGloH1QyUGdj6HiyAMU1CgrB5A2IfRgEAGAHdmKhDctbR5SNxNoyAPQAJi83DgtCS3FImwALABWNk4qCGYzmSoQDQwRm1BpgCJJ+jvFN1BpG4IPONmBNJ72pxS1DMwLOMRRl3MV-OKQumYu1RMwADM5crmfe3dz0djrZLMFDPfTfdr47q2VkshE6PBtZsnxhBXJCKRKMRinRnExJGxRpbYLejFHOYup5e59H9evMceZ4h7aTA8fw5fF7fY-aIluORQl4fgAEF0HYDU0VvF5-EbMBrgAXSAA"> </iframe>
 
@@ -680,6 +680,124 @@ histogramApp <- function() {
 ## Tip: Multiple output (Shinylive) {-}
 
 <iframe height="500" width="100%" frameborder="no" src="https://shinylive.io/r/app/#code=NobwRAdghgtgpmAXGKAHVA6ASmANGAYwHsIAXOMpMAYgAIAZASwCMAnKVxuAZ1tKNoBXbnAA6EADYt2rAJ4AKbgAtGEWQEpxWiHQDKcCXAKlaAESikotAGLt42gCYWoI0gEkIqQSYA8AWloAM0EIY0YSeUYHXCDGCXJWWgBeWgA5AFV6enVaEHFaWmh4Xn9aCW55UTBUKAIAaygAczhEJ0tXbirNCALGQNp5AEJGbgwIQQkJeUC4hPUcvJ6C2jarUok0VAkFIp4Y5tIYqpr6ppbVjq785d2SgNvgADdN7flVmJn4uFYYiSJGxgEKBTACM8wAutcAL7Xa4iQzGDxeUjyVK6SLRWhVC5wUhdI5gAAKgLqtCsOLxeFoBCUREBPGShVgPG6MIg4gp+lYj2+tFKwVCpHCEAxC2uMCIDgmcC5PNYGI+ITCEVUyJiRG8atoIm43GFYqWBVYcFqQp58gOkU83gAJBSCScGs1Ws5LmB5tDWdpxHoDEYTKlBPBOARaABhIgSIPsmPw-0ANQ4SO8fICAuVIqiBoKccR1pRaIVWLAz1Y+OLic4UGYhiqMRpdIIDJSGSyOXEbPEMwgDgA+qW7kElUKIu9Yl9WNmmcU3s51E8Xgox58Er9-oDgfIwepIRBOxBc6RK7Lefzh8Ki8vZryUiMxkHvoCp9x+Kg+hAiCi78bTYxzasPSWF8iDfQIPxRYZRh-MJzRXb5AIKcVJWlE95SiRVBQvVVvHVTUcO1Hg9RIKcCiIZgRG5OAAFEeTIWdLHkdQYkWZZlkEVA2hlP082RRRCOFAlSzralaXpXgUm7PsB3oqBGI+a9J26VioSU5ZrgKKQX0qQ0bmZRloLNOArWRG1SyY9TlmeKM4H0k0YKM1ZGOAYBsNIUyOHBcFVIKVSVI7b0dFoAAJEZ+EaOxaAlBxtBUYDwtgAB5PDSAAIVUQd0xHTMHCncZg0BZMC3RdDi2YdLyyqMqD2EkEAAYYhgVRGRBGIXzgVBmq9GNYrCuwktIZFCT+Xw03PFUctya4tk-freMLEqqh6rouvEHr-jsVDUyHTDxpiAAPGIhVIQxbN-c0qhCuK7GWyagNfd9P0iKC7MM+Q9oQ7V7rAx7vxev8jKOwwPqQqVDFQotMqw-NcIG-CdSIiASNoDVYbcnqtuNHtviGx6WNY2hjQARye+98oIN7GI+1iYCgJrShqNravkQGjKY4taGAYTXJtKruAJSF3Qsgoeoptm2BNOpxNobneYa2mehSGnVG82goRiY0pYATgANl8laYzoMMfyFCBGjJdAYtC9bYAAQXQLbIYiKdBEYB2oyiQkzm01i9QcOBmA4egoFkFHvfx33-Y4T2IAMMP8ZWV1cUKyowFWLnRlWDBAjsOBzJ0n3uKPJN8xToT3VwIXljW+KYFm7w0oPFOlsF-PaDz+OlYgaPY8r4WrZruvSBxlFFtCq5W5V1TVLhb45QdsbM2h5Hkta-jiNu1jVi2zlZ++FO05b1i9q2w9j13+UqjLmIAIs6uNvPpux6pPb3Os-abV2Xy4RUNQ7dQeQXar0opODsWIYw+loFgEIEBVBm02JbK6tt0CMXEGAKE4IgA"> </iframe>
+
+## Group 2: Exercise 1 {-}
+
+**Rewrite `selectVarServer()` so that both data and filter are reactive. Then use it with an app function that lets the user pick the dataset with the dataset module and filtering function using `inputSelect()`. Give the user the ability to filter numeric, character, or factor variables.**
+
+1. Start changing the `selectVarServer()`.
+
+```{r eval=FALSE}
+selectVarServer <- function(id,
+                            data,
+                            # Now filter is reactive
+                            filter = reactive(is.numeric)) {
+  
+  
+  stopifnot(is.reactive(data))
+  # Now filter is reactive
+  stopifnot(is.reactive(filter))
+  
+  
+  moduleServer(id, function(input, output, session) {
+    
+    # We want to update the selector every time the data() or filter() change
+    observe({
+      # We need to have the filter before calling find_vars
+      req(filter())
+      updateSelectInput(session, "var", choices = find_vars(data(), filter()))
+    })
+    
+    list(
+      name = reactive(input$var),
+      value = reactive(data()[[input$var]])
+    )
+  })
+}
+```
+
+## Group 2: Exercise 1 {-}
+
+2. To make the prior changes work we need to create a new module to:
+
+  - Add a selector in the UI.
+  
+```{r eval=FALSE}
+coltypeUI <- function(id) {
+  selectInput(NS(id, "col_type"), "Select Type of Columns", 
+              choices = c("numeric","character","factor"))
+}
+```
+
+## Group 2: Exercise 1 {-}
+
+2. To make the prior changes work we need to create a new module to:
+
+  - Return the filter function as a reactive value.
+  
+```{r eval=FALSE}
+coltypeServer <- function(id, data) {
+  moduleServer(id, function(input, output, session) {
+    
+    # (OPTIONAL)
+    # I just want to see the col types available in the data to explore
+      
+    # Listing all valid col types in the data()
+    col_type_options <- reactive({
+      sapply(data(), function(x){
+        if(is.numeric(x)) return("numeric")
+        if(is.character(x)) return("character")
+        if(is.factor(x)) return("factor")
+      }) |>
+        unique()
+    })
+      
+    # Update based on available available columns
+    observeEvent(col_type_options(),{
+      updateSelectInput(session, "col_type", choices = col_type_options())
+    })
+     
+     
+    # (NEEDED PART)
+    
+    # Selecting function to return
+    reactive({
+      switch(input$col_type,
+             "numeric" = is.numeric,
+             "character" = is.character,
+             "factor" = is.factor)
+    })
+  }
+  )
+}
+```
+
+
+## Group 2: Exercise 1 {-}
+
+
+3. Update the module app to pass the reactive filter created.
+
+```{r eval=FALSE}
+server <- function(input, output, session) {
+  data <- datasetServer("data")
+  
+  # Extracting the filter function as reactive value
+  fun_col_type <- coltypeServer("col_type", data)
+  
+  # Passing the reactive filter to the report
+  x <- selectVarServer("var", data, fun_col_type)
+  
+  histogramServer("hist", x$value, x$name)
+}
+```
+
+
+## Group 2: Exercise 1 (Shinylive) {-}
+
+
+<iframe height="500" width="100%" frameborder="no" src="https://shinylive.io/r/app/#code=NobwRAdghgtgpmAXGKAHVA6ASmANGAYwHsIAXOMpMAYgAIAZASwCMAnKVxuAZ1tKNoBXbnAA6EADYt2rAJ4AKbgAtGEWQEpxWiHQDKcCXAKlaAESikotAGLt42gCYWoI0gEkIqQSYA8AWloAM0EIY0YSeUYHXCDGCXJWWgBeWgA5AFV6enVaEHFaWmh4Xn9aCW55UTBUKAIAaygAczhEJ0tXbirNCALGQNp5AEJGbgwIQQkJeUC4hPUcvJ6C2jarUok0VAkFIp4Y5tIYqpr6ppbVjq785d2SgNvgADdN7flVmJn4uFYYiSJGxgEKBTACM8wAutcAL7Xa4iQzGDxeUjyVK6SLRWhVC5wUhdI5gAAKgLqtCsOLxeFoBCUREBPGShVgPG6MIg4gp+lYj2+tFKwVCpHCEAxC2uMCIDgmcC5PNYGI+ITCEVUyJiRG8atoIm43GFYqWBVYcFqQp58gOkU83gAJBSCScGs1Ws5LmB5tDWdpxHoDEYTJ8EnxZKgxOzQkR4iG4Ok3HyAgLlSKogaCvD-UjvKj0VECcQJAB9UjR-FYsD6BEmAAq0doRH6AGFI4IYBBOlSaXSCAyUgRKpAW99AVVcFUaRxTd8R1VAqaiKwul7w-ni6HZbz+UqhSrMatU7QJVLDOv5bmglvhVatRrSFqdXqSAbrgU6PIAPKEqtuN+pACC2WfWg6DjAArYQTAAdygMg+AEEQ4D4JQEPzYNQ14KBnjiKBmEMWhVEQhDVlg2g4AADy2ecw2WZZALoJhuCFCBGjJSZaGeKQHGpSNUIZfDSCQlZnHkbpqPzItowLIhUG3Nt41oY1TUYc1FmotMXgUVZhMVQVL1I9QVNU3pAkiUZxngTg+z0nJjVIQRWBFKozKHAgrkNVS+hMjBx3YYxvnkKz5NxOyHMIJQJ18hd3UA6iPJGDBZ2Med-PmQLbPs-sEv4SKRNUqEcgAHwAPmi5YQkYABHQQ4GEwC8pK2jaHSVA2gQ5gXDgTiSDJTCNhwhCMKgLC+q4iQWzbQCiGYERuTgABRHkyHkMTVzgSTpOFCp1FwAzqMEZqLBlP1EWtFF72FPNI3E0MR2pWl6V4XtLpWtaZM2nKCjqtysS+hrUVm2bTAB2hCV-LAq3e77qN9StVGYxMZOImzgsAhSwmUkruAgxhSBpK9bWW6NRy+wyCkcwcLKqRk4qciyiZJwyxzCnyEkplI4u8ycfhKkmZznSKqdGTL5whz6PuuJcfVoCt-TScnAVoJtRtbbR02MAA1DhM18BMLx3fdVfcE7swVMtnmygkNc4bDDBuzt7sZDIshycQ2XEGYIAcAszbuc8dIid5Yi+Vh91uN5nHUJ51LDywPlmb5fn+QFgXkMF1EhCBXbbI7SEtk85Phy8zwDwNeRSVGzWq6m5YIFKDIYqS+ggIgUTi8ulOqvccvr1BG+bzy2-NEvg5y8VJWlE8TYLlUTvVTVvBiM7H1yQCJqm750eJ41yumOP5Q9Ym9pa6XjuRRQeAfCACTN227u7B7Yg9r2OAqTStsDhJhP36jRZotypAYyoxNdiMgHpXE6NozZbRKuxKqICTRow7kJCOwBVS2jNuCcEEMcqfUzpLAAEiMfgjQ7AHklNoFQ9diGwDfHPUgAAhVQPsp7JgcCHauWtjZniqMwRhpZuG8KpCCAADDEGA+EUgggXuQVAjIwQu3IYQ-4dgaG3m8ISP42tfZJlFMvJYFFSAqNPmiE2VQKGUn3pnMxSjYB503H7FhMRSIxCFKQXCZd4EV37AQyhdhFy6LTPwHugQm4t1GKA5KXdAm91CRgcJLjDBf0hqQo8h0ZqnkxMwvGhw6y0IXuffU-jlg3mRDaMxcljQe2+OovuO1lhb08jTQE-lP4QwKDAQaPRSg1AYnAIR8h4nVTfpTYAN1UGkBtDwtsBJIRRWJmY5pb82AmjqPfMZEzGGiI6YydpqgRYxGNPfAAnAANmwRLcMdAGwKUYsxTYCifGwF-OgfOusRT7kEIwfOo0oiEjOIA6ieoHBwDaqwegUBZA3n+apQFwKOC-IgAYKFhkKQcOxM4UZoxVjxTsHAKBxMCgrmjLGfsBNrrujpiTA2ltUVgGvuS7mtArFUJgIY7wDC2z9jMa5QyeLDI7IgPCxFDKmXKNodUlEpjCHctUlg8WsIljTTlC8+xWTZ6qOyYvCA+4ChEVKJydefk0WWGlQUAUBZSUIVKIStcBr5RjieiWKke5AKkTklSjgE8qh0piMXEI5qHWhghiKmxtrOVSqpKRCBwIqqOJtLsbBcIVBqCeageQHy8lpNZN9bQdAsAhAgLDMk6B7lELsCm4SYAoTgiAA"> </iframe>
+
 
 ## Links to examples {-}
 
