@@ -716,7 +716,7 @@ selectVarServer <- function(id,
 }
 ```
 
-## Group 2: Exercise 1 {-}
+## Group 2: Exercise 1 (UI) {-}
 
 2. To make the prior changes work we need to create a new module to:
 
@@ -729,7 +729,7 @@ coltypeUI <- function(id) {
 }
 ```
 
-## Group 2: Exercise 1 {-}
+## Group 2: Exercise 1 (Server) {-}
 
 2. To make the prior changes work we need to create a new module to:
 
@@ -773,7 +773,7 @@ coltypeServer <- function(id, data) {
 ```
 
 
-## Group 2: Exercise 1 {-}
+## Group 2: Exercise 1 (Server) {-}
 
 
 3. Update the module app to pass the reactive filter created.
@@ -797,6 +797,150 @@ server <- function(input, output, session) {
 
 
 <iframe height="500" width="100%" frameborder="no" src="https://shinylive.io/r/app/#code=NobwRAdghgtgpmAXGKAHVA6ASmANGAYwHsIAXOMpMAYgAIAZASwCMAnKVxuAZ1tKNoBXbnAA6EADYt2rAJ4AKbgAtGEWQEpxWiHQDKcCXAKlaAESikotAGLt42gCYWoI0gEkIqQSYA8AWloAM0EIY0YSeUYHXCDGCXJWWgBeWgA5AFV6enVaEHFaWmh4Xn9aCW55UTBUKAIAaygAczhEJ0tXbirNCALGQNp5AEJGbgwIQQkJeUC4hPUcvJ6C2jarUok0VAkFIp4Y5tIYqpr6ppbVjq785d2SgNvgADdN7flVmJn4uFYYiSJGxgEKBTACM8wAutcAL7Xa4iQzGDxeUjyVK6SLRWhVC5wUhdI5gAAKgLqtCsOLxeFoBCUREBPGShVgPG6MIg4gp+lYj2+tFKwVCpHCEAxC2uMCIDgmcC5PNYGI+ITCEVUyJiRG8atoIm43GFYqWBVYcFqQp58gOkU83gAJBSCScGs1Ws5LmB5tDWdpxHoDEYTJ8EnxZKgxOzQkR4iG4Ok3HyAgLlSKogaCvD-UjvKj0VECcQJAB9UjR-FYsD6BEmAAq0doRH6AGFI4IYBBOlSaXSCAyUgRKpAW99AVVcFUaRxTd8R1VAqaiKwul7w-ni6HZbz+UqhSrMatU7QJVLDOv5bmglvhVatRrSFqdXqSAbrgU6PIAPKEqtuN+pACC2WfWg6DjAArYQTAAdygMg+AEEQ4D4JQEPzYNQ14KBnjiKBmEMWhVEQhDVlg2g4AADy2ecw2WZZALoJhuCFCBGjJSZaGeKQHGpSNUIZfDSCQlZnHkbpqPzItowLIhUG3Nt41oY1TUYc1FmotMXgUVZhMVQVL1I9QVNU3pAkiUZxngTg+z0nJjVIQRWBFKozKHAgrkNVS+hMjBx3YYxvnkKz5NxOyHMIJQJ18hd3UA6iPJGDBZ2Med-PmQLbPs-sEv4SKRNUqEcgAHwAPmi5YQkYABHQQ4GEwC8pK2jaHSVA2gQ5gXDgTiSDJTCNhwhCMKgLC+q4iQWzbQCiGYERuTgABRHkyHkMTVzgSTpOFCp1FwAzqMEZqLBlP1EWtFF72FPNI3E0MR2pWl6V4XtLpWtaZM2nKCjqtysS+hrUVm2bTAB2hCV-LAq3e77qN9StVGYxMZOImzgsAhSwmUkruAgxhSBpK9bWW6NRy+wyCkcwcLKqRk4qciyiZJwyxzCnyEkplI4u8ycfhKkmZznSKqdGTL5whz6PuuJcfVoCt-TScnAVoJtRtbbR02MAA1DhM18BMLx3fdVfcE7swVMtnmygkNc4bDDBuzt7sZDIshycQ2XEGYIAcAszbuc8dIid5Yi+Vh91uN5nHUJ51LDywPlmb5fn+QFgXkMF1EhCBXbbI7SEtk85Phy8zwDwNeRSVGzWq6m5YIFKDIYqS+ggIgUTi8ulOqvccvr1BG+bzy2-NEvg5y8VJWlE8TYLlUTvVTVvBiM7H1yQCJqm750eJ41yumOP5Q9Ym9pa6XjuRRQeAfCACTN227u7B7Yg9r2OAqTStsDhJhP36jRZotypAYyoxNdiMgHpXE6NozZbRKuxKqICTRow7kJCOwBVS2jNuCcEEMcqfUzpLAAEiMfgjQ7AHklNoFQ9diGwDfHPUgAAhVQPsp7JgcCHauWtjZniqMwRhpZuG8KpCCAADDEGA+EUgggXuQVAjIwQu3IYQ-4dgaG3m8ISP42tfZJlFMvJYFFSAqNPmiE2VQKGUn3pnMxSjYB503H7FhMRSIxCFKQXCZd4EV37AQyhdhFy6LTPwHugQm4t1GKA5KXdAm91CRgcJLjDBf0hqQo8h0ZqnkxMwvGhw6y0IXuffU-jlg3mRDaMxcljQe2+OovuO1lhb08jTQE-lP4QwKDAQaPRSg1AYnAIR8h4nVTfpTYAN1UGkBtDwtsBJIRRWJmY5pb82AmjqPfMZEzGGiI6YydpqgRYxGNPfAAnAANmwRLcMdAGwKUYsxTYCifGwF-OgfOusRT7kEIwfOo0oiEjOIA6ieoHBwDaqwegUBZA3n+apQFwKOC-IgAYKFhkKQcOxM4UZoxVjxTsHAKBxMCgrmjLGfsBNrrujpiTA2ltUVgGvuS7mtArFUJgIY7wDC2z9jMa5QyeLDI7IgPCxFDKmXKNodUlEpjCHctUlg8WsIljTTlC8+xWTZ6qOyYvCA+4ChEVKJydefk0WWGlQUAUBZSUIVKIStcBr5RjieiWKke5AKkTklSjgE8qh0piMXEI5qHWhghiKmxtrOVSqpKRCBwIqqOJtLsbBcIVBqCeageQHy8lpNZN9bQdAsAhAgLDMk6B7lELsCm4SYAoTgiAA"> </iframe>
+
+
+## Group 2: Exercise 2 {-}
+
+**The following code defines output and server components of a module that takes a numeric input and produces a bulleted list of three summary statistics. Create an app function that allows you to experiment with it. The app function should take a data frame as input, and use numericVarSelectInput() to pick the variable to summarise.**
+
+```{r eval=FALSE}
+summaryOutput <- function(id) {
+  tags$ul(
+    tags$li("Min: ", textOutput(NS(id, "min"), inline = TRUE)),
+    tags$li("Max: ", textOutput(NS(id, "max"), inline = TRUE)),
+    tags$li("Missing: ", textOutput(NS(id, "n_na"), inline = TRUE))
+  )
+}
+
+summaryServer <- function(id, var) {
+  moduleServer(id, function(input, output, session) {
+    rng <- reactive({
+      req(var())
+      range(var(), na.rm = TRUE)
+    })
+
+    output$min <- renderText(rng()[[1]])
+    output$max <- renderText(rng()[[2]])
+    output$n_na <- renderText(sum(is.na(var())))
+  })
+}
+```
+
+
+## Group 2: Exercise 2 (App) {-}
+
+```{r}
+NumericSummaryApp <- function() {
+  
+  ui <- fluidPage(
+    titlePanel("Apply any filter"),
+    sidebarLayout(
+      sidebarPanel(
+        datasetInput("dataset", filter = is.data.frame),
+        numericVarSelectInput("numeric_col")
+      ),
+      mainPanel(
+        summaryOutput("summary_list")
+      )
+    )
+  )
+  
+  
+  server <- function(input, output, session) {
+    
+    selected_df <- datasetServer("dataset")
+    numeric_var <- numericVarSelectServer("numeric_col", selected_df)
+    
+    summaryServer("summary_list", numeric_var$value)
+    
+  }
+  
+  shinyApp(ui, server)
+  
+}
+```
+
+
+## Group 2: Exercise 2 (Shinylive) {-}
+
+
+<iframe height="500" width="100%" frameborder="no" src="https://shinylive.io/r/app/#code=NobwRAdghgtgpmAXGKAHVA6ASmANGAYwHsIAXOMpMAYgAIAZASwCMAnKVxuAZ1tKNoBXbnAA6EADYt2rAJ4AKbgAtGEWQEpxWiHQDKcCXAKlaAESikotAGLt42gCYWoI0gEkIqQSYA8AWloAM0EIY0YSeUYHXCDGCXJWWgBeWgA5AFV6enVaEHFaWmh4Xn9aCW55UTBUKAIAaygAczhEJ0tXbirNCALGQNp5AEJGbgwIQQkJeUC4hPUcvJ6C2jarUok0VAkFIp4Y5tIYqpr6ppbVjq785d2SgNvgADdN7flVmJn4uFYYiSJGxgEKBTACM8wAutcAL7Xa4iQzGDxeUjyVK6SLRWhVC5wUhdI5gAAKgLqtCsOLxeFoBCUREBPGShVge1o8KM5AcjKqUEYrAAjoJgYxSLIrhAYRBxBT9KxHt9aKVgqFSOEIBiFtcYEQHBM4DK5awMR8QmEIqpkTEiN4LayeNxVRqlgVWHBaiq5fIDpFPN4ACQUgknBrNVrOS5gebQ7oS7R6AzstKCeCcAi0ADCRAkSclOfGycBADUOPoEe4fb4AkrTWqoo6CmzEeXUeiogTnqx8ViwEXOFBmIYqjEaXSCAyUhksjlxDGIDMIA4APrtu5BE0qiLvWJfVh1pnFN7OdRPF4KTefBK-f6A4HyMHqSHi7R576F4vx4z6+WKteqo0rZwfLM8opCMYxJi+BC7tw-CoH0EBECioEum6jAeqskZLNBRCwYE8EosMozIWEHrnt8GEFJq2q6p+hqtquyq-ua3iWtazG2tw9okLuFFOrQRDMCIspwAAonKZAHpY8jqLgizLMsgioG0ervmWyKKHaqpthwg7UrS9K8Ckc6LsuElQFJgHbuRyxQt0cnXAUUjQZUvEFLsjJEe6cDesivrttJ9nLM8WZwO5rrEV5qxScAwBMaQvkcOC4K2csyU2dOsbpshKoQI0ZQjCY3BJjAHCijmhUwMVcgAPKsRW9HVuquTXJYjTcL6EzOXJLVtVIlRgAAsqoiBdjE5AAB6kDVpBqWif5VDAqidqoUgQCFKQACpYOkwnzLgAXdb6vVVP1UBjcNOnjZNtXNnNYDFWNS2SKoa20Jt227ftTQ9YwfWDRxqiNOdVKXVNM0tpiVQQAu0CPStL1vTtyXRto5WVbINEKpWP5mpiflNUsWo6oYNF-lW641uWLHTWxIj-Vx+NyawOWY7QHmoV5slyazcB8vI7ZScljNQDlXn89JTIYKwMCMgjgu0GlvEBVa1NxQtPSlC687fOtcATfITONFFwAgolcvKz590s5rDja7rKIG0bABMptK7VvpQ9AVsUDbrA63r5WRKM0B8xwAtWQrM7iHQaZZQDZLoNoqTgSmuhFSVACC6As2Tv67tcgiMNnWZRISZydcsKqkIYperVMVSZ1sshkmoW4JPiAX2jbzAcPQUCyMr5dyZ3cDd6wNcGIPXMUki3h9RSOmkYkIGjKsGCBHYcD+S5NzJ6+rAluyM8opDu8EAuxASGKXO0Fv1-Fao4919v9Zp9V11VKjJULo5lJywUctI1hEsOE3wDTZ2xhTG05saYaXppzHiQ8VJwEXA4fopRpSgO+HPMMuIr473zGfdsLNnwph7AfD8mDDQnwIefTMOkGwcgXKguWHdX7o0oX1T+chv75R0iQwES4ODxWCiwpYEoEGshUGoBu8gC4xEEgaZK6UcxR1oFgEIEA46bETqfVOFUM7oCkuIMAUJwRAA"> </iframe>
+
+
+## Group 2: Exercise 3 {-}
+
+**The following module input provides a text control that lets you type a date in ISO8601 format (yyyy-mm-dd). Complete the module by providing a server function that uses `output$error` to display a message if the entered value is not a valid date. The module should return a Date object for valid dates. (Hint: use `strptime(x, "%Y-%m-%d")` to parse the string; it will return NA if the value isn’t a valid date.)**
+
+```{r eval=FALSE}
+ymdDateUI <- function(id, label) {
+  
+  ns <- NS(id)
+  label <- paste0(label, " (yyyy-mm-dd)")
+  
+  fluidRow(
+    # User inputs a date
+    textInput(ns("date"), label),
+    
+    # (OPTIONAL) User confirms the input date
+    actionButton(ns("check"), "Confirm Date"),
+    
+    # Display error message if the date is invalid
+    textOutput(ns("error"))
+  )
+}
+```
+
+
+## Group 2: Exercise 3 (Server) {-}
+
+```{r eval=FALSE}
+ymdDateServer <- function(id){
+  moduleServer(id, function(input, output, session) {
+    
+    # Validate and convert the input date
+    # Only runs when the "Confirm Date" button is clicked
+    date_result <- reactive({
+      result <- strptime(input$date, "%Y-%m-%d") |> as.Date()
+      if(is.na(result)) result <- NULL
+      result
+    }) |> bindEvent(input$check) # (OPTIONAL)
+    
+    # Display an error message if the date is invalid
+    # Only updates when the "Confirm Date" button is clicked
+    output$error <- renderText({
+      if(!is.null(date_result())) return(NULL)
+      paste0(input$date, " doesn't match with the expected pattern")
+    }) |> bindEvent(input$check) # (OPTIONAL)
+    
+    return(date_result)
+  })
+}
+```
+
+## Group 2: Exercise 3 (App) {-}
+
+```{r eval=FALSE}
+ymdDateApp <- function() {
+  
+  ui <- fluidPage(
+    # User interface for date input
+    ymdDateUI('date_input', "Birthday")
+  )
+  
+  server <- function(input, output, session) {
+    # Server logic for date input
+    date_value <- ymdDateServer("date_input" )
+  }
+  
+  shinyApp(ui, server)
+}
+```
+
+## Group 2: Exercise 3 (Shinylive) {-}
+
+<iframe height="500" width="100%" frameborder="no" src="https://shinylive.io/r/app/#code=NobwRAdghgtgpmAXGKAHVA6ASmANGAYwHsIAXOMpMAGwEsAjAJykYE8AKAZwAtaJWAlAB0II1jAAmAESjkAqgEkABAB4AtEoBmAVwgFStEu1oTcS6lHpxqApSBFKlDpRE6qNAOQDKxicIiOFlbU7kqoUJzkAAzsQdZmQmBK7KyprGowMGoSfon+js6a1NomWEQA7uzOjgDESnKccIxKfKjapG5QShKycNVK5AAepAoQbaTsrlVgPeR5ZnE2uP39dewA8gAKACoK6x4AggAytg1NSsQQmrSMMG6k3HAtY+3dvf1Q+oYQAELtpEYpokCI8CABreZOMAAYRI11uShkczAAmWAUcTnRtURtE4qAsrCUTUYRGa8E4nCgAHMnrRNANHm9yC03HwAG5QOgSfpDUjrdrjSacabE0l5fJKfwAXxEYkkSLgXiabPO6i0ui+RhMAns6JgRAk2moiuVTV8Zh0egMWpepDMRAF7TMjQp31suoxmM9dQAapyTL0lFAIBILiQVYxSAzabamX0sUo6usINRCYxdG5yo8Ag8nolYVcbjBEe8kvR-iQWRc6OC4NyE7M4AB9RhwThGqNq1ufAwq9gez1KVvt6idjSRRioAzwYy2gAkjYSYAApABNNTLrLL7kopQAHwAfEHOBgFewJZ66cYT9B2MOOwJbPfR6EPHIjkd+o5n6R+lLbIeSj0HwEgAKIqmQs7jHOIJwOCthrFsuz7McF5ehidRSLi+JQISwZEowJJkm2lI0i09K5nGVbsv69bekoyapko2ioI2mbZtGUIFvCxYKokQEVgEuLVrQtZ0RiDqkNBorNF2FASE02xwMM-ZfuR7AAIS4hgEBGtQ7CNi2bYduej5DnApDaIwEDsG+H5oY44SRHAMStO0C69Eu3REG2EAAORRjAsggko5S0A8nHKagcHkKG4SkOQ1l5H+AFHsBIbgRQExuaQMGgmCCHJEheyHCcKwJq2lnWQZvRGSOpASv+IgyqI-Dyr0BzoKElqajZ7rOM4JTdcUJibNScBVAmdRnM0fCJZonxPJopJUTl-TiNIvSKOwfmGTlflLj8NwPD0rDJeiErOI0jARt1GrWjZOX2o6dpKC6nBunYqxKEqN3nNQRBUqJWgrY2zzjP0hkcsUTxqhtCq-RG0x7ba-GNQN6I8HwrCdag7AlM6pqMNKsptZt5C4+eYBSgAukAA"> </iframe>
+
+
 
 
 ## Links to examples {-}
