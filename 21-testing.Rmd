@@ -2,151 +2,267 @@
 
 **Learning outcomes:**
 
-  - Purpose of testing
+  - Purpose of automated testing
   - Different levels of test
   - Balance: speed, fragility, coverage
   - Reiterate: reactive code needs a reactive context
 
-## Purpose of testing
+## Purpose of Automated Testing {-}
 
-- Ensure new features don't break existing code
-- Ensure bugs only arise once
-- Help you write new code
-- Confidence, when updating R, packages, data
-- To keep your colleagues happy
-- So you can go on holiday
+> Automated testing is a test method **without much user involvement during the process**.
 
-## Discussions
+They increase **robustness** and **reliability** of the application when:
 
-  - Don't test the framework!
-  - Don't test too early! Or do!
-  - Testing religions / approaches
-    - TDD: Test-driven development
-    - BDD: Behaviour-driven development
-    - TCR: Test && Commit || Revert
+- The application grows
+- The development team changes
 
-## Four levels of testing for shiny apps
+They ensure that:
 
-  - non-reactive functions
-  - input-value-driven updates to reactives & outputs
-  - browser-driven tests
-  - visual output of the app
+- Changes don't break existing code
+- Bugs don't arise again
+- New code is working expected
 
-- So what does that separate:
-  - reactive from stateless behaviour
-  - UI-dependent and independent behaviour
-  - values from visuals
+## Four levels of testing for shiny apps {-}
 
-## Example
+> You should always strive to work at the **lowest possible level** so your tests are as **fast** and **robust** as possible.
 
-For this chapter, there is a sandpit [project on github](https://github.com/russHyde/er-injuries-sandpit)
+- **Non-reactive** functions
+- **Server function** tests by validating the flow of reactivity.
+- **JavaScript** by running the app in a background web browser.
+- **App visuals** by saving screenshots of selected elements *(fragile)*.
 
-It is copied from the ER-injuries case-study app in Chapter 4 of Mastering Shiny.
+## Testing Basic structure {-}
 
-If you follow the tagged-releases it shows how to:
+1. Turn your app into a package
 
-- Start with a working app
-- Turn it into a package
-- Make the package pass `R CMD check`
-- Add tests for a non-reactive function
-- Add a reactivity test for an app's server-function
-- Add a reactivity test for a module's server-function
-
-In order to do each step, several structural changes to the app had to be made.
-Notes on how the app was modified and the tools that helped are in the README.
-
-We'll start from a release that is a package, and passes `R CMD check` (aside from one issue re the
-size of the dataset that is embedded in the package)
-[Release 0.2](https://github.com/russHyde/er-injuries-sandpit/tree/480851db355f0eb39c59ae91a398a62748d86ac5)
-
-To run the app, you run `er_app()`
-
-## Using {testthat}
-
-- App structure:
-  - Requires package structure
-  - `./tests/testthat.R`
-  - `./tests/testthat/test-<file>.R`
-  - `./tests/testthat/_snaps/<file>.md` (optional)
-
-## Recommended workflow
-
-  - create test files with `usethis::use_test()`
-  - Write code & tests
-  - Run `devtools::test_file()` while getting something to work
-  - Capture new bugs in tests
-  - Run `devtools::test_coverage_file()` to show you've covered all your function
-  - Run `devtools::test()` to test the whole package
-
-## Testing non-reactive functions
-
-[Release 0.4](https://github.com/russHyde/er-injuries-sandpit/tree/04-use-count_by_weight)
-
-Before modification, the app code looked like this:
-
-```r
-er_app <- function() {
-  # `injuries`, `products` and `population` are package-hosted datasets
-  # They can be accessed by name (but R CMD check complains about you referring to undefined vars)
-  injuries <- get("injuries")
-  products <- get("products")
-  population <- get("population")
-
-  prod_codes <- stats::setNames(products$prod_code, products$title)
-
-  ui <- fluidPage(...)
-
-  server <- function(input, output, session) {
-
-    selected <- reactive({...})
-
-    output$diag <- renderTable(
-      selected() %>% dplyr::count(.data[["diag"]], wt = .data[["weight"]], sort = TRUE)
-    )
-    output$body_part <- renderTable(
-      selected() %>% dplyr::count(.data[["body_part"]], wt = .data[["weight"]], sort = TRUE)
-    )
-    output$location <- renderTable(
-      selected() %>% dplyr::count(.data[["location"]], wt = .data[["weight"]], sort = TRUE)
-    )
-
-    summary <- reactive({...})
-
-    output$age_sex <- renderPlot({...})
-  }
-
-  shiny::shinyApp(ui, server)
-}
-```
-
-### Workflow
-
-- Add a function script `use_r("count_by_weight")`
-- Add a test script for the function `use_test("count_by_weight")`
-  - This adds {testthat} infrastructure
-- Add a few tests
-  - each tests a specific aspect of the functions behaviour
-- Add enough code to get the tests running
-
-### A typical test
+2. Create a test file for each function
+  - If you have `R/module.R`
+  - `usethis::use_test()` will create `tests/testthat/test-module.R`
+  
+3. Create tests to check a individual properties of a function by defining one or more `expect_` functions in `test_that()`.
 
   - GIVEN, WHEN, THEN
   - ARRANGE, ACT, ASSERT
 
-```
-test_that("it returns in count-sorted order", {
-  df <- tibble::tibble(
-    x = c(rep("a", 5), rep("b", 3), rep("c", 9)),
-    weight = 1
-  )
-
-  counted <- count_by_weight(df, column = "x")
-  expect_equal(
-    object = counted[["n"]],
-    expected = sort(counted[["n"]])
-  )
+```r
+test_that("as.vector() strips names", {
+  x <- c(a = 1, b = 2)
+  expect_equal(as.vector(x), c(1, 2))
 })
 ```
+
+## load_file example {-}
+
+1. Create the `R/load.R`.
+
+```r
+load_file <- function(name, path) {
+  ext <- tools::file_ext(name)
+  switch(ext,
+    csv = vroom::vroom(path, delim = ",", col_types = list()),
+    tsv = vroom::vroom(path, delim = "\t", col_types = list()),
+    shiny::validate("Invalid file; Please upload a .csv or .tsv file")
+  )
+}
+```
+
+## load_file example {-}
+
+2. Run `usethis::use_test("load")` and complete the new `test-load.R`.
+
+```r
+test_that("load_file() handles all input types", {
+  # Create sample data
+  df <- tibble::tibble(x = 1, y = 2)
+  path_csv <- tempfile()
+  path_tsv <- tempfile()
+  write.csv(df, path_csv, row.names = FALSE)
+  write.table(df, path_tsv, sep = "\t", row.names = FALSE)
+  
+  # 1. Can it load a csv file ?
+  expect_equal(load_file("test.csv", path_csv), df)
+  # 2. Can it load a tsv file ?
+  expect_equal(load_file("test.tsv", path_tsv), df)
+  # 3. Does it give an error message for other types?
+  expect_error(load_file("blah", path_csv), "Invalid file")
+})
+```
+
+
+## load_file example {-}
+
+You can also use the `describe()` and `it()` functions to create the `test-load.R` with better error descriptions.
+
+```r
+describe("load_file()",{
+
+  # Create sample data
+  df <- tibble::tibble(x = 1, y = 2)
+
+  it("can load a csv file",{
+    path_csv <- tempfile()
+    write.csv(df, path_csv, row.names = FALSE)
+    expect_equal(load_file("test.csv", path_csv), df)
+  })
+
+  it("can load a tsv file",{
+    path_tsv <- tempfile()
+    write.table(df, path_tsv, sep = "\t", row.names = FALSE)
+    expect_equal(load_file("test.tsv", path_tsv), df)
+  })
+
+  it("gives an error message for other types",{
+    expect_error(load_file("blah", path_csv), "Invalid file")
+  })
+
+})
+```
+
+```
+> devtools::test()
+ℹ Testing quicktest
+✔ | F W  S  OK | Context
+✖ | 1        2 | load                                                                              
+───────────────────────────────────────────────────────────────────────────────────────────────────
+Error (test-load.R:21:5): load_file(): gives an error message for other types
+```
+
+## Ways to run tests {-}
+
+1. Running each line interactively at the console. 
+2. Running the whole test block, expecting to see a `Test passed 😀`.
+3. Running all of the tests for the current file using `devtools::test_file()`.
+4. Running all of the tests for the whole package using `devtools::test()`.
+
+## Confirming test coverage {-}
+
+1. Install the your current package using `devtools::install_local()`.
+2. Run `devtools::test_coverage_file()` to show you've covered all your function.
+
+![](images//21-testing/01-testing-coverage.png)
+
+## Confirming test coverage {-}
+
+1. Install the your current package using `devtools::install_local()`.
+2. Run `devtools::test_coverage_file()` to show you've covered all your function.
+
+![](images//21-testing/02-testing-coverage-by-line.png)
+
+
+## expect_equal {-}
+
+```r
+complicated_object <- list(
+  x = list(mtcars, iris),
+  y = 10
+)
+expect_equal(complicated_object$y, 10)
+```
+
+## expect_equal {-}
+
+- `expect_equal(x, TRUE)` -> `expect_true(x)`
+- `expect_equal(x, FALSE)` -> `expect_false(x)`
+- `expect_equal(x, NULL)` -> `expect_null(x)`
+- `expect_equal(length(x), 10)` -> `expect_length(x, 10)`
+
+## Relaxed expect_equal {-}
+
+- `expect_equal(names(x), c("a", "b", "c"))` -> `expect_named(x, c("a", "b", "c"))` 
+  - Which also has the `ignore.order` and `ignore.case` arguments.
+  
+- `expect_setequal(x, y)` tests:
+  - Every value in `x` occurs in `y`
+  - Every value in `y` occurs in `x`
+
+- `expect_mapequal(x, y)` tests:
+  - `x` and `y` have the same names.
+  - `x[names(y)] == y`
+  
+## expect_error {-}
+
+- You just need to create an error.
+
+```r
+expect_error(stop("Bye"))
+```
+
+- You can confirm if the error matches
+
+```r
+f <- function() {
+  stop("Calculation failed [location 1]")
+}
+
+expect_error(f(),  "Calculation failed")
+```
+
+- We also have the functions:
+  - `expect_warning()`
+  - `expect_message()`
+  
+  
+## expect_snapshot for UI functions {-}
+
+> **Expected result is stored in a separate snapshot file**
+
+- If we have
+
+```r
+sliderInput01 <- function(id) {
+  sliderInput(id, label = id, min = 0, max = 1, value = 0.5, step = 0.1)
+}
+
+cat(as.character(sliderInput01("x")))
+#> <div class="form-group shiny-input-container">
+#>   <label class="control-label" id="x-label" for="x">x</label>
+#>   <input class="js-range-slider" id="x" data-skin="shiny" data-min="0" data-max="1" data-from="0.5" data-step="0.1" data-grid="true" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+#> </div>
+```
+
+## expect_snapshot for UI functions {-}
+
+> **Expected result is stored in a separate snapshot file**
+
+- If we can also test
+
+```r
+test_that("sliderInput01() creates expected HTML", {
+  expect_equal(as.character(sliderInput01("x")), "<div class=\"form-group shiny-input-container\">\n  <label class=\"control-label\" id=\"x-label\" for=\"x\">x</label>\n  <input class=\"js-range-slider\" id=\"x\" data-skin=\"shiny\" data-min=\"0\" data-max=\"1\" data-from=\"0.5\" data-step=\"0.1\" data-grid=\"true\" data-grid-num=\"10\" data-grid-snap=\"false\" data-prettify-separator=\",\" data-prettify-enabled=\"true\" data-keyboard=\"true\" data-data-type=\"number\"/>\n</div>")
+})
+#> Test passed 😀
+```
+
+**But it makes too hard to see if the output changes**
+
+
+## expect_snapshot for UI functions {-}
+
+- Use `expect_snapshot()` to capture the output displayed on the console.
+
+```r
+test_that("sliderInput01() creates expected HTML", {
+  expect_snapshot(sliderInput01("x"))
+})
+```
+
+## expect_snapshot for UI functions {-}
+
+- If your test is in `tests/testthat/test-slider.R`, it will save the output in `tests/testhat/_snaps/slider.md`
+
+```md
+# sliderInput01() creates expected HTML
+
+    Code
+      sliderInput01("x")
+    Output
+      <div class="form-group shiny-input-container">
+        <label class="control-label" id="x-label" for="x">x</label>
+        <input class="js-range-slider" id="x" data-skin="shiny" data-min="0" data-max="1" data-from="0.5" data-step="0.1" data-grid="true" data-grid-num="10" data-grid-snap="false" data-prettify-separator="," data-prettify-enabled="true" data-keyboard="true" data-data-type="number"/>
+      </div>
+```
+
+- If it’s a deliberate change, **update the snapshot by running** `testthat::snapshot_accept()`.
 
 ## Testing Reactivity
 
@@ -423,8 +539,46 @@ What structural changes might be needed to use ShinyDriver-based end-to-end test
     - [Ctrl + R] : `devtools::test_coverage_file()`
 
   - Did anyone manage to do this?
+  
+
+## Discussions
+
+  - Don't test the framework!
+  - Don't test too early! Or do!
+  - Testing religions / approaches
+    - TDD: Test-driven development
+    - BDD: Behaviour-driven development
+    - TCR: Test && Commit || Revert
+
+
+## Example
+
+For this chapter, there is a sandpit [project on github](https://github.com/russHyde/er-injuries-sandpit)
+
+It is copied from the ER-injuries case-study app in Chapter 4 of Mastering Shiny.
+
+If you follow the tagged-releases it shows how to:
+
+- Start with a working app
+- Turn it into a package
+- Make the package pass `R CMD check`
+- Add tests for a non-reactive function
+- Add a reactivity test for an app's server-function
+- Add a reactivity test for a module's server-function
+
+In order to do each step, several structural changes to the app had to be made.
+Notes on how the app was modified and the tools that helped are in the README.
+
+We'll start from a release that is a package, and passes `R CMD check` (aside from one issue re the
+size of the dataset that is embedded in the package)
+[Release 0.2](https://github.com/russHyde/er-injuries-sandpit/tree/480851db355f0eb39c59ae91a398a62748d86ac5)
+
+To run the app, you run `er_app()`
+
 
 ## Other interesting things
+
+- [Shinytest2 Vs Cypress: End-To-End (E2E) Testing In Shiny](https://www.appsilon.com/post/shinytest2-vs-cypress-e2e-testing)
 
 - one of the {tinytest} vignettes has
   ["a few tips on packages and unit testing"](
