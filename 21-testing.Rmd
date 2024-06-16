@@ -490,34 +490,42 @@ test_that("output updates when reactive input changes", {
 #> Test passed 🌈
 ```
 
-## Testing JavaScript
+## testServer limitations {-}
 
-  - JS doesn't work in testServer, because there's no front-end in testServer
-  - Lot's of functions used in the `server()` require JS (eg, `insertUI`)
-  - Need a browser for this
-  - 'headless' (can use a browser without manual-interaction)
-  - tools: `shinytest` (also puppeteer, selenium)
-  
-- Issues
-  - Slloooooowwww
-  - How to set up test-environment? (eg, custom databases)
-  - Flaky code? What if the html IDs change
-  - Can't see internal state
+`testServer()`won't run any needed JavaScript, so the results of the following functions won't work:
 
-### `shinytest::ShinyDriver`
+- All `update*()` functions
+- `showNotification()` / `removeNotification()`
+- `showModal()` / `hideModal()`
+- `insertUI()` / `removeUI()` / `appendTab()` / `insertTab()`/ `removeTab()`
 
-  - Example: a reset button and updateTextInput
-  - `app <- shinytest::ShinyDriver(my_app())`
-  - `app$setInput(name = "value")`
-  - `app$getValue("name")`
-  - `app$sendKeys(name, keys)`
-  - `app$click("someID")`
+## Testing JavaScript {-}
 
-### Exercise for the reader
+> **Note**: As shinytest has been **deprecated**, we are going to use the [Testing in depth](https://rstudio.github.io/shinytest2/articles/in-depth.html) vignette from **shinytest2**.
 
-What structural changes might be needed to use ShinyDriver-based end-to-end tests with the app?
+Limitations:
 
-- how do you pass in test data?
+- This technique is slower than the other approaches.
+- Only test the outside of the app can be tested.
+- Visual tests are best run by one person on their **local computer** as it’s hard to get different computers to generate **pixel-reproducible screenshots**.
+
+
+## Example with observeEvent {-}
+
+```r
+ui <- fluidPage(
+  textInput("name", "What's your name"),
+  textOutput("greeting"),
+  actionButton("reset", "Reset")
+)
+server <- function(input, output, session) {
+  output$greeting <- renderText({
+    req(input$name)
+    paste0("Hi ", input$name)
+  })
+  observeEvent(input$reset, updateTextInput(session, "name", value = ""))
+}
+```
 
 ## Discussions
 
