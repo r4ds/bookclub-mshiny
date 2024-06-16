@@ -291,7 +291,9 @@ The `testServer()` function (since Shiny 1.5.0) makes it possible to test code i
 
 <br>
 
-> **Note**: For this section, I took some examples the articule [Server function testing](https://shiny.posit.co/r/articles/improve/server-function-testing/) from the original shiny documentation to have a **complete view** of how to use this functionality.
+<div class="alert warning">
+**Note**: For this section, I took some examples the articule [Server function testing](https://shiny.posit.co/r/articles/improve/server-function-testing/) from the original shiny documentation to have a **complete view** of how to use this functionality.
+</div>
 
 
 ## Testing reactivity: Initial value {-}
@@ -501,7 +503,9 @@ test_that("output updates when reactive input changes", {
 
 ## Testing JavaScript {-}
 
-> **Note**: As shinytest has been **deprecated**, we are going to use the [Testing in depth](https://rstudio.github.io/shinytest2/articles/in-depth.html) vignette from **shinytest2**.
+<div class="alert primary">
+As shinytest has been **deprecated** as it was based on PhantomJS, we are going to use the **shinytest2** based on the **chromote** package and *Google Chrome (Chromium)* browser to reproduce the example of the chapter.
+</div>
 
 Limitations:
 
@@ -509,15 +513,25 @@ Limitations:
 - Only test the outside of the app can be tested.
 - Visual tests are best run by one person on their **local computer** as it’s hard to get different computers to generate **pixel-reproducible screenshots**.
 
+<div class="alert warning">
+If you are facing problems testing your app as it needs **wait** until the complition of some CSS animations, you can use the **selenider** packages as it will automatically **wait for your code to work**.
+</div>
+
+## Example with observeEvent (shinylive) {-}
+
+<iframe height="500" width="100%" frameborder="no" src="https://shinylive.io/r/app/#code=NobwRAdghgtgpmAXGKAHVA6ASmANGAYwHsIAXOMpMAGwEsAjAJykYE8AKAZwAtaJWAlAB0IIgK60ABAB4AtJIBm1CQBMAClADmcdiMmTyAD1IBJCKjGldkWHCF5J9gOrcopAOSdJrImMaToeHsBXD0DOGMAeUsLK3tNRjg4Uj5NYNCIfSgCFJIAIUtSEmtEzmT7XEcwLDgy0mCRYVEIMsYANzh-OUUxCBzaYr5Yyt9SYckyzk4BiAFJEDDR2IASBKSUiE0ZeUSIFU6AFQirBcz9SUSAR3Yhy2XAuCbzyVQoTnIABmsACSkKyVupHutiekgAvqCiPRWh0AKIdMg3cx3UrJSpiVAqNxwI7GMyxLi1aYkSr2B7-NpQZRwSQAXiqwSaYJEIh4fFYAEF0OwJJUYZ0BGAwQBdIA"> </iframe>
 
 ## Example with observeEvent {-}
 
 ```r
+library(shiny)
+
 ui <- fluidPage(
   textInput("name", "What's your name"),
   textOutput("greeting"),
   actionButton("reset", "Reset")
 )
+
 server <- function(input, output, session) {
   output$greeting <- renderText({
     req(input$name)
@@ -527,15 +541,171 @@ server <- function(input, output, session) {
 }
 ```
 
-## Discussions
+## Headless interaction {-}
 
-  - Don't test the framework!
-  - Don't test too early! Or do!
-  - Testing religions / approaches
-    - TDD: Test-driven development
-    - BDD: Behaviour-driven development
-    - TCR: Test && Commit || Revert
+```r
+library(shinytest2)
 
+app <- AppDriver$new(shinyApp(ui, server))
+
+app$set_inputs(name = "Hadley")
+app$get_value(output = "greeting")
+#> [1] "Hi Hadley"
+
+app$click("reset")
+app$get_value(output = "greeting")
+#> $message
+#> [1] ""
+#> 
+#> $call
+#> [1] "NULL"
+#> 
+#> $type
+#> [1] "shiny.silent.error" "validation"
+```
+
+
+## Testing headless interaction {-}
+
+```r
+test_that("can set and reset name", {
+  
+  app <- AppDriver$new(shinyApp(ui, server))
+  
+  app$set_inputs(name = "Hadley")
+  expect_equal(app$get_value(output = "greeting"), "Hi Hadley")
+  
+  app$click("reset")
+  expect_equal(app$get_value(output = "greeting")$message, "")
+  
+})
+#> Test passed 🥇
+```
+
+## Example with updateRadioButtons (shinylive) {-}
+
+<iframe height="500" width="100%" frameborder="no" src="https://shinylive.io/r/app/#code=NobwRAdghgtgpmAXGKAHVA6ASmANGAYwHsIAXOMpMAGwEsAjAJykYE8AKAZwAtaJWAlAB0IIgK60ABAB4AtJIBm1CQBMAClADmcdiMmTmK2kQBCY0qRKddYBYwmkheSU4Dq3KKQDknSayJijIpQAG4BjLTkivaRAPxOuHr6kgTcRLQEcABysHC+ALySdJykuhDJyU5oqNRwCS7lFS5gqHAs9UkV5AAepACSEKjmNkSk3HCM9dRQ9HDUkoVZAKoAMiu4kjVQmWnUKhMLzQDyYxNOwo36AomXKWkZcABqUMp5hwQ21bUdLW2Tzk5RuN-hcrhskj1SEdzENSk4Qi8xHUwBcLiJOBMQgc5IoxBACKRjBB2HxYRsAqQyZIMZxOESBJIQEkiPQMYwsQBRLFkEmDcwAEiBEw2tE0ECIjDgA0ihwAKlglhyNkzbmJUCpPHAsFAjKZzJYINYaXSSODbDFHM4MbUCXAVIdAacQUkAL6gyqNCmw-kI14yeSSiD7RiyuC9dgqiq0BSSXneuwOBaFR3A86MzrJSUARzjAqFjHdUb5pEFTozLskcwx6du+lJAoTkXLrouLpEIgAxJIAMKSzWSADKvH4kmqklkE9k6OHrAAguh2BJDhINmysUFCmuJhcwC6ALpAA"> </iframe>
+
+## Example with updateRadioButtons {-}
+
+```r
+ui <- fluidPage(
+  radioButtons("fruit", "What's your favourite fruit?",
+    choiceNames = list(
+      "apple", 
+      "pear", 
+      textInput("other", label = NULL, placeholder = "Other")
+    ),
+    choiceValues = c("apple", "pear", "other")
+  ), 
+  textOutput("value")
+)
+
+server <- function(input, output, session) {
+  observeEvent(input$other, ignoreInit = TRUE, {
+    updateRadioButtons(session, "fruit", selected = "other")
+  })
+    
+  output$value <- renderText({
+    if (input$fruit == "other") {
+      req(input$other)
+      input$other
+    } else {
+      input$fruit
+    }
+  })
+}
+```
+
+## Testing without UI {-}
+
+```r
+test_that("returns other value when primary is other", {
+  testServer(server, {
+    session$setInputs(fruit = "apple")
+    expect_equal(output$value, "apple")
+    
+    session$setInputs(fruit = "other", other = "orange")
+    expect_equal(output$value, "orange")
+  })  
+})
+#> Test passed 🥇
+```
+
+## Testing without UI {-}
+
+**Check that other is automatically** selected when we start typing in the other box.
+
+```r
+test_that("returns other value when primary is other", {
+  testServer(server, {
+    session$setInputs(fruit = "apple", other = "orange")
+    expect_equal(output$value, "orange")
+  })  
+})
+#> ── Failure (<text>:2:3): returns other value when primary is other ─────────────
+#> output$value (`actual`) not equal to "orange" (`expected`).
+#> 
+#> `actual`:   "apple" 
+#> `expected`: "orange"
+#> Backtrace:
+#>   1. shiny::testServer(...)
+#>  22. testthat::expect_equal(output$value, "orange")
+#> Error in `reporter$stop_if_needed()`:
+#> ! Test failed
+```
+
+## Testing with UI {-}
+
+```r
+test_that("automatically switches to other", {
+  
+  # Defining the app
+  app <- AppDriver$new(shinyApp(ui, server))
+  
+  # Start typing a new fruit
+  app$set_inputs(other = "orange")
+  
+  # Fruit must change to other
+  expect_equal(app$get_value(input = "fruit"), "other")
+  
+  # The final output should show the typed orange
+  expect_equal(app$get_value(output = "value"), "orange")
+  
+})
+#> Test passed 🎊
+```
+
+## Testing visuals {-}
+
+- The second argument to `expect_snapshot_file()` gives the file name that the image will be saved in file snapshot directory. 
+- If these tests are in a file called `test-app.R`, the snapshots will be saved:
+  - `tests/testthat/_snaps/app/plot-init.png`
+  - `tests/testthat/_snaps/app/plot-update.png`
+- To visualise the differences in a Shiny App run `testthat::snapshot_review()`
+
+```r
+# Loading the app
+app <- AppDriver$new(shinyApp(ui, server))
+
+# Defining path to save screeenshot
+path <- tempfile(fileext = ".png")
+
+# Save screenshot to temporary file
+app$get_screenshot(path)
+expect_snapshot_file(path, "plot-init.png")
+
+# Changing the input
+app$set_inputs(x = 2)
+app$get_screenshot(path)
+expect_snapshot_file(path, "plot-update.png")
+```
+
+## When should you write tests? {-}
+
+- Before you write the code
+- After you write the code
+- When you find a bug
 
 ## Other interesting things {-}
 
