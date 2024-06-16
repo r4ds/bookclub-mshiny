@@ -41,13 +41,16 @@ They ensure that:
   
 3. Create tests to check a individual properties of a function by defining one or more `expect_` functions in `test_that()`.
 
-  - GIVEN, WHEN, THEN
-  - ARRANGE, ACT, ASSERT
-
 ```r
 test_that("as.vector() strips names", {
+  # ARRANGE (GIVEN)
   x <- c(a = 1, b = 2)
-  expect_equal(as.vector(x), c(1, 2))
+  
+  # ACT (WHEN)
+  x_unnamed <- as.vector(x)
+  
+  # ASSERT (THEN)
+  expect_equal(x_unnamed, c(1, 2))
 })
 ```
 
@@ -137,19 +140,27 @@ Error (test-load.R:21:5): load_file(): gives an error message for other types
 ## Confirming test coverage {-}
 
 1. Install the your current package using `devtools::install_local()`.
-2. Run `devtools::test_coverage_file()` to show you've covered all your function.
+2. Run `devtools::test_coverage()` to show you've covered all your functions.
 
 ![](images//21-testing/01-testing-coverage.png)
+
+Shortcuts to add to Rstudio:
+
+- [Ctrl + T] : `devtools::test_file()`
+- [Ctrl + Shift + R] : `devtools::test_coverage()`
+- [Ctrl + R] : `devtools::test_coverage_file()`
 
 ## Confirming test coverage {-}
 
 1. Install the your current package using `devtools::install_local()`.
-2. Run `devtools::test_coverage_file()` to show you've covered all your function.
+2. Run `devtools::test_coverage()` to show you've covered all your functions.
 
 ![](images//21-testing/02-testing-coverage-by-line.png)
 
 
 ## expect_equal {-}
+
+Here a simple example.
 
 ```r
 complicated_object <- list(
@@ -159,21 +170,28 @@ complicated_object <- list(
 expect_equal(complicated_object$y, 10)
 ```
 
-## expect_equal {-}
+The most popular cases of expect equal.
 
-- `expect_equal(x, TRUE)` -> `expect_true(x)`
-- `expect_equal(x, FALSE)` -> `expect_false(x)`
-- `expect_equal(x, NULL)` -> `expect_null(x)`
-- `expect_equal(length(x), 10)` -> `expect_length(x, 10)`
+|Dedicated function|Equivalent expression|
+|:----------------|:-------------------|
+|`expect_true(x)`| `expect_equal(x, TRUE)` |
+|`expect_false(x)`|`expect_equal(x, FALSE)`|
+|`expect_null(x)`|`expect_equal(x, NULL)`|
+|`expect_length(x, 10)`|`expect_equal(length(x), 10)`|
+|`expect_named(x, c("a", "b", "c"))` |`expect_equal(names(x), c("a", "b", "c"))`|
+
+<br>
+
+> `expect_named()` also has the `ignore.order` and `ignore.case` arguments.
+
 
 ## Relaxed expect_equal {-}
-
-- `expect_equal(names(x), c("a", "b", "c"))` -> `expect_named(x, c("a", "b", "c"))` 
-  - Which also has the `ignore.order` and `ignore.case` arguments.
   
 - `expect_setequal(x, y)` tests:
   - Every value in `x` occurs in `y`
   - Every value in `y` occurs in `x`
+  
+<br>
 
 - `expect_mapequal(x, y)` tests:
   - `x` and `y` have the same names.
@@ -264,230 +282,212 @@ test_that("sliderInput01() creates expected HTML", {
 
 - If it’s a deliberate change, **update the snapshot by running** `testthat::snapshot_accept()`.
 
-## Testing Reactivity
+## Testing reactivity {-}
 
-[Release 0.5](https://github.com/russHyde/er-injuries-sandpit/tree/0.5-reactive-update)
+The `testServer()` function (since Shiny 1.5.0) makes it possible to test code in server functions and modules, without needing to run the **full Shiny application** with the following characteristics:
 
-- Reactivity tests require:
-  - a server (the thing that runs); and
-  - a server function (the thing that's ran)
-- Tests require data
-  - we don't want to use the data for the main app
+- The UI can not be used.
+- You'll need to add a `browser()` inside of `testServer()` to debug any problem.
 
-Structural changes:
+<br>
 
-- extract server function from `er_app`
-- pass datasets (`injuries`, `products`, `population`) into the server as arguments
+> **Note**: For this section, I took some examples the articule [Server function testing](https://shiny.posit.co/r/articles/improve/server-function-testing/) from the original shiny documentation to have a **complete view** of how to use this functionality.
 
-But this wasn't so simple
 
-- server functions take arguments `input`, `output`, `session`
-- how do we pass data into them?
+## Testing reactivity: Initial value {-}
 
-### Restructured app
+1. Without UI all inputs **always** start as `NULL`.
 
-```
-er_app <- function() {
-  # `injuries`, `products` and `population` are package-hosted datasets
-  # They can be accessed by name (but R CMD check complains about you referring to undefined vars)
-  injuries <- get("injuries")
-  products <- get("products")
-  population <- get("population")
-
-  ui <- er_ui(products = products)
-
-  server <- make_er_server(
-    injuries = injuries, products = products, population = population
-  )
-
-  shiny::shinyApp(ui, server)
+```r
+server <- function(input, output, session) {
+ 
+  # Creates an reactive based on an input
+  myreactive <- reactive({
+    input$x * 2
+  })
+  
+  # Updates an output
+  output$txt <- renderText({
+    paste0("I am ", myreactive())
+  })
 }
 
-er_ui <- function(products) {...}
-
-make_er_server <- function(injuries, products, population) {
-  function(input, output, session) {
-    selected <- reactive({...})
-
-    output$diag <- renderTable(...)
-    output$body_part <- renderTable(...)
-    output$location <- renderTable(...)
-
-    summary <- reactive({...})
-
-    output$age_sex <- renderPlot({...})
-  }
-}
-```
-
-### `shiny::testServer`
-
-  - `shiny::testServer(my_server_fn, {given__when__then}, args, session)`
-    - sets up reactive context for shiny (server logic) tests
-    - use `args` to pass in args required in module-server
-  - `session` methods:
-    - `session$setInputs(...)`
-      - sets input values for use in testServer tests
-      - all inputs start as NULL (regardless of UI defaults)
-    - `session$flushReact()`
-      - setting a value doesn't auto-update the reactive graph
-      - this function forces the reactive graph to update
-    - `session$getReturned()`
-      - to assess the value returned by a module
-    - `session$elapse(millis = 300)`
-      - advance the time
-
-### A typical reactivity test
-
-```
-test_that("it updates tables when product-code changes", {
-  # define test-data
-  test_injuries <- tibble::tibble(...)
-  test_products <- tibble::tibble(...)
-  test_population <- tibble::tibble(...)
-
-  # pass test-data into the server function
-  server <- make_er_server(
-    injuries = test_injuries,
-    products = test_products,
-    population = test_population
-  )
-
-  # check that the 'selected' table updates correctly
-  testServer(
-    server,
-    {
-      # no injuries with this code are present in the test data
-      
-      session$setInputs(code = 2345)
-
-      expect_equal(
-        selected(),
-        test_injuries[integer(0), ]
-      )
-
-      # the first and third entries in the injuries table have this code
-
-      session$setInputs(code = 1234)
-
-      expect_equal(
-        selected(),
-        test_injuries[c(1, 3), ]
-      )
-    }
-  )
+testServer(server, {
+  print(input$x)
 })
+#> NULL
 ```
 
-## Testing Reactivity: Module version
+## Testing reactivity: setInputs method {-}
 
-Testing the server function for a module is similar to for an app's server function
+2. We need to add values to inputs by using the `session$setInputs()` method. 
 
-- But you can pass in arguments
-
-### Structural changes
-
-[Release 0.6](https://github.com/russHyde/er-injuries-sandpit/tree/0.6-reactive-module/)
-
-- Need to define a module first
-
-UI before the change:
-
-```
-er_ui <- function(products) {
-  prod_codes <- ...
-
-  ui <- fluidPage(
-    ...,
-    # TODO: replace with `count_tables_ui()`
-    fluidRow(
-      column(4, tableOutput("diag")),
-      column(4, tableOutput("body_part")),
-      column(4, tableOutput("location"))
-    ),
-    ...
-  )
-
-  ui
-}
+```r
+testServer(server, {
+  session$setInputs(x = 10)
+  print(input$x)
+})
+#> 10
 ```
 
-Server before the change:
+## Testing reactivity: Modules {-}
 
-```
-make_er_server <- function(injuries, products, population) {
-  function(input, output, session) {
-    ...
-    selected <- reactive({...})
+3. We can test modules with arguments by passing a list to the `args` argument.
 
-    # TODO: replace with `count_tables_server(selected)`
-    output$diag <- renderTable(
-      count_by_weight(selected(), "diag")
-    )
-    output$body_part <- renderTable(
-      count_by_weight(selected(), "body_part")
-    )
-    output$location <- renderTable(
-      count_by_weight(selected(), "location")
-    )
-
-    ...
-  }
-}
-```
-
-Introduced a module to create / render / format the count-tables:
-
-```
-count_tables_ui <- function(id) {
-  ns <- NS(id)
-  fluidRow(
-    column(4, tableOutput(ns("diag"))),
-    column(4, tableOutput(ns("body_part"))),
-    column(4, tableOutput(ns("location")))
-  )
-}
-
-count_tables_server <- function(id, selected) {
-  stopifnot(is.reactive(selected))
-
+```r
+myModule2 <- function(id, multiplier) {
   moduleServer(id, function(input, output, session) {
-    diag <- reactive(
-      count_by_weight(selected(), "diag")
-    )
-    output$diag <- renderTable(diag())
-
-    body_part <- reactive(
-      count_by_weight(selected(), "body_part")
-    )
-    output$body_part <- renderTable(body_part())
-
-    location <- reactive(
-      count_by_weight(selected(), "location")
-    )
-    output$location <- renderTable(location())
+    myreactive <- reactive({
+      input$x * multiplier
+    })
+    output$txt <- renderText({
+      paste0("I am ", myreactive())
+    })
   })
 }
+
+testServer(myModule2, args = list(multiplier = 3), {
+  session$setInputs(x = 1)
+  expect_equal(myreactive(), 3)
+})
 ```
 
-### A typical module-reactivity test
+## Testing reactivity: returned method {-}
 
-```
-test_selected <- tibble::tibble(...)
+4. If the module returns an reactive object, the object also can be tested by using the `session$returned()` method.
 
-expected_diag <- tibble::tibble(...)
+```r
+datasetServer <- function(id) {
+  moduleServer(id, function(input, output, session) {
+    reactive(get(input$dataset, "package:datasets"))
+  })
+}
 
-test_that("tables display the counts correctly", {
-  rx_selected <- reactive(test_selected)
-
-  testServer(count_tables_server, args = list(selected = rx_selected), {
-    expect_equal(
-      diag(),
-      expected = expected_diag
-    )
-    ...
+test_that("can find dataset", {
+  testServer(datasetServer, {
+    dataset <- session$getReturned()
+    
+    session$setInputs(dataset = "mtcars")
+    expect_equal(dataset(), mtcars)
+    
+    session$setInputs(dataset = "iris")
+    expect_equal(dataset(), iris)
   })
 })
+#> Test passed 😸
+```
+
+## Testing reactivity: Simulated time  {-}
+
+5. testServer uses **simulated time** that you control, rather than the actual computer time.
+
+```r
+server <- function(input, output, session){
+  rv <- reactiveValues(x = 0)
+
+  observe({
+    # Cause the observer to invalidate every 0.1 second
+    invalidateLater(100)
+    isolate(rv$x <- rv$x + 1)
+  })
+}
+
+
+testServer(server, {
+  expect_equal(rv$x, 0)
+  Sys.sleep(0.1)
+  expect_equal(rv$x, 1)
+})
+#> Error: rv$x (`actual`) not equal to 1 (`expected`).
+#>
+#>   `actual`: 0
+#> `expected`: 1
+```
+
+## Testing reactivity: elapse method  {-}
+
+6. The **simulated time** can be controled by using the `session$elapse()` method.
+
+```r
+testServer(server, {
+  expect_equal(rv$x, 0)
+  session$elapse(100)   # Simulate the passing of 100ms
+  expect_equal(rv$x, 1) # The observer was invalidated and the value updated!
+
+  # You can even simulate multiple events in a single elapse
+  session$elapse(300)
+  expect_equal(rv$x, 4)
+})
+```
+
+> Using this approach, this test can complete in only a **fraction of the 100ms** that it simulates.
+
+- `reactivePoll()`
+- `invalidateLater()`
+- `reactiveTimer()`
+
+
+## Testing reactivity: Render outputs {-}
+
+7. It can confirm that a complex result like a plot or htmlwidgets were generated without an error. 
+
+```r
+server <- function(input, output, session){
+  # Move any complex logic into a separate reactive
+  # which can be tested comprehensively
+  plotData <- reactive({
+    data.frame(length = iris$Petal.Length, width = iris$Petal.Width)
+  })
+
+  # And leave the `render` function to be as simple as possible 
+  # to lessen the need for integration tests.
+  output$plot <- renderPlot({
+    plot(plotData())
+  })
+}
+
+testServer(server, {
+  # Confirm that the data reactive is behaving as expected
+  expect_equal(nrow(plotData()), 150)
+  expect_equal(ncol(plotData()), 2)
+  expect_equal(colnames(plotData()), c("length", "width"))
+
+  # Just confirming that the plot can be accessed without an error
+  output$plot 
+})
+```
+
+## Testing reactivity: flushReact method {-}
+
+8. If your module functions recives reactives as additinal arguments, you will need to use the `session$flushReact()` method to update the related outputs.
+
+```r
+summaryServer <- function(id, var) {
+  stopifnot(is.reactive(var))
+  
+  moduleServer(id, function(input, output, session) {
+    range_val <- reactive(range(var(), na.rm = TRUE))
+    output$min <- renderText(range_val()[[1]])
+    output$max <- renderText(range_val()[[2]])
+    output$mean <- renderText(mean(var()))
+  })
+}
+
+test_that("output updates when reactive input changes", {
+  x <- reactiveVal()
+  testServer(summaryServer, args = list(var = x), {
+    x(1:10)
+    session$flushReact()
+    expect_equal(range_val(), c(1, 10))
+    expect_equal(output$mean, "5.5")
+    
+    x(10:20)
+    session$flushReact()
+    expect_equal(range_val(), c(10, 20))
+    expect_equal(output$min, "10")
+  }) 
+})
+#> Test passed 🌈
 ```
 
 ## Testing JavaScript
@@ -519,28 +519,6 @@ What structural changes might be needed to use ShinyDriver-based end-to-end test
 
 - how do you pass in test data?
 
-## New testthat things mentioned in the chapter
-
-  - `expect_named(x, c("a", "b", "c"), ignore.order = TRUE, ignore.case = FALSE)`
-  - `expect_setequal(x, y)`
-  - `expect_mapequal(x, y)`
-  - `expect_snapshot()`
-    - Example: output for a UI function
-    - Expected value is stored in a file
-    - Update the expected value using `testthat::snapshot_accept()`
-
-## New RStudio mentioned in the chapter
-
-  - Add keyboard shortcuts:
-    - This did not work
-  - Shortcuts I hoped to add:
-    - [Ctrl + T] : `devtools::test_file()`
-    - [Ctrl + Shift + R] : `devtools::test_coverage()`
-    - [Ctrl + R] : `devtools::test_coverage_file()`
-
-  - Did anyone manage to do this?
-  
-
 ## Discussions
 
   - Don't test the framework!
@@ -551,32 +529,7 @@ What structural changes might be needed to use ShinyDriver-based end-to-end test
     - TCR: Test && Commit || Revert
 
 
-## Example
-
-For this chapter, there is a sandpit [project on github](https://github.com/russHyde/er-injuries-sandpit)
-
-It is copied from the ER-injuries case-study app in Chapter 4 of Mastering Shiny.
-
-If you follow the tagged-releases it shows how to:
-
-- Start with a working app
-- Turn it into a package
-- Make the package pass `R CMD check`
-- Add tests for a non-reactive function
-- Add a reactivity test for an app's server-function
-- Add a reactivity test for a module's server-function
-
-In order to do each step, several structural changes to the app had to be made.
-Notes on how the app was modified and the tools that helped are in the README.
-
-We'll start from a release that is a package, and passes `R CMD check` (aside from one issue re the
-size of the dataset that is embedded in the package)
-[Release 0.2](https://github.com/russHyde/er-injuries-sandpit/tree/480851db355f0eb39c59ae91a398a62748d86ac5)
-
-To run the app, you run `er_app()`
-
-
-## Other interesting things
+## Other interesting things {-}
 
 - [Shinytest2 Vs Cypress: End-To-End (E2E) Testing In Shiny](https://www.appsilon.com/post/shinytest2-vs-cypress-e2e-testing)
 
