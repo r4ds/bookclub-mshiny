@@ -7,23 +7,34 @@
 - Learn how to **create your app step-by-step**
 - Get more comfortable **using the techniques you learned so far**
 
+![waffles?](images/04-case-study/waffle_irons.png)
+
+[image source](https://x.com/USCPSC/status/1033024826380771331)
+
 
 ## Introduction
 
-This Chapter is about building a more complex app with the tools we learned in the previous chapters.
+This chapter is about building a more complex app with the tools we learned in the previous chapters.
 
 We're going to use the following packages:
 
 ```{r package-list, message=FALSE, warning=FALSE}
-library(shiny)
-library(vroom)
-library(tidyverse)
+library(shiny)     #framework
+library(vroom)     #to load the TSV files
+library(tidyverse) #data wrangling
 ```
+
+<details><summary>Session Info</summary>
+```{r}
+utils::sessionInfo()
+```
+
+</details>
 
 
 ## The data
 
-We're exploring data from the National Electronic Injury Surveillance System (NEISS), which covers **accidents reported from a sample of hospitals in the US**.
+We're exploring data from the National Electronic Injury Surveillance System (NEISS), which covers **accidents reported from a sample of hospitals in the US**. The data set is from Hadley Wickham's [GitHub repository](https://github.com/hadley/mastering-shiny/raw/main/neiss/).
 
 For every accident / injured person we have
 
@@ -42,7 +53,7 @@ as well as
 
 Further we have a **weight** attribute for an estimation how may people the current case represents if the dataset was scaled to the entire US population.
 
-Code to download the data:
+<details><summary>Code to download the data:</summary>
 
 ```{r download-data}
 dir.create("neiss")
@@ -57,7 +68,9 @@ download("population.tsv")
 download("products.tsv")
 ```
 
-Main data:
+</details>
+
+Main data tibbles:
 
 ```{r main-data, message=FALSE}
 injuries <- vroom("neiss/injuries.tsv.gz")
@@ -68,6 +81,7 @@ Product names:
 
 ```{r product-data, message=FALSE}
 products <- vroom("neiss/products.tsv")
+prod_codes <- setNames(products$prod_code, products$title)
 products
 ```
 
@@ -79,7 +93,6 @@ population
 ```
 
 
-
 ## Exploration
 
 As motivation for the app we want to build, we're going to explore the data.
@@ -88,10 +101,9 @@ Let's have a look at accidents related to toilets:
 
 ```{r no-toilets}
 # product code for toilets is 649
-selected <- injuries %>%
-  filter(prod_code == 649)
+selected <- injuries %>% filter(prod_code == 649)
 
-nrow(selected)
+# nrow(selected): 2993
 ```
 
 We're interested in how many accidents related to toilets we see for different locations, body parts and diagnosis.
@@ -107,6 +119,13 @@ selected %>%
   count(diag, wt = weight, sort = TRUE)
 ```
 
+<details><summary>Weights?</summary>
+
+* The [NEISS data dictionary](https://www.cpsc.gov/Research--Statistics/NEISS-Injury-Data) calls this column "Statistical Weight for National Estimates"
+* perhaps a form of [propensity weighting](https://www.pewresearch.org/methods/2018/01/26/how-different-weighting-methods-work/)
+
+</details>
+
 Next we'll we create a plot for the number of accidents for different age and sex:
 
 ```{r line-plot}
@@ -121,7 +140,48 @@ summary %>%
   labs(y = "Injuries per 10,000 people")
 ```
 
-The goal is to build an app, which outputs the tables and the plot for different products, which the user selects.
+### Facet Wrap
+
+Let us briefly look at all of the injury types in the data set.
+
+```{r, echo = FALSE, eval = TRUE}
+injuries |>
+  group_by(prod_code) |>
+  count(age, sex, wt = weight) |> 
+  left_join(y = population, by = c("age", "sex")) |>
+  mutate(rate = n / population * 1e4) |>
+  ggplot(mapping = aes(x = age, y = rate, color = sex)) +
+  geom_line(na.rm = TRUE) +
+  facet_wrap(vars(prod_code)) +
+  labs(title = "Accidents reported to emergency rooms in the US",
+       subtitle = "sample from 2013 to 2017",
+       caption = "Source: NEISS",
+       x = "Age",
+       y = "Injuries per 10,000 people")
+```
+
+<details><summary>Image code</summary>
+
+```{r, echo = TRUE, eval = FALSE}
+injuries |>
+  group_by(prod_code) |>
+  count(age, sex, wt = weight) |> 
+  left_join(y = population, by = c("age", "sex")) |>
+  mutate(rate = n / population * 1e4) |>
+  ggplot(mapping = aes(x = age, y = rate, color = sex)) +
+  geom_line(na.rm = TRUE) +
+  facet_wrap(vars(prod_code)) +
+  labs(title = "Accidents reported to emergency rooms in the US",
+       subtitle = "sample from 2013 to 2017",
+       caption = "Source: NEISS",
+       x = "Age",
+       y = "Injuries per 10,000 people")
+```
+
+</details>
+
+
+> The goal is to build an app, which **outputs the tables and the plot for different products**, which the *user selects*.
 
 
 ## Prototype
@@ -205,10 +265,11 @@ _Note:_ The reactive for plot data is only used once. You could also compute the
 
 This prototype is available at https://hadley.shinyapps.io/ms-prototype/.
 
-Now we're going to improve the app step-by-step.
+![prototype of the app](images/04-case-study/app_prototype.png)
 
 
 ## Polish tables
+Now we're going to improve the app step-by-step.
 
 The prototype version of the app has very long tables. To make it a little clearer we only want to show the top 5 and lump together all other categories in every table.
 
@@ -221,7 +282,41 @@ injuries %>%
   summarise(n = as.integer(sum(weight)))
 ```
 
+### Exercise 4.8.2
 
+2. What happens if you flip `fct_infreq()` and `fct_lump()` in the code that reduces the summary tables?
+
+<details><summary>Answer</summary>
+```{r diag-table-alt}
+injuries %>%
+  mutate(diag = fct_infreq(fct_lump(diag, n = 5))) %>%
+  group_by(diag) %>%
+  summarise(n = as.integer(sum(weight)))
+```
+
+This order lumped the rarer conditions into "Other" and then did the sorting.  However, since "Other" was the most frequent label, `fct_infreq()` then put "Other" at the top, which is less desirable.
+
+</details>
+
+### Hadley's Fix
+
+<details><summary>Hadley's Code</summary>
+```{r, eval = FALSE}
+count_top <- function(df, var, n = 5) {
+  df %>%
+    mutate({{ var }} := fct_lump(fct_infreq({{ var }}), n = n)) %>%
+    group_by({{ var }}) %>%
+    summarise(n = as.integer(sum(weight)))
+}
+
+output$diag <- renderTable(count_top(selected(), diag), width = "100%")
+output$body_part <- renderTable(count_top(selected(), body_part), width = "100%")
+output$location <- renderTable(count_top(selected(), location), width = "100%")
+```
+
+</details>
+
+![polished tables](images/04-case-study/app_polish_tables.png)
 
 ## Rate vs count
 
@@ -321,6 +416,193 @@ server <- function(input, output, session) {
 ```
 
 The resulting version of the app is available at https://hadley.shinyapps.io/ms-prototype/.
+
+
+## Exercises
+
+1. Draw the reactive graph for each app.
+
+2. What happens if you flip `fct_infreq()` and `fct_lump()` in the code that reduces the summary tables?
+
+<details><summary>Answer</summary>
+```{r diag-table-2}
+injuries %>%
+  mutate(diag = fct_infreq(fct_lump(diag)), n = 5) %>%
+  group_by(diag) %>%
+  summarise(n = as.integer(sum(weight)))
+```
+
+
+This order lumped the rarer conditions into "Other" and then did the sorting.  However, since "Other" was the most frequent label, `fct_infreq()` then put "Other" at the top, which is less desirable.
+
+</details>
+
+3. Add an input control that lets the user decide how many rows to show in the summary tables.
+
+<details><summary>Answer</summary>
+
+> refer to code in next section
+
+</details>
+
+4. Provide a way to step through every narrative systematically with forward and backward buttons. Advanced: Make the list of narratives “circular” so that advancing forward from the last narrative takes you to the first.
+
+
+## DSLC Customs
+
+Some people in the cohort were brainstorming ideas on how to continue to improve this Shiny app.  Here are some of the ideas.
+
+### UI
+
+```{r, eval = FALSE}
+library("gt")
+library("shiny")
+library("tidyverse")
+
+injuries   <- readr::read_csv("injuries.csv")
+population <- readr::read_csv("population.csv")
+products   <- readr::read_csv("products.csv")
+prod_codes <- setNames(products$prod_code, products$title)
+
+count_top <- function(df, var, n = 5) {
+  df |>
+    mutate({{ var }} := fct_lump(fct_infreq({{ var }}), n = n)) %>%
+    group_by({{ var }}) %>%
+    summarise(n = as.integer(sum(weight))) |>
+    
+    # gt table
+    gt() |>
+    cols_align(align = "center") |>
+    tab_style(
+      style = list(cell_fill(color = "#F9E3D6")),
+      locations = cells_body(columns = {{ var }})
+    ) |>
+    tab_style(
+      style = list(cell_fill(color = "lightcyan")),
+      locations = cells_body(columns = n)
+    )
+}
+
+ui <- fluidPage(
+  # choose product
+  fluidRow(
+    column(
+      width = 6,
+      selectInput(
+        inputId = "code",
+        label = "Product",
+        choices = prod_codes,
+        width = "100%"
+      )
+    ),
+    column(
+      width = 2,
+      selectInput(inputId = "y", label = "Y axis", choices = c("rate", "count"))
+    ),
+    column(
+      width = 4,
+      sliderInput(inputId = "n_products", label = "number of products",
+                  min = 1, max = 20, value = 5, step = 1)
+    )
+  ),
+  
+  
+  # display tables
+  fluidRow(
+    column(width = 4, tableOutput(outputId = "diag")),
+    column(width = 4, tableOutput(outputId = "body_part")),
+    column(width = 4, tableOutput(outputId = "location"))
+  ),
+  # display plot
+  fluidRow(
+    column(width = 12, plotOutput(outputId = "age_sex"))
+  )
+  
+  # narrative button
+  ,
+  fluidRow(
+    column(
+      width = 2,
+      actionButton(inputId = "story", label = "Tell me a story")
+    ),
+    column(width = 10, textOutput(outputId = "narrative"))
+  )
+)
+```
+
+
+### Server
+
+```{r, eval = FALSE}
+server <- function(input, output, session) {
+  # reactive for filtered data frame
+  selected <- reactive(
+    injuries %>%
+      filter(prod_code == input$code)
+  )
+  num_products <- reactive(input$n_products)
+  
+  # retrieve injury type
+  prod_name <- reactive(products$title[products$prod_code == input$code])
+
+  # reactive for plot data
+  summary <- reactive(
+    selected() %>%
+      count(age, sex, wt = weight) %>%
+      left_join(y = population, by = c("age", "sex")) %>%
+      mutate(rate = n / population * 1e4)
+  )
+  
+  output$diag      <- render_gt(count_top(selected(), diag, num_products()), 
+                                width = "100%")
+  output$body_part <- render_gt(count_top(selected(), body_part, num_products()),  
+                                width = "100%")
+  output$location  <- render_gt(count_top(selected(), location, num_products()),  
+                                width = "100%")
+  
+  # render plot
+  output$age_sex <- renderPlot(
+    expr = {
+      if (input$y == "count") {
+        summary() %>%
+          ggplot(mapping = aes(x = age, y = n, colour = sex)) +
+          geom_line() +
+          labs(title = "Accidents reported to emergency rooms in the US",
+               subtitle = prod_name(),
+               caption = "Source: NEISS",
+               x = "Age",
+               y = "Estimated number of injuries") +
+          theme_minimal()
+        
+      } else {
+        summary() %>%
+          ggplot(mapping = aes(x = age, y = rate, colour = sex)) +
+          geom_line(na.rm = TRUE) +
+          labs(title = "Accidents reported to emergency rooms in the US",
+               subtitle = prod_name(),
+               caption = "Source: NEISS",
+               x = "Age",
+               y = "Injuries per 10,000 people") +
+          theme_minimal()
+      }
+    },
+    res = 96
+  )
+  
+  # narrative reactive
+  narrative_sample <- eventReactive(
+    eventExpr = list(input$story, selected()),
+    valueExpr = selected() %>%
+      pull(narrative) %>%
+      sample(1)
+  )
+  output$narrative <- renderText(narrative_sample())
+}
+
+# Run the application 
+shinyApp(ui = ui, server = server)
+```
+
 
 ## Meeting Videos
 

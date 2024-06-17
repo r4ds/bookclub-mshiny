@@ -25,6 +25,7 @@ Imports:
     auth0,
     config,
     sodium,
-    testthat
+    testthat,
+    gt
 Remotes: 
     hadley/emo
