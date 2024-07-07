@@ -4,6 +4,9 @@ library(bslib)
 # Define UI for random distribution app ----
 # Sidebar layout with input and output definitions ----
 ui <- page_sidebar(
+  tags$script(
+    src = "https://cdn.jsdelivr.net/gh/Appsilon/shiny.tictoc@v0.2.0/shiny-tic-toc.min.js"
+  ),
   
   # App title ----
   title = "Tabsets",

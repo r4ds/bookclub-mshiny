@@ -5,7 +5,7 @@ docker run -d --rm -ti \
     -p 127.0.0.1:8787:8787 \
     -v /home/angelfeliz/Documents/r-projects/r-lib-4.4:/usr/local/lib/R/site-library \
     -v /home/angelfeliz/Documents/r-projects:/home/rstudio \
-    angelfelizr/shinnycannon:4.4.1
+    angelfelizr/shinycannon:4.4.1
 
 # We need to wait 1 second
 sleep 1
