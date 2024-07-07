@@ -1,3 +1,8 @@
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
 # Performance
 
 > Transform your **poor performance prototype app** into a fast one capable of handling **thousands to tens of thousands of users simultaneously**.
@@ -12,65 +17,199 @@
     - *Time spent on server-side calculations*
     - *Time needed to recalculate outputs*
 - **Optimize** your code by:
-  - Adjusting reactive expressions
   - Moving data preparation code outside the app
+  - Making the code faster
+  - Caching reactives and outputs 
   - Applying psychological principles to make your app feel faster
 
 
-## Restaurant Shiny
 
-- Server =~ Restaurant
-- User =~ Customer
-- Request =~ Order
-- R process =~ Chef
+## Dining at restaurant Shiny {-}
 
-To make each chef more efficient
+A Shiny app is like a restaurant where:
 
-- Identify any slow steps
-- Brainstorm to make them faster
+- Server $\approx$ Kitchen
+- User $\approx$ Customer
+- Request $\approx$ Order
+- R process $\approx$ Chef
 
-To make the restaurant more efficient
+> But our chef is only can start a new order after ending the prior one (**single-threaded**), unless we make the event indepent to the main program flow by using **async programming** tecniques.
 
-- Hire more chefs
-- Buy more restaurants
 
-## Benchmarking
+![](images/23-performance/01-Shiny-Server-Open-Source.webp)
 
-How does the app handle multiple users?
+## Making your chef more efficient {-}
 
-### Tools
+- **Profiling**: Watching your chef when working to find the bottlenecks.
+- **Optimising**: Brainstorming ways to help them work faster, like:
+  - Hiring a prep cook who can come in before the first customer and chop some vegetables (prepares the data).
+  - Invest in a time-saving gadget (a faster R package).
+  - Adding more chefs (processes) to the restaurant (server).
 
-- [shinyloadtest](https://rstudio.github.io/shinyloadtest/)
-  - Run an app
-  - Record how you interact with the app
-  - [`shinycannon`](https://rstudio.github.io/shinyloadtest/#shinycannon): rerun the session
-    multiple times
-  - analyse the
-    [log](https://rstudio.github.io/shinyloadtest/articles/analyzing-load-test-logs.html)
-    of the reran sessions
+![](images/23-performance/02-ShinyProxy.webp)
 
-```{r, eval = FALSE}
-runApp("some_app.R")
-shinyloadtest::record_session("http://127.0.0.1:9876")
-# See "./recording.log"
+
+## Solving kitchen limitations {-}
+
+If you keep hiring more chefs, eventually the kitchen (server) will get **too full**, so you have 2 alternatives:
+
+- Adding more equipment (memory of cores) to **scale up**.
+- Building more restaurants to **scale out**.
+
+![](images/23-performance/03-scaling-alternatives.png){width="80%" height="80%"}
+
+
+## Benchmarking {-}
+
+I will help you figure out how many **users** each **process** can handle.
+
+The [shinyloadtest](https://rstudio.github.io/shinyloadtest/) package and has three basic steps:
+
+1. Record a script simulating a typical user with `shinyloadtest::record_session()`.
+
+2. Replay the script with multiple simultaneous users with the **shinycannon** command-line tool.
+
+3. Analyse the results using **shinyloadtest::report()**.
+
+
+## Benchmarking: Recording {-}
+
+1. Start your app from the terminal and copy the url that it gives you.
+
+```bash
+Rscript -e "shiny::runApp('examples/23-performance/Tabsets-App.R', port = 5555)"
+```
+
+2. Then paste the url into a `record_session()` call:
+
+```r
+shinyloadtest::record_session("http://127.0.0.1:5555")
+```
+
+3. On the new window, interact with the app to simulate a “typical” user, including pauses to reflect the thinking time that a real user would need.
+
+4. Close the app, and shinyloadtest will save `recording.log` to your working directory.
+
+5. Move the `recording.log` file to the folder to store the benchmark results.
+
+```bash
+mv recording.log examples/23-performance
+```
+
+## Benchmarking: Replay {-}
+
+**shinycannon** is written in Java because the Java language is particularly well suited to the problem of performing tens or hundreds of web requests in parallel.
+
+```bash
+shinycannon examples/23-performance/recording.log http://127.0.0.1:5555 \
+  --workers 1 \
+  --loaded-duration-minutes 5 \
+  --output-dir examples/23-performance/test_sessions/test1
 ```
 
 ```bash
-shinycannon ./recording.log http://127.0.0.1:9876 \
+shinycannon examples/23-performance/recording.log http://127.0.0.1:5555 \
+  --workers 5 \
+  --loaded-duration-minutes 5 \
+  --output-dir examples/23-performance/test_sessions/test5
+```
+
+```bash
+shinycannon examples/23-performance/recording.log http://127.0.0.1:5555 \
   --workers 10 \
   --loaded-duration-minutes 5 \
-  --output-dir run1
+  --output-dir examples/23-performance/test_sessions/test10
 ```
 
-```{r, eval = FALSE}
-library(shinyloadtest)
-df <- load_runs("./run1")
-shinyloadtest_report(df, "report.html")
+## Benchmarking: Analysis {-}
+
+
+```{r eval=FALSE}
+BenchmarkData <- shinyloadtest::load_runs(
+  `1 user` = "examples/23-performance/test_sessions/test1",
+  `5 users` = "examples/23-performance/test_sessions/test5",
+  `10 users` = "examples/23-performance/test_sessions/test10"
+)
 ```
 
-## Profiling
+```{r eval=FALSE}
+# If you getting errors related to gtable
+# you can install this branch of dev version
+# remotes::install_github("rstudio/shinyloadtest@gtable-error")
 
-Where is the app slow / memory-hungry?
+shinyloadtest::shinyloadtest_report(BenchmarkData, "examples/23-performance/report.html")
+```
+
+## Benchmarking: Analysis report {-}
+
+<iframe id="serviceFrameSend" src="./examples/23-performance/report.html" width="950" height="600"  frameborder="0">
+
+
+## Profiling: Example {-}
+
+If your app is spending a lot of time calculating, you next need to figure out **which calculation** is slow.
+
+```{r eval=FALSE}
+library(profvis)
+
+f <- function() {
+  pause(0.2)
+  g()
+  h()
+  10
+}
+g <- function() {
+  pause(0.1)
+  h()
+}
+h <- function() {
+  pause(0.3)
+}
+```
+
+## Profiling: Example {-}
+
+Running `f()` mentally.
+
+|**Initial state**|**Conceptual description**|
+|:----------------|:-------------------------|
+|`f()`
+- `g()`
+  - `h()`
+- `h()` |f
+f > g
+f > g > h
+f > h|
+
+
+![](images/23-performance/04-flame-graph.png){width="80%" height="80%"}
+
+
+## Profiling: R code {-}
+
+```{r eval=FALSE}
+profvis::profvis(f())
+```
+
+![](images/23-performance/05-flame-graph.png){width="80%" height="80%"}
+
+## Profiling: Shiny App {-}
+
+```{r eval=FALSE}
+ui <- fluidPage(
+  actionButton("x", "Push me"),
+  textOutput("y")
+)
+server <- function(input, output, session) {
+  output$y <- eventReactive(input$x, f())
+}
+
+# Note the explicit call to runApp() here: this is important
+# as otherwise the app won't actually run.
+profvis::profvis(runApp(shinyApp(ui, server)))
+```
+
+![](images/23-performance/06-flame-graph-shiny.png){width="80%" height="80%"}
 
 ### Tools
 
@@ -151,7 +290,14 @@ output$text <- renderText(slow_function2(input$z)) %>%
 - Only do the slow stuff if requested
 - Learn async programming
 
-## Resources
+## Resources {-}
+
+
+Good video
+https://posit.co/resources/videos/profiling/
+
+that are time-consuming to generate
+many people are interested in checking the same data
 
 - [Using Google Lighthouse for Web Pages](https://www.jumpingrivers.com/blog/shiny-app-start-up-google-lighthouse-part-1/)
 - [https://rstudio.com/resources/rstudioconf-2019/shiny-in-production-principles-practices-and-tools/]()
@@ -163,8 +309,10 @@ output$text <- renderText(slow_function2(input$z)) %>%
 - [https://shiny.rstudio.com/articles/caching.html]()
 - [https://shiny.rstudio.com/app-stories/weather-lookup-caching.html]()
 
+- [https://www.appsilon.com/post/alternatives-to-scaling-shiny]()
 
-## Meeting Videos
+
+## Meeting Videos {-}
 
 ### Cohort 1
 
