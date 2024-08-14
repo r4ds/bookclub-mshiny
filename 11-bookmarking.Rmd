@@ -187,8 +187,6 @@ server <- function(input, output, session) {
 
 ## Refined App
 
-## Prototype App
-
 * [Hadley's example (Shiny app)](https://hadley.shinyapps.io/ms-bookmark-auto/)
 
 ![Lissajous Curve App](images/11-bookmarking/pendulum.png)
@@ -196,7 +194,7 @@ server <- function(input, output, session) {
 
 ## Storing a richer state
 
-URL bookmarking is simple and works everywhere you may want to deploy your Shiny app however, could become very long if you have a large number of inputs. If this is the case, it may be better to store your state on the server side.
+URL bookmarking is simple and works everywhere you may want to deploy. Your Shiny app however, could become very long if you have a large number of inputs. If this is the case, it may be better to store your state on the server side.
 
 Shiny saves the state of your app in an `.rds` file on the server and generates a shorter and easier URL. To do this, you can simply change the `enableBookmarking` argument to be "server" instead of "url"
 
